@@ -1,0 +1,129 @@
+# 📘 SOC Log Analyzer - Project Journal
+
+---
+
+# Lesson 1 - Project Setup
+
+**Date:** 27 June 2026
+
+## Objective
+Set up the project architecture and development environment.
+
+### Completed
+- ✅ Created frontend using React + Vite
+- ✅ Created backend using Node.js + Express
+- ✅ Connected MongoDB Atlas
+- ✅ Configured environment variables
+- ✅ Created professional folder structure
+- ✅ Initialized Git repository
+- ✅ Created GitHub repository
+- ✅ Renamed project folders to lowercase (`frontend` and `backend`)
+
+### Outcome
+Project foundation completed successfully and pushed to GitHub.
+
+---
+
+# Lesson 2 - User Authentication (Register)
+
+**Date:** 27 June 2026
+
+## Objective
+Build user registration with secure authentication.
+
+### Completed
+- ✅ Created User model
+- ✅ Implemented Register API
+- ✅ Connected MongoDB
+- ✅ Password hashing using bcrypt
+- ✅ Generated JWT token after successful registration
+- ✅ Tested API successfully using Postman
+
+### Concepts Learned
+- MongoDB Models
+- Password Hashing
+- JWT Token Generation
+- REST API Design
+
+### Outcome
+Secure user registration completed.
+
+---
+
+# Lesson 3 - Login API
+
+**Date:** 27 June 2026
+
+## Objective
+Authenticate registered users.
+
+### Completed
+- ✅ Implemented Login API
+- ✅ Email validation
+- ✅ Password verification using bcrypt.compare()
+- ✅ JWT token generation
+- ✅ Invalid credential handling
+- ✅ Tested success and failure cases
+
+### Concepts Learned
+- Authentication Flow
+- Password Verification
+- JWT Login Process
+
+### Outcome
+User login functionality completed successfully.
+
+---
+
+# Lesson 4 - JWT Authentication Middleware
+
+**Date:** 27 June 2026
+
+## Objective
+Protect backend routes using JWT.
+
+### Completed
+- ✅ Created authentication middleware
+- ✅ Verified JWT token
+- ✅ Protected API routes
+- ✅ Extracted user information from token
+- ✅ Tested protected routes with and without token
+
+### Concepts Learned
+- Authorization
+- Protected Routes
+- Express Middleware
+- Bearer Token Authentication
+
+### Outcome
+Secure backend authentication implemented successfully.
+
+---
+
+## Git Commits
+
+- Initial project setup
+- Implement user registration with JWT authentication
+- Implement user login with JWT authentication
+- Add JWT authentication middleware and protected routes
+
+---
+
+## Current Progress
+
+- [x] Project Setup
+- [x] Register API
+- [x] Login API
+- [x] JWT Middleware
+- [ ] Log Upload
+- [ ] Log Parser
+- [ ] MongoDB Log Storage
+- [ ] Detection Engine
+- [ ] Dashboard API
+- [ ] React Dashboard
+- [ ] Charts
+- [ ] Real-Time Monitoring
+- [ ] GeoIP Integration
+- [ ] AbuseIPDB Integration
+- [ ] MITRE ATT&CK Mapping
+- [ ] Docker Deployment

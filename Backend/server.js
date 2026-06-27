@@ -10,6 +10,7 @@ connectDB();
 const app = express();
 
 const authRoutes = require("./routes/authRoutes");
+const protect = require("./middleware/authMiddleware");
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +19,14 @@ app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.send("SOC Log Analyzer API Running...");
+});
+
+app.get("/api/test", protect, (req, res) => {
+  res.json({
+    success: true,
+    message: "Protected Route Accessed Successfully",
+    user: req.user,
+  });
 });
 
 const PORT = process.env.PORT || 5000;

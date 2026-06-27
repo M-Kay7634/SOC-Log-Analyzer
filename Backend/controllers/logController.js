@@ -1,5 +1,6 @@
 const parseApacheLog = require("../parser/apacheParser");
 const detectThreats = require("../detection");
+const correlateThreats = require("../correlation");
 const calculateThreatScore = require("../scoring/threatScoring");
 // Upload Log Controller
 const uploadLog = async (req, res) => {
@@ -15,19 +16,20 @@ const uploadLog = async (req, res) => {
     const parsedLogs = parseApacheLog(req.file.path);
 
     // Add SQL Injection detection to each log
-   const analyzedLogs = parsedLogs.map((log) => {
-    // Detect threats
-    const detectionResult = detectThreats(log);
-
-    // Calculate threat score
-    const scoreResult = calculateThreatScore(detectionResult.threatType);
-
-    return {
+    // Step 1 - Individual Detection
+    let analyzedLogs = parsedLogs.map((log) => ({
       ...log,
-      ...detectionResult,
-      ...scoreResult,
-    };
-  });
+      ...detectThreats(log),
+    }));
+
+    // Step 2 - Correlation
+    analyzedLogs = correlateThreats(analyzedLogs);
+
+    // Step 3 - Threat Scoring
+    analyzedLogs = analyzedLogs.map((log) => ({
+      ...log,
+      ...calculateThreatScore(log.threatType),
+    }));
     res.status(200).json({
       success: true,
       message: "Log uploaded and parsed successfully",

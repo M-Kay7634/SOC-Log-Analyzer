@@ -322,6 +322,36 @@ POST /api/logs/upload
 - MITRE ATT&CK Mapping
 - Detection Engine Integration
 
+---
+
+# Lesson 12 - Correlation Engine & Brute Force Detection
+
+## Objective
+
+Detect brute-force attacks by correlating multiple failed login events.
+
+## Completed
+
+- Created correlation module
+- Implemented Brute Force correlation
+- Refactored analysis pipeline into:
+  - Parsing
+  - Detection
+  - Correlation
+  - Threat Scoring
+- Converted repeated failed logins into Brute Force alerts
+
+## Skills Learned
+
+- Event Correlation
+- Multi-event Detection
+- SIEM Pipeline Design
+- Layered Backend Architecture
+
+## APIs
+
+POST /api/logs/upload
+
 
 ## Git Commits
 
@@ -336,6 +366,7 @@ POST /api/logs/upload
 - Refactor threat detection into centralized detection engine
 - Add threat scoring system
 - Add Failed Login detection
+- Add correlation engine and brute force detection
 ---
 
 ## Current Progress

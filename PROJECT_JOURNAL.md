@@ -441,6 +441,32 @@ GET /api/dashboard/threat-distribution
 - Dashboard Analytics
 - Backend API Design
 
+---
+
+# Lesson 16 - Top Attacking IPs API
+
+## Objective
+
+Create an API to identify the most active attacker IP addresses.
+
+## Completed
+
+- Built Top Attacking IP API
+- Used MongoDB aggregation
+- Ranked IPs by attack count
+- Limited results to top 10
+
+## API
+
+GET /api/dashboard/top-ips
+
+## Skills Learned
+
+- MongoDB Aggregation
+- Grouping Data
+- Dashboard Analytics
+- Security Event Reporting
+
 
 
 ## Git Commits
@@ -460,6 +486,7 @@ GET /api/dashboard/threat-distribution
 - Store analyzed security events in MongoDB
 - Add dashboard summary API
 - Add threat distribution dashboard API
+- feat: add top attacking IP dashboard API
 ---
 
 ## Current Progress

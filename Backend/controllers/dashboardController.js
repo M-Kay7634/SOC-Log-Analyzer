@@ -87,8 +87,57 @@ const getThreatDistribution = async (req, res) => {
     });
   }
 };
+const getTopAttackingIPs = async (req, res) => {
+  try {
+    const topIPs = await Log.aggregate([
+      {
+        $match: {
+          threat: true,
+        },
+      },
+      {
+        $group: {
+          _id: "$ip",
+          attacks: { $sum: 1 },
+          highestSeverity: { $max: "$severity" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          ip: "$_id",
+          attacks: 1,
+          highestSeverity: 1,
+        },
+      },
+      {
+        $sort: {
+          attacks: -1,
+        },
+      },
+      {
+        $limit: 10,
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      topIPs,
+      generatedAt: new Date(),
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
   getSummary,
   getThreatDistribution,
+  getTopAttackingIPs
 };

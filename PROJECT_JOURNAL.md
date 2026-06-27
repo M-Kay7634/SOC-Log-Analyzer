@@ -467,6 +467,31 @@ GET /api/dashboard/top-ips
 - Dashboard Analytics
 - Security Event Reporting
 
+---
+
+# Lesson 17 - Threat Timeline API
+
+## Objective
+
+Create an API to visualize threats over time.
+
+## Completed
+
+- Built Threat Timeline API
+- Grouped threat events by timestamp
+- Sorted timeline chronologically
+- Added generatedAt metadata
+
+## API
+
+GET /api/dashboard/timeline
+
+## Skills Learned
+
+- MongoDB Aggregation
+- Time-Series Data
+- Dashboard Analytics
+
 
 
 ## Git Commits
@@ -487,6 +512,7 @@ GET /api/dashboard/top-ips
 - Add dashboard summary API
 - Add threat distribution dashboard API
 - feat: add top attacking IP dashboard API
+- feat: add threat timeline dashboard API
 ---
 
 ## Current Progress

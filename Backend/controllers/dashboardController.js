@@ -135,9 +135,53 @@ const getTopAttackingIPs = async (req, res) => {
     });
   }
 };
+const getThreatTimeline = async (req, res) => {
+  try {
+    const timeline = await Log.aggregate([
+      {
+        $match: {
+          threat: true,
+        },
+      },
+      {
+        $group: {
+          _id: "$timestamp",
+          threats: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          timestamp: "$_id",
+          threats: 1,
+        },
+      },
+      {
+        $sort: {
+          timestamp: 1,
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      timeline,
+      generatedAt: new Date(),
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
   getSummary,
   getThreatDistribution,
-  getTopAttackingIPs
+  getTopAttackingIPs,
+  getThreatTimeline,
 };

@@ -11,11 +11,15 @@ const app = express();
 
 const authRoutes = require("./routes/authRoutes");
 const protect = require("./middleware/authMiddleware");
+const logRoutes = require("./routes/logRoutes");
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/uploads", express.static("uploads"));
+
 app.use("/api/auth", authRoutes);
+app.use("/api/logs", logRoutes);
 
 app.get("/", (req, res) => {
   res.send("SOC Log Analyzer API Running...");

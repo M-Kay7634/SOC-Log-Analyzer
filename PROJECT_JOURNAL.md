@@ -100,13 +100,44 @@ Secure backend authentication implemented successfully.
 
 ---
 
+# Lesson 5 - Secure Log Upload
+
+**Date:** 27 June 2026
+
+## Objective
+Implement secure log file upload functionality for authenticated users.
+
+### Completed
+- ✅ Configured Multer for file uploads
+- ✅ Created upload middleware
+- ✅ Implemented log upload controller
+- ✅ Created upload route
+- ✅ Protected upload API using JWT middleware
+- ✅ Created uploads folder for storing log files
+- ✅ Tested file upload successfully using Postman
+
+### APIs
+POST /api/logs/upload
+
+### Concepts Learned
+- Multer File Upload
+- File Upload Middleware
+- Multipart Form Data
+- Secure File Handling
+- Protected File Upload API
+
+### Outcome
+Secure log upload functionality implemented successfully.
+
+---
+
 ## Git Commits
 
 - Initial project setup
 - Implement user registration with JWT authentication
 - Implement user login with JWT authentication
 - Add JWT authentication middleware and protected routes
-
+- Implement secure log upload using Multer
 ---
 
 ## Current Progress
@@ -115,7 +146,7 @@ Secure backend authentication implemented successfully.
 - [x] Register API
 - [x] Login API
 - [x] JWT Middleware
-- [ ] Log Upload
+- [x] Log Upload
 - [ ] Log Parser
 - [ ] MongoDB Log Storage
 - [ ] Detection Engine

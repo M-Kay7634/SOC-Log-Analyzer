@@ -2,10 +2,11 @@ import {
   Box,
   Button,
   Container,
+  FormControl,
+  FormLabel,
   Heading,
   Input,
-  Stack,
-  Text,
+  VStack,
   useToast,
 } from "@chakra-ui/react";
 
@@ -13,26 +14,25 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { loginUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
-
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const handleLogin = async () => {
+  const handleSubmit = async () => {
     if (!email || !password) {
       toast({
-        title: "All fields are required",
+        title: "Please fill all fields",
         status: "warning",
         duration: 3000,
         isClosable: true,
       });
-
       return;
     }
 
@@ -44,12 +44,7 @@ function Login() {
         password,
       });
 
-      localStorage.setItem("token", data.token);
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(data.user)
-      );
+      login(data.user, data.token);
 
       toast({
         title: "Login Successful",
@@ -59,11 +54,9 @@ function Login() {
       });
 
       navigate("/dashboard");
-    } catch (error) {
+    } catch (err) {
       toast({
-        title:
-          error.response?.data?.message ||
-          "Login Failed",
+        title: err.response?.data?.message || "Login Failed",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -75,46 +68,40 @@ function Login() {
 
   return (
     <Container maxW="md" py={20}>
-      <Box
-        p={8}
-        shadow="lg"
-        borderRadius="lg"
-        bg="white"
-      >
+      <Box p={8} bg="white" rounded="lg" shadow="lg">
         <Heading mb={6} textAlign="center">
           SOC Log Analyzer
         </Heading>
 
-        <Text mb={6} color="gray.500">
-          Sign in to continue
-        </Text>
+        <VStack spacing={4}>
+          <FormControl>
+            <FormLabel>Email</FormLabel>
+            <Input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter email"
+            />
+          </FormControl>
 
-        <Stack spacing={4}>
-          <Input
-            placeholder="Email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-          />
-
-          <Input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-          />
+          <FormControl>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
+            />
+          </FormControl>
 
           <Button
             colorScheme="blue"
-            onClick={handleLogin}
+            width="100%"
+            onClick={handleSubmit}
             isLoading={loading}
           >
             Login
           </Button>
-        </Stack>
+        </VStack>
       </Box>
     </Container>
   );

@@ -1,17 +1,13 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
+import { useAuth } from "../context/AuthContext";
 
 function Dashboard() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { user } = useAuth();
 
   return (
-    <Box p={10}>
-      <Heading>
-        Welcome {user?.name}
-      </Heading>
-
-      <Text mt={4}>
-        SOC Dashboard Coming Next...
-      </Text>
+    <Box p={8}>
+      <Heading>Welcome, {user?.name}</Heading>
+      <Text mt={4}>SOC Dashboard coming next...</Text>
     </Box>
   );
 }

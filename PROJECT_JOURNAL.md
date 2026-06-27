@@ -415,6 +415,31 @@ GET /api/dashboard/summary
 - Security Metrics
 - JWT Protected APIs
 
+---
+
+# Lesson 15 - Threat Distribution API
+
+## Objective
+
+Create an API to return the distribution of detected threat types.
+
+## Completed
+
+- Implemented MongoDB aggregation pipeline
+- Grouped logs by threat type
+- Sorted threat counts
+- Added generatedAt timestamp
+
+## API
+
+GET /api/dashboard/threat-distribution
+
+## Skills Learned
+
+- MongoDB Aggregation Framework
+- Data Grouping
+- Dashboard Analytics
+- Backend API Design
 
 
 
@@ -434,6 +459,7 @@ GET /api/dashboard/summary
 - Add correlation engine and brute force detection
 - Store analyzed security events in MongoDB
 - Add dashboard summary API
+- Add threat distribution dashboard API
 ---
 
 ## Current Progress

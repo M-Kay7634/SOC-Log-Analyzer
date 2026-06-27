@@ -45,7 +45,50 @@ const getSummary = async (req, res) => {
     });
   }
 };
+const getThreatDistribution = async (req, res) => {
+  try {
+    const distribution = await Log.aggregate([
+      {
+        $match: {
+          threat: true,
+        },
+      },
+      {
+        $group: {
+          _id: "$threatType",
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          threatType: "$_id",
+          count: 1,
+        },
+      },
+      {
+        $sort: {
+          count: -1,
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      distribution,
+      generatedAt: new Date(),
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 module.exports = {
   getSummary,
+  getThreatDistribution,
 };

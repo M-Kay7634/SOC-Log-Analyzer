@@ -289,6 +289,39 @@ Assign numerical risk scores and priorities to detected threats.
 
 POST /api/logs/upload
 
+---
+
+# Lesson 11 - Failed Login Detection
+
+## Objective
+
+Detect failed login attempts from Apache logs.
+
+## Completed
+
+- Created Failed Login detection module
+- Added behavior-based detection
+- Integrated with Detection Engine
+- Assigned MITRE ATT&CK Technique T1110
+- Added threat scoring and priority
+
+## Detection Logic
+
+- HTTP Method = POST
+- URL contains "login"
+- Status Code = 401
+
+## APIs
+
+POST /api/logs/upload
+
+## Skills Learned
+
+- Behavior-Based Detection
+- Authentication Monitoring
+- MITRE ATT&CK Mapping
+- Detection Engine Integration
+
 
 ## Git Commits
 
@@ -302,6 +335,7 @@ POST /api/logs/upload
 - Add Directory Traversal detection engine
 - Refactor threat detection into centralized detection engine
 - Add threat scoring system
+- Add Failed Login detection
 ---
 
 ## Current Progress

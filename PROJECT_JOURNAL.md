@@ -263,6 +263,32 @@ Centralize all threat detection logic into a single Detection Engine.
 - Single Responsibility Principle (SRP)
 - Scalable Detection Design
 
+---
+
+# Lesson 10 - Threat Scoring System
+
+## Objective
+
+Assign numerical risk scores and priorities to detected threats.
+
+## Completed
+
+- Created threat scoring module
+- Assigned scores to each threat type
+- Added priority levels
+- Integrated scoring with Detection Engine
+
+## Skills Learned
+
+- Risk Scoring
+- Threat Prioritization
+- Security Analytics
+- Modular Backend Design
+
+## APIs
+
+POST /api/logs/upload
+
 
 ## Git Commits
 
@@ -275,6 +301,7 @@ Centralize all threat detection logic into a single Detection Engine.
 - Add SQL Injection detection engine
 - Add Directory Traversal detection engine
 - Refactor threat detection into centralized detection engine
+- Add threat scoring system
 ---
 
 ## Current Progress

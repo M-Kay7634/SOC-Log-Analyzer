@@ -1,5 +1,6 @@
 const parseApacheLog = require("../parser/apacheParser");
 const detectSQLInjection = require("../detection/sqlInjection");
+const detectDirectoryTraversal = require("../detection/directoryTraversal");
 // Upload Log Controller
 const uploadLog = async (req, res) => {
   try {
@@ -15,18 +16,42 @@ const uploadLog = async (req, res) => {
 
     // Add SQL Injection detection to each log
     const analyzedLogs = parsedLogs.map((log) => {
-      const sqlResult = detectSQLInjection(log.url);
 
-      return {
-        ...log,
-        threat: sqlResult.detected,
-        threatType: sqlResult.detected ? sqlResult.type : null,
-        severity: sqlResult.detected ? sqlResult.severity : null,
-        mitreTechnique: sqlResult.detected ? sqlResult.mitre : null,
-        description: sqlResult.detected ? sqlResult.description : null,
-      };
-    });
+    const sqlResult = detectSQLInjection(log.url);
 
+    const traversalResult = detectDirectoryTraversal(log.url);
+
+    let threat = false;
+    let threatType = null;
+    let severity = null;
+    let mitreTechnique = null;
+    let description = null;
+
+    if (sqlResult.detected) {
+      threat = true;
+      threatType = sqlResult.type;
+      severity = sqlResult.severity;
+      mitreTechnique = sqlResult.mitre;
+      description = sqlResult.description;
+    }
+
+    if (traversalResult.detected) {
+      threat = true;
+      threatType = traversalResult.type;
+      severity = traversalResult.severity;
+      mitreTechnique = traversalResult.mitre;
+      description = traversalResult.description;
+    }
+
+    return {
+      ...log,
+      threat,
+      threatType,
+      severity,
+      mitreTechnique,
+      description,
+    };
+  });
     res.status(200).json({
       success: true,
       message: "Log uploaded and parsed successfully",

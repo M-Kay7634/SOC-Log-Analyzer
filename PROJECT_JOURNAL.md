@@ -204,6 +204,42 @@ POST /api/logs/upload
 - Log Enrichment
 - MITRE ATT&CK Mapping
 
+---
+
+# Lesson 8 - Directory Traversal Detection
+
+## Objective
+
+Detect Directory Traversal attacks from parsed Apache logs.
+
+## Completed
+
+- Created Directory Traversal detection module
+- Added regex-based traversal signatures
+- Integrated detection into log analysis
+- Added MITRE ATT&CK mapping (T1006)
+
+## Detection Rules
+
+- ../
+- ..\
+- /etc/passwd
+- /etc/shadow
+- windows/system32
+- boot.ini
+- win.ini
+
+## APIs
+
+POST /api/logs/upload
+
+## Skills Learned
+
+- Directory Traversal Detection
+- Security Regex
+- Log Enrichment
+- MITRE ATT&CK Mapping
+
 
 ## Git Commits
 
@@ -214,6 +250,7 @@ POST /api/logs/upload
 - Implement secure log upload using Multer
 - Implement Apache log parser with regex
 - Add SQL Injection detection engine
+- Add Directory Traversal detection engine
 ---
 
 ## Current Progress

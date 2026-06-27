@@ -1,14 +1,17 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
-import { useAuth } from "../context/AuthContext";
+import DashboardLayout from "../layouts/DashboardLayout";
+import { Heading, Text } from "@chakra-ui/react";
 
 function Dashboard() {
-  const { user } = useAuth();
-
   return (
-    <Box p={8}>
-      <Heading>Welcome, {user?.name}</Heading>
-      <Text mt={4}>SOC Dashboard coming next...</Text>
-    </Box>
+    <DashboardLayout>
+      <Heading>
+        Dashboard
+      </Heading>
+
+      <Text mt={4}>
+        Dashboard Widgets Coming Next...
+      </Text>
+    </DashboardLayout>
   );
 }
 

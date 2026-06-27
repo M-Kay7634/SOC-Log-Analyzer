@@ -1,3 +1,4 @@
+const Log = require("../models/Log");
 const parseApacheLog = require("../parser/apacheParser");
 const detectThreats = require("../detection");
 const correlateThreats = require("../correlation");
@@ -30,10 +31,17 @@ const uploadLog = async (req, res) => {
       ...log,
       ...calculateThreatScore(log.threatType),
     }));
-    res.status(200).json({
+    // Step 4 - Save analyzed logs to MongoDB
+    const logsToSave = analyzedLogs.map((log) => ({
+      ...log,
+      uploadedBy: req.user.id,
+    }));
+
+    await Log.insertMany(logsToSave);
+    res.status(201).json({
       success: true,
-      message: "Log uploaded and parsed successfully",
-      totalLogs: parsedLogs.length,
+      message: "Logs analyzed and stored successfully",
+      totalLogs: analyzedLogs.length,
       analyzedLogs,
     });
 

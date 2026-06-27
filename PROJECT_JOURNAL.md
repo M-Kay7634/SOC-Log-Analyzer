@@ -131,6 +131,35 @@ Secure log upload functionality implemented successfully.
 
 ---
 
+---
+
+## Lesson 6 - Apache Log Parser
+
+### Objective
+
+Convert raw Apache log files into structured JSON objects.
+
+### Completed
+
+- Created Apache log parser
+- Read uploaded log files using fs
+- Parsed Apache Common Log Format using Regular Expressions
+- Converted log entries into structured JSON
+- Integrated parser with upload API
+
+### APIs
+
+POST /api/logs/upload
+
+### Skills Learned
+
+- File Reading with Node.js
+- Regular Expressions (Regex)
+- Apache Common Log Format
+- Log Parsing
+- JSON Transformation
+
+
 ## Git Commits
 
 - Initial project setup
@@ -138,6 +167,7 @@ Secure log upload functionality implemented successfully.
 - Implement user login with JWT authentication
 - Add JWT authentication middleware and protected routes
 - Implement secure log upload using Multer
+- Implement Apache log parser with regex
 ---
 
 ## Current Progress
@@ -147,7 +177,7 @@ Secure log upload functionality implemented successfully.
 - [x] Login API
 - [x] JWT Middleware
 - [x] Log Upload
-- [ ] Log Parser
+- [x] Log Parser
 - [ ] MongoDB Log Storage
 - [ ] Detection Engine
 - [ ] Dashboard API

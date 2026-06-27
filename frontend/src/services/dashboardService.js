@@ -20,3 +20,10 @@ export const getTimeline = async () => {
   const response = await API.get(API_ENDPOINTS.DASHBOARD.TIMELINE);
   return response.data;
 };
+
+export const getRecentThreats = async () => {
+  const response = await API.get(
+    API_ENDPOINTS.DASHBOARD.RECENT_THREATS
+  );
+  return response.data;
+};

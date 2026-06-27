@@ -179,9 +179,37 @@ const getThreatTimeline = async (req, res) => {
   }
 };
 
+const getRecentThreats = async (req, res) => {
+  try {
+    const recentThreats = await Log.find({
+      threat: true,
+    })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .select(
+        "ip threatType severity timestamp mitreTechnique priority"
+      );
+
+    res.status(200).json({
+      success: true,
+      recentThreats,
+      generatedAt: new Date(),
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getSummary,
   getThreatDistribution,
   getTopAttackingIPs,
   getThreatTimeline,
+  getRecentThreats,
 };

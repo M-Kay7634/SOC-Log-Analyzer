@@ -13,12 +13,14 @@ import SummaryCard from "../components/dashboard/SummaryCard";
 import ThreatChart from "../components/dashboard/ThreatChart";
 import TimelineChart from "../components/dashboard/TimelineChart";
 import TopIPs from "../components/dashboard/TopIPs";
+import ThreatTable from "../components/dashboard/ThreatTable";
 
 import {
   getSummary,
   getThreatDistribution,
   getTimeline,
   getTopIPs,
+  getRecentThreats,
 } from "../services/dashboardService";
 
 function Dashboard() {
@@ -26,6 +28,7 @@ function Dashboard() {
   const [distribution, setDistribution] = useState([]);
   const [timeline, setTimeline] = useState([]);
   const [topIPs, setTopIPs] = useState([]);
+  const [recentThreats, setRecentThreats] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,6 +48,9 @@ function Dashboard() {
 
       const ipData = await getTopIPs();
       setTopIPs(ipData.topIPs);
+
+      const recentData = await getRecentThreats();
+      setRecentThreats(recentData.recentThreats);
 
     } catch (error) {
       console.error(error);
@@ -102,6 +108,9 @@ function Dashboard() {
         <TimelineChart timeline={timeline} />
         <Box mt={8}>
           <TopIPs topIPs={topIPs} />
+        </Box>
+        <Box mt={8}>
+          <ThreatTable threats={recentThreats} />
         </Box>
       </SimpleGrid>
     </DashboardLayout>

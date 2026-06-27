@@ -13,5 +13,6 @@ export const API_ENDPOINTS = {
     DISTRIBUTION: "/dashboard/threat-distribution",
     TOP_IPS: "/dashboard/top-ips",
     TIMELINE: "/dashboard/timeline",
+    RECENT_THREATS: "/dashboard/recent-threats",
   },
 };

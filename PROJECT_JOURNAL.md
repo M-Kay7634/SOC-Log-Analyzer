@@ -689,6 +689,26 @@ Display the most active malicious IP addresses.
 - Dynamic Lists
 - API Integration
 
+# Frontend Lesson 9 - Recent Threats Table
+
+## Objective
+
+Display recent threats detected by the SOC engine.
+
+## Completed
+
+- Created ThreatTable component
+- Connected Recent Threats API
+- Added priority badges
+- Displayed MITRE ATT&CK techniques
+- Displayed timestamps
+
+## Skills Learned
+
+- Advanced Chakra Tables
+- Conditional Badge Styling
+- API Integration
+
 
 
 
@@ -720,6 +740,7 @@ Display the most active malicious IP addresses.
 - feat: add dashboard summary cards
 - feat: add threat distribution pie chart
 - feat: add threat timeline chart- feat: add top attacking IPs widget
+- feat: add recent threats table
 ---
 
 ## Current Progress

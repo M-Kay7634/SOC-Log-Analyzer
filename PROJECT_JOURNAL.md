@@ -516,6 +516,29 @@ Create a centralized API layer for frontend-backend communication.
 - Environment Variables
 - Service-Based Design
 
+---
+
+# Frontend Lesson 1 - API Constants
+
+## Objective
+
+Centralize frontend API endpoints for maintainability.
+
+## Completed
+
+- Created API constants file
+- Refactored Auth Service
+- Refactored Dashboard Service
+- Refactored Log Service
+- Removed hardcoded API endpoints
+
+## Skills Learned
+
+- Centralized Configuration
+- Maintainable API Layer
+- Clean Architecture
+
+
 
 ## Git Commits
 
@@ -537,6 +560,7 @@ Create a centralized API layer for frontend-backend communication.
 - feat: add top attacking IP dashboard API
 - feat: add threat timeline dashboard API
 - feat: create frontend API service layer
+- refactor: centralize frontend API endpoints
 ---
 
 ## Current Progress

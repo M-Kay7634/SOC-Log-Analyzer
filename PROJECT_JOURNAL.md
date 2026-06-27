@@ -670,6 +670,26 @@ Visualize threat activity over time.
 - Time-series visualization
 - Chart.js datasets
 
+# Frontend Lesson 8 - Top Attacking IPs
+
+## Objective
+
+Display the most active malicious IP addresses.
+
+## Completed
+
+- Created TopIPs component
+- Connected Top IPs API
+- Displayed ranked IP table
+- Added severity badges
+
+## Skills Learned
+
+- Chakra UI Tables
+- Dynamic Lists
+- API Integration
+
+
 
 
 
@@ -699,7 +719,7 @@ Visualize threat activity over time.
 - feat: create dashboard layout with navbar and sidebar
 - feat: add dashboard summary cards
 - feat: add threat distribution pie chart
-- feat: add threat timeline chart
+- feat: add threat timeline chart- feat: add top attacking IPs widget
 ---
 
 ## Current Progress

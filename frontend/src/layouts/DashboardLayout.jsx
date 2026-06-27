@@ -4,7 +4,7 @@ import Sidebar from "../components/layout/Sidebar";
 
 function DashboardLayout({ children }) {
   return (
-    <Flex h="100vh" bg="gray.100">
+    <Flex h="100vh" bg="#F5F7FA">
       <Sidebar />
 
       <Box flex="1">

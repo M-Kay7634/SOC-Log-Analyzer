@@ -586,30 +586,55 @@ Build a complete frontend authentication system.
 - State Management
 
 ---
+---
 
-# Frontend Lesson 3 - Authentication Completed
+# Frontend Lesson 4 - Dashboard Layout
 
 ## Objective
 
-Build a complete frontend authentication system.
+Build the common dashboard layout for authenticated pages.
 
 ## Completed
 
-- Login page created
-- Connected frontend with backend
-- JWT stored using AuthContext
-- Protected dashboard route
-- Automatic redirection after login
-- Successfully authenticated user
+- Created DashboardLayout
+- Built Navbar
+- Built Sidebar
+- Added protected navigation
+- Added Logout functionality
+- Created placeholder pages
 
 ## Skills Learned
 
-- JWT Authentication
-- React Context API
-- Axios API Integration
-- Protected Routes
-- State Management
+- Shared Layout Pattern
+- React Router Navigation
+- Component Composition
+- Reusable UI Architecture
 
+---
+
+# Frontend Lesson 5 - Dashboard Summary Cards
+
+## Objective
+
+Display live dashboard statistics from the backend.
+
+## Completed
+
+- Created reusable SummaryCard component
+- Connected Dashboard to Summary API
+- Displayed live security metrics
+- Added loading state with spinner
+
+## Skills Learned
+
+- React useEffect
+- API Integration
+- Reusable Components
+- Dashboard Widgets
+
+## Git Commit
+
+feat: add dashboard summary cards
 
 
 
@@ -637,7 +662,8 @@ Build a complete frontend authentication system.
 - refactor: centralize frontend API endpoints
 - feat: add authentication context
 - feat: complete frontend authentication
-- feat: complete frontend authentication
+- feat: create dashboard layout with navbar and sidebar
+- feat: add dashboard summary cards
 ---
 
 ## Current Progress

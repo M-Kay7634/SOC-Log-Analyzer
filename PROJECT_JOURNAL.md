@@ -353,29 +353,34 @@ Detect brute-force attacks by correlating multiple failed login events.
 POST /api/logs/upload
 ---
 
-# Lesson 13 - MongoDB Log Storage
+---
+
+# Lesson 13 - MongoDB Security Event Storage
 
 ## Objective
 
-Persist analyzed security events in MongoDB.
+Persist enriched security events into MongoDB.
 
 ## Completed
 
-- Created Log schema
-- Stored analyzed logs using insertMany()
-- Linked logs to authenticated users
-- Added persistent storage for security events
-
-## Skills Learned
-
-- MongoDB Bulk Inserts
-- Mongoose Models
-- Audit Trail with uploadedBy
-- Persistent Event Storage
+- Created Log model
+- Stored analyzed events using insertMany()
+- Linked events with authenticated users
+- Saved threat score, priority, MITRE mapping, and descriptions
+- Built persistent security event storage
 
 ## APIs
 
 POST /api/logs/upload
+
+## Skills Learned
+
+- MongoDB Bulk Insert
+- Mongoose Schema Design
+- Audit Trail
+- Persistent Security Event Storage
+
+
 
 
 
@@ -393,7 +398,7 @@ POST /api/logs/upload
 - Add threat scoring system
 - Add Failed Login detection
 - Add correlation engine and brute force detection
-- Store analyzed logs in MongoDB
+- Store analyzed security events in MongoDB
 ---
 
 ## Current Progress

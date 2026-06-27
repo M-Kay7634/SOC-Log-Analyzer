@@ -492,6 +492,29 @@ GET /api/dashboard/timeline
 - Time-Series Data
 - Dashboard Analytics
 
+---
+
+# Lesson 18 - Frontend API Layer
+
+## Objective
+
+Create a centralized API layer for frontend-backend communication.
+
+## Completed
+
+- Configured Axios instance
+- Added JWT interceptor
+- Created Dashboard Service
+- Updated Authentication Service
+- Updated Log Upload Service
+- Added environment configuration
+
+## Skills Learned
+
+- Axios Interceptors
+- API Layer Architecture
+- Environment Variables
+- Service-Based Design
 
 
 ## Git Commits
@@ -513,6 +536,7 @@ GET /api/dashboard/timeline
 - Add threat distribution dashboard API
 - feat: add top attacking IP dashboard API
 - feat: add threat timeline dashboard API
+- feat: create frontend API service layer
 ---
 
 ## Current Progress

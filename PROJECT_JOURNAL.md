@@ -380,6 +380,40 @@ POST /api/logs/upload
 - Audit Trail
 - Persistent Security Event Storage
 
+---
+
+# Lesson 14 - Dashboard Summary API
+
+## Objective
+
+Create an API that provides high-level SOC statistics.
+
+## Completed
+
+- Created Dashboard Controller
+- Created Dashboard Routes
+- Added JWT Protection
+- Generated Security Dashboard Summary
+
+## API
+
+GET /api/dashboard/summary
+
+## Response
+
+- Total Logs
+- Total Threats
+- Critical Threats
+- High Threats
+- Medium Threats
+- Low Threats
+
+## Skills Learned
+
+- MongoDB Aggregation using countDocuments()
+- Dashboard API Design
+- Security Metrics
+- JWT Protected APIs
 
 
 
@@ -399,6 +433,7 @@ POST /api/logs/upload
 - Add Failed Login detection
 - Add correlation engine and brute force detection
 - Store analyzed security events in MongoDB
+- Add dashboard summary API
 ---
 
 ## Current Progress

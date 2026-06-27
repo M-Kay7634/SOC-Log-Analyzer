@@ -1,5 +1,5 @@
 const parseApacheLog = require("../parser/apacheParser");
-
+const detectSQLInjection = require("../detection/sqlInjection");
 // Upload Log Controller
 const uploadLog = async (req, res) => {
   try {
@@ -13,11 +13,25 @@ const uploadLog = async (req, res) => {
     // Parse uploaded Apache log
     const parsedLogs = parseApacheLog(req.file.path);
 
+    // Add SQL Injection detection to each log
+    const analyzedLogs = parsedLogs.map((log) => {
+      const sqlResult = detectSQLInjection(log.url);
+
+      return {
+        ...log,
+        threat: sqlResult.detected,
+        threatType: sqlResult.detected ? sqlResult.type : null,
+        severity: sqlResult.detected ? sqlResult.severity : null,
+        mitreTechnique: sqlResult.detected ? sqlResult.mitre : null,
+        description: sqlResult.detected ? sqlResult.description : null,
+      };
+    });
+
     res.status(200).json({
       success: true,
       message: "Log uploaded and parsed successfully",
       totalLogs: parsedLogs.length,
-      parsedLogs,
+      analyzedLogs,
     });
 
   } catch (error) {

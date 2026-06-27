@@ -131,8 +131,6 @@ Secure log upload functionality implemented successfully.
 
 ---
 
----
-
 ## Lesson 6 - Apache Log Parser
 
 ### Objective
@@ -159,6 +157,53 @@ POST /api/logs/upload
 - Log Parsing
 - JSON Transformation
 
+---
+
+# Lesson 7 - SQL Injection Detection
+
+## Objective
+
+Detect SQL Injection attacks from parsed Apache logs.
+
+## Completed
+
+- Created SQL Injection detection module
+- Implemented regex-based SQL Injection signatures
+- Integrated detection engine with Apache parser
+- Enriched parsed logs with:
+  - Threat Status
+  - Threat Type
+  - Severity
+  - MITRE ATT&CK Technique
+  - Description
+
+## Detection Rules
+
+- OR 1=1
+- UNION SELECT
+- SELECT FROM
+- INSERT INTO
+- UPDATE SET
+- DELETE FROM
+- DROP TABLE
+- EXEC
+- SLEEP()
+
+## MITRE ATT&CK
+
+T1190 – Exploit Public-Facing Application
+
+## APIs
+
+POST /api/logs/upload
+
+## Skills Learned
+
+- Security Regex
+- Threat Detection
+- Log Enrichment
+- MITRE ATT&CK Mapping
+
 
 ## Git Commits
 
@@ -168,6 +213,7 @@ POST /api/logs/upload
 - Add JWT authentication middleware and protected routes
 - Implement secure log upload using Multer
 - Implement Apache log parser with regex
+- Add SQL Injection detection engine
 ---
 
 ## Current Progress

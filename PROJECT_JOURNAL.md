@@ -632,9 +632,43 @@ Display live dashboard statistics from the backend.
 - Reusable Components
 - Dashboard Widgets
 
-## Git Commit
+# Frontend Lesson 6 - Threat Distribution Chart
 
-feat: add dashboard summary cards
+## Objective
+
+Visualize detected threats using a pie chart.
+
+## Completed
+
+- Added Threat Distribution API integration
+- Created reusable ThreatChart component
+- Displayed threat statistics using Chart.js
+- Connected frontend with MongoDB aggregation results
+
+## Skills Learned
+
+- Chart.js
+- react-chartjs-2
+- Data visualization
+- API integration
+
+# Frontend Lesson 7 - Threat Timeline Chart
+
+## Objective
+
+Visualize threat activity over time.
+
+## Completed
+
+- Created TimelineChart component
+- Connected Timeline API
+- Displayed live threat activity using Chart.js
+
+## Skills Learned
+
+- Line Charts
+- Time-series visualization
+- Chart.js datasets
 
 
 
@@ -664,6 +698,8 @@ feat: add dashboard summary cards
 - feat: complete frontend authentication
 - feat: create dashboard layout with navbar and sidebar
 - feat: add dashboard summary cards
+- feat: add threat distribution pie chart
+- feat: add threat timeline chart
 ---
 
 ## Current Progress

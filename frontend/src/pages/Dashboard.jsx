@@ -1,13 +1,28 @@
+import {
+  Heading,
+  SimpleGrid,
+  Spinner,
+  Center,
+  Box,
+} from "@chakra-ui/react";
+
 import { useEffect, useState } from "react";
-import { Heading, SimpleGrid, Spinner, Center } from "@chakra-ui/react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import SummaryCard from "../components/dashboard/SummaryCard";
+import ThreatChart from "../components/dashboard/ThreatChart";
+import TimelineChart from "../components/dashboard/TimelineChart";
 
-import { getSummary } from "../services/dashboardService";
+import {
+  getSummary,
+  getThreatDistribution,
+  getTimeline,
+} from "../services/dashboardService";
 
 function Dashboard() {
   const [summary, setSummary] = useState(null);
+  const [distribution, setDistribution] = useState([]);
+  const [timeline, setTimeline] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,8 +31,15 @@ function Dashboard() {
 
   const fetchSummary = async () => {
     try {
-      const data = await getSummary();
-      setSummary(data.summary);
+      const summaryData = await getSummary();
+      setSummary(summaryData.summary);
+
+      const distributionData = await getThreatDistribution();
+      setDistribution(distributionData.distribution);
+
+      const timelineData = await getTimeline();
+      setTimeline(timelineData.timeline);
+
     } catch (error) {
       console.error(error);
     } finally {
@@ -63,6 +85,15 @@ function Dashboard() {
           value={summary.highThreats}
           color="yellow.500"
         />
+      </SimpleGrid>
+      <SimpleGrid
+        columns={{ base: 1, lg: 2 }}
+        spacing={6}
+        mt={8}
+      >
+        <ThreatChart distribution={distribution} />
+
+        <TimelineChart timeline={timeline} />
       </SimpleGrid>
     </DashboardLayout>
   );

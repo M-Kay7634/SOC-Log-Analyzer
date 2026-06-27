@@ -77,6 +77,7 @@ const registerUser = async (req, res) => {
 // Login User
 const loginUser = async (req, res) => {
   try {
+    console.log("Login API Hit");
     const { email, password } = req.body;
 
     // Check required fields

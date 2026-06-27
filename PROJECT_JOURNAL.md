@@ -240,6 +240,29 @@ POST /api/logs/upload
 - Log Enrichment
 - MITRE ATT&CK Mapping
 
+---
+
+# Lesson 9 - Detection Engine Refactoring
+
+## Objective
+
+Centralize all threat detection logic into a single Detection Engine.
+
+## Completed
+
+- Created detection/index.js
+- Refactored SQL Injection detection
+- Refactored Directory Traversal detection
+- Simplified logController.js
+- Implemented centralized threat analysis
+
+## Skills Learned
+
+- Clean Architecture
+- Separation of Concerns
+- Single Responsibility Principle (SRP)
+- Scalable Detection Design
+
 
 ## Git Commits
 
@@ -251,6 +274,7 @@ POST /api/logs/upload
 - Implement Apache log parser with regex
 - Add SQL Injection detection engine
 - Add Directory Traversal detection engine
+- Refactor threat detection into centralized detection engine
 ---
 
 ## Current Progress

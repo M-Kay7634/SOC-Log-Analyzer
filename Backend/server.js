@@ -26,6 +26,7 @@ app.use("/api/logs", logRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/threats", threatRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/reports", require("./routes/reportRoutes"));
 
 app.get("/", (req, res) => {
   res.send("SOC Log Analyzer API Running...");

@@ -25,7 +25,7 @@ function Reports() {
           spacing={6}
         >
           <ReportSummary />
-          <ExportButtons />
+          <ExportButtons filters={filters} />
         </SimpleGrid>
 
         <ReportTable filters={filters} />

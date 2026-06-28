@@ -985,6 +985,36 @@ Build the foundation of the Reports module and prepare it for professional repor
 - Report generation workflow design
 
 
+# Lesson 21 - Reports Module & Export Features
+
+**Date:** 29 June 2026
+
+## Objective
+
+Develop a professional reporting module with filtering and export capabilities.
+
+### Completed
+
+- ✅ Created Reports page with modular architecture
+- ✅ Implemented Report Summary using live dashboard data
+- ✅ Added report filter interface
+- ✅ Built reusable report service
+- ✅ Implemented CSV export
+- ✅ Implemented Excel (.xlsx) export
+- ✅ Implemented PDF report generation
+- ✅ Added support for exporting filtered report data
+
+### Skills Learned
+
+- File generation (CSV, Excel, PDF)
+- Blob downloads in React
+- Backend report generation
+- Query parameter filtering
+- ExcelJS integration
+- PDFKit integration
+
+
+
 
 ## Git Commits
 
@@ -1025,6 +1055,7 @@ Build the foundation of the Reports module and prepare it for professional repor
 - feat: implement frontend password recovery flow
 - feat: implement settings module with theme support and change password
 - feat: build reports module foundation
+- feat: implement reports module with CSV, Excel and PDF export
 ---
 
 ## Current Progress

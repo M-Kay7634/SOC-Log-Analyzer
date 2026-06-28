@@ -14,3 +14,38 @@ export const getReportLogs = async (filters) => {
   });
   return response.data;
 };
+
+export const exportCSV = async (filters) => {
+  const response = await API.get(
+    "/reports/export/csv",
+    {
+      params: filters,
+      responseType: "blob",
+    }
+  );
+  return response.data;
+};
+
+export const exportExcel = async (
+  filters
+) => {
+  const response = await API.get(
+    "/reports/export/excel",
+    {
+      params: filters,
+      responseType: "blob",
+    }
+  );
+  return response.data;
+};
+
+export const exportPDF = async (filters) => {
+  const response = await API.get(
+    "/reports/export/pdf",
+    {
+      params: filters,
+      responseType: "blob",
+    }
+  );
+  return response.data;
+};

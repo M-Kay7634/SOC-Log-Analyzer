@@ -2,6 +2,10 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
+const otpTemplate = require("../utils/emailTemplate");
+
 // Register User
 const registerUser = async (req, res) => {
 
@@ -149,7 +153,186 @@ const loginUser = async (req, res) => {
   }
 };
 
+// Forgot Password
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required",
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    // Don't reveal whether the email exists
+    if (!user) {
+      return res.status(200).json({
+        success: true,
+        message:
+          "If an account with that email exists, an OTP has been sent.",
+      });
+    }
+
+    // Generate 6-digit OTP
+    const otp = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+
+    // Store OTP and expiry
+    user.resetOTP = otp;
+    user.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+
+    await user.save();
+
+    // Send Email
+    await sendEmail({
+      to: user.email,
+      subject: "SOC Log Analyzer - Password Reset OTP",
+      html: otpTemplate(otp),
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "OTP sent successfully",
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Verify OTP
+const verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and OTP are required",
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (user.resetOTP !== otp) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    if (!user.otpExpires || user.otpExpires < new Date()) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP has expired",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "OTP verified successfully",
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Reset Password
+const resetPassword = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+
+    if (!email || !otp || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Email, OTP and new password are required",
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long",
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    if (user.resetOTP !== otp) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    if (!user.otpExpires || user.otpExpires < new Date()) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP has expired",
+      });
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashedPassword;
+
+    // Clear OTP
+    user.resetOTP = undefined;
+    user.otpExpires = undefined;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully",
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
 module.exports = {
   registerUser,
   loginUser,
+  forgotPassword,
+  verifyOTP,
+  resetPassword,
 };

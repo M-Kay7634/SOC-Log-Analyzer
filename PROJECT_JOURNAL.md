@@ -868,7 +868,34 @@ Implement a secure user registration system integrated with the authentication m
 - Navigation using React Router
 - Role-based user creation
 
-### Git Commit
+# Lesson 17 - Password Recovery with Email OTP
+
+**Date:** 28 June 2026
+
+## Objective
+
+Implement a secure password recovery system using Email OTP.
+
+### Completed
+
+- ✅ Configured Nodemailer with Gmail SMTP
+- ✅ Created reusable email utility
+- ✅ Designed professional HTML email template
+- ✅ Generated 6-digit OTP
+- ✅ Stored OTP with 10-minute expiration
+- ✅ Implemented Forgot Password API
+- ✅ Implemented Verify OTP API
+- ✅ Implemented Reset Password API
+- ✅ Cleared OTP after successful password reset
+- ✅ Tested complete password recovery flow
+
+### Skills Learned
+
+- Email integration using Nodemailer
+- OTP generation and validation
+- Password reset workflow
+- Secure password hashing with bcrypt
+- Backend security best practices
 
 
 
@@ -907,6 +934,7 @@ Implement a secure user registration system integrated with the authentication m
 - feat: implement users management 
 - feat: implement RBAC and user role management
 - feat: implement secure user registration
+- feat: implement email OTP password recovery
 ---
 
 ## Current Progress

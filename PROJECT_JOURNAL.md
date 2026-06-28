@@ -927,6 +927,36 @@ Implement the complete frontend password recovery workflow using Email OTP.
 - API integration with Axios
 - Secure password reset implementation
 
+# Lesson 19 - Settings Module & Authentication Enhancement
+
+**Date:** 28 June 2026
+
+## Objective
+
+Build a professional Settings module and complete the authenticated password management feature.
+
+### Completed
+
+- ✅ Implemented Change Password API
+- ✅ Added Change Password functionality in Settings
+- ✅ Verified current password before updating
+- ✅ Securely hashed new password using bcrypt
+- ✅ Added Account Information card
+- ✅ Modularized Settings page into reusable components
+- ✅ Created AccountCard component
+- ✅ Created ChangePasswordCard component
+- ✅ Implemented application-wide Dark/Light Theme using Chakra UI Color Mode
+- ✅ Updated dashboard and pages to support theme switching
+- ✅ Improved Settings page architecture for future expansion
+
+### Skills Learned
+
+- Chakra UI Color Mode
+- Theme-aware component design
+- Component modularization
+- Secure password management
+- JWT-protected API integration
+- React component organization
 
 
 
@@ -967,6 +997,7 @@ Implement the complete frontend password recovery workflow using Email OTP.
 - feat: implement secure user registration
 - feat: implement email OTP password recovery
 - feat: implement frontend password recovery flow
+- feat: implement settings module with theme support and change password
 ---
 
 ## Current Progress

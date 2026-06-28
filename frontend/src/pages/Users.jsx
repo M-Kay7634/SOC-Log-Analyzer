@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Heading, Spinner, Center, useToast } from "@chakra-ui/react";
+import { Heading, Spinner, Center, useToast, useColorModeValue } from "@chakra-ui/react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import UserTable from "../components/users/UserTable";
@@ -12,6 +12,11 @@ function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const toast = useToast();
+
+  const cardBg = useColorModeValue(
+    "white",
+    "gray.800"
+  );
 
   useEffect(() => {
     fetchUsers();

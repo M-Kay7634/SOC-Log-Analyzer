@@ -11,6 +11,7 @@ import {
   Stat,
   StatLabel,
   StatNumber,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -81,10 +82,14 @@ function UploadLogs() {
       (log) => log.priority === "High"
     ).length || 0;
 
+  const cardBg = useColorModeValue(
+    "white",
+    "gray.800"
+  );
   return (
     <DashboardLayout>
       <Box
-        bg="white"
+        bg={cardBg}
         p={8}
         rounded="lg"
         shadow="lg"

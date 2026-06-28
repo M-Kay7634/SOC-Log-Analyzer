@@ -3,6 +3,7 @@ import {
   Input,
   Select,
   HStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 function ThreatFilters({
@@ -11,9 +12,10 @@ function ThreatFilters({
   priority,
   setPriority,
 }) {
+  const cardBg = useColorModeValue("white", "gray.800");
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       p={5}
       rounded="lg"
       shadow="md"

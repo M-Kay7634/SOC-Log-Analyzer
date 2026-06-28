@@ -8,6 +8,7 @@ import {
   Tr,
   Th,
   Td,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 function ThreatTable({ threats }) {
@@ -23,10 +24,14 @@ function ThreatTable({ threats }) {
         return "green";
     }
   };
+  const cardBg = useColorModeValue(
+    "white",
+    "gray.800"
+  );
 
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       p={6}
       rounded="lg"
       shadow="md"

@@ -1,9 +1,14 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 
 function SummaryCard({ title, value, color }) {
+
+  const cardBg = useColorModeValue("white", "gray.800");
+  const headingColor = useColorModeValue("gray.800", "white");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       p={6}
       rounded="lg"
       shadow="lg"
@@ -17,7 +22,7 @@ function SummaryCard({ title, value, color }) {
     >
       <Text
         fontSize="md"
-        color="gray.600"
+        color={textColor}
         fontWeight="600"
       >
         {title}
@@ -26,7 +31,7 @@ function SummaryCard({ title, value, color }) {
       <Heading
         mt={4}
         size="2xl"
-        color="gray.800"
+        color={headingColor}
       >
         {value}
       </Heading>

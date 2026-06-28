@@ -8,12 +8,14 @@ import {
   Th,
   Td,
   Badge,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 function TopIPs({ topIPs }) {
+  const cardBg = useColorModeValue("white", "gray.800");
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       p={6}
       rounded="lg"
       shadow="md"

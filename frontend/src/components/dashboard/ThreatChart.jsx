@@ -1,4 +1,4 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, useColorModeValue } from "@chakra-ui/react";
 import { Pie } from "react-chartjs-2";
 
 import {
@@ -33,9 +33,11 @@ function ThreatChart({ distribution }) {
     ],
   };
 
+  const cardBg = useColorModeValue("white", "gray.800");
+
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       p={6}
       rounded="lg"
       shadow="md"

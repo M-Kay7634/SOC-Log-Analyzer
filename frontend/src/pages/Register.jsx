@@ -6,6 +6,9 @@ import {
   FormLabel,
   Heading,
   Input,
+  InputGroup,
+  InputRightElement,
+  Progress,
   VStack,
   Text,
   Link,
@@ -24,9 +27,25 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const toast = useToast();
   const navigate = useNavigate();
+
+  const getPasswordStrength = () => {
+    if (password.length === 0) return 0;
+    if (password.length < 6) return 30;
+    if (password.length < 8) return 60;
+    if (
+      /[A-Z]/.test(password) &&
+      /[0-9]/.test(password) &&
+      /[^A-Za-z0-9]/.test(password)
+    ) {
+      return 100;
+    }
+    return 80;
+  };
 
   const handleSubmit = async () => {
     if (!name || !email || !password || !confirmPassword) {
@@ -82,6 +101,12 @@ function Register() {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   return (
     <Container maxW="md" py={20}>
       <Box
@@ -104,6 +129,7 @@ function Register() {
               onChange={(e) =>
                 setName(e.target.value)
               }
+              onKeyDown={handleKeyPress}
               placeholder="Enter full name"
             />
           </FormControl>
@@ -116,6 +142,7 @@ function Register() {
               onChange={(e) =>
                 setEmail(e.target.value)
               }
+              onKeyDown={handleKeyPress}
               placeholder="Enter email"
             />
           </FormControl>
@@ -123,27 +150,67 @@ function Register() {
           <FormControl>
             <FormLabel>Password</FormLabel>
 
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) =>
-                setPassword(e.target.value)
-              }
-              placeholder="Enter password"
-            />
+            <InputGroup>
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder="Enter password"
+                />
+
+                <InputRightElement width="4.5rem">
+                  <Button
+                    h="1.75rem"
+                    size="sm"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+
+              <Progress
+                value={getPasswordStrength()}
+                mt={2}
+                borderRadius="md"
+              />
+
+              <Text fontSize="sm" color="gray.500">
+                {getPasswordStrength() < 40
+                  ? "Weak Password"
+                  : getPasswordStrength() < 80
+                  ? "Medium Password"
+                  : "Strong Password"}
+              </Text>
           </FormControl>
 
           <FormControl>
             <FormLabel>Confirm Password</FormLabel>
 
-            <Input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) =>
-                setConfirmPassword(e.target.value)
-              }
-              placeholder="Confirm password"
-            />
+            <InputGroup>
+              <Input
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) =>
+                  setConfirmPassword(e.target.value)
+                }
+                onKeyDown={handleKeyPress}
+                placeholder="Confirm password"
+              />
+
+              <InputRightElement width="4.5rem">
+                <Button
+                  h="1.75rem"
+                  size="sm"
+                  onClick={() =>
+                    setShowConfirmPassword(!showConfirmPassword)
+                  }
+                >
+                  {showConfirmPassword ? "Hide" : "Show"}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
           </FormControl>
 
           <Button

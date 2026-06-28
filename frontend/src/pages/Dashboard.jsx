@@ -4,6 +4,7 @@ import {
   Spinner,
   Center,
   Box,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
@@ -30,6 +31,10 @@ function Dashboard() {
   const [topIPs, setTopIPs] = useState([]);
   const [recentThreats, setRecentThreats] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const cardBg = useColorModeValue("white", "gray.800");
+  const headingColor = useColorModeValue("gray.800", "white");
+  const textColor = useColorModeValue("gray.600", "gray.300");
 
   useEffect(() => {
     fetchSummary();
@@ -71,7 +76,7 @@ function Dashboard() {
 
   return (
     <DashboardLayout>
-      <Heading mb={8} color="gray.700">Dashboard</Heading>
+      <Heading mb={8} color={headingColor}>Dashboard</Heading>
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
         <SummaryCard
@@ -98,13 +103,9 @@ function Dashboard() {
           color="yellow.500"
         />
       </SimpleGrid>
-      <SimpleGrid
-        columns={{ base: 1, lg: 2 }}
-        spacing={6}
-        mt={8}
-      >
-        <ThreatChart distribution={distribution} />
 
+      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={6} mt={8}>
+        <ThreatChart distribution={distribution} />
         <TimelineChart timeline={timeline} />
         <Box mt={8}>
           <TopIPs topIPs={topIPs} />

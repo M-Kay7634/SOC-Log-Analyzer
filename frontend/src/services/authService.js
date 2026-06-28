@@ -56,3 +56,18 @@ export const resetPassword = async (
 
   return response.data;
 };
+
+export const changePassword = async (
+  currentPassword,
+  newPassword
+) => {
+  const response = await API.put(
+    API_ENDPOINTS.AUTH.CHANGE_PASSWORD,
+    {
+      currentPassword,
+      newPassword,
+    }
+  );
+
+  return response.data;
+};

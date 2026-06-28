@@ -1,10 +1,14 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
 import Navbar from "../components/layout/Navbar";
 import Sidebar from "../components/layout/Sidebar";
 
 function DashboardLayout({ children }) {
+  const cardBg = useColorModeValue(
+    "white",
+    "gray.800"
+  );
   return (
-    <Flex h="100vh" bg="#F5F7FA">
+    <Flex h="100vh" bg={cardBg}>
       <Sidebar />
 
       <Box flex="1">

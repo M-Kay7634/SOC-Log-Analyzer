@@ -9,15 +9,20 @@ import {
   Th,
   Td,
   Select,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useAuth } from "../../context/AuthContext";
 
 function UserTable({ users, onRoleChange }) {
   const { user } = useAuth();
+  const cardBg = useColorModeValue(
+    "white",
+    "gray.800"
+  );
   return (
     <Box
-      bg="white"
+      bg={cardBg}
       p={6}
       rounded="lg"
       shadow="md"

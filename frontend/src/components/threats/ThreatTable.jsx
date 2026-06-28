@@ -8,6 +8,7 @@ import {
   Tr,
   Th,
   Td,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { Button, useDisclosure } from "@chakra-ui/react";
@@ -36,8 +37,10 @@ function ThreatTable({ threats }) {
     onOpen();
     };
 
+    const cardBg = useColorModeValue("white", "gray.800");
+
   return (
-    <Box bg="white" p={6} rounded="lg" shadow="md">
+    <Box bg={cardBg} p={6} rounded="lg" shadow="md">
       <Heading size="md" mb={5}>
         All Detected Threats
       </Heading>

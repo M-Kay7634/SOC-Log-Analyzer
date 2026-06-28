@@ -8,6 +8,9 @@ import Threats from "./pages/Threats";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import VerifyOTP from "./pages/VerifyOTP";
+import ResetPassword from "./pages/ResetPassword";
 
 
 function App() {
@@ -17,6 +20,10 @@ function App() {
 
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />}/>
+      <Route path="/verify-otp" element={<VerifyOTP />}/>
+      <Route path="/reset-password" element={<ResetPassword />}/>
+      
       <Route path="/dashboard"element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/>
 
       <Route path="/upload" element={<ProtectedRoute><UploadLogs /></ProtectedRoute>}/>

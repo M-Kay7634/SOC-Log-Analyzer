@@ -94,6 +94,16 @@ function Login() {
               placeholder="Enter password"
             />
           </FormControl>
+          <Box w="100%" textAlign="right">
+            <Link
+              as={RouterLink}
+              to="/forgot-password"
+              color="blue.500"
+              fontSize="sm"
+            >
+              Forgot Password?
+            </Link>
+          </Box>
 
           <Button
             colorScheme="blue"

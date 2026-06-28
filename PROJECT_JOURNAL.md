@@ -898,6 +898,37 @@ Implement a secure password recovery system using Email OTP.
 - Backend security best practices
 
 
+# Lesson 18 - Frontend Password Recovery
+
+**Date:** 28 June 2026
+
+## Objective
+
+Implement the complete frontend password recovery workflow using Email OTP.
+
+### Completed
+
+- ✅ Created Forgot Password page
+- ✅ Integrated Forgot Password API
+- ✅ Created Verify OTP page
+- ✅ Implemented 6-digit OTP input UI
+- ✅ Integrated Verify OTP API
+- ✅ Created Reset Password page
+- ✅ Integrated Reset Password API
+- ✅ Added form validation
+- ✅ Added success/error toast notifications
+- ✅ Completed end-to-end password reset workflow
+
+### Skills Learned
+
+- React Router state management
+- Multi-step authentication flows
+- OTP verification UI
+- API integration with Axios
+- Secure password reset implementation
+
+
+
 
 ## Git Commits
 
@@ -935,6 +966,7 @@ Implement a secure password recovery system using Email OTP.
 - feat: implement RBAC and user role management
 - feat: implement secure user registration
 - feat: implement email OTP password recovery
+- feat: implement frontend password recovery flow
 ---
 
 ## Current Progress

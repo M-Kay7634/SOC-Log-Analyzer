@@ -815,6 +815,28 @@ Build the Users Management module to display registered users and user statistic
 - Dashboard statistics implementation
 - Reusable component architecture
 
+# Lesson 15 - Role-Based Access Control (RBAC)
+
+**Date:** 28 June 2026
+
+## Objective
+Implement Role-Based Access Control (RBAC) and allow Admins to manage user roles.
+
+### Completed
+- ✅ Created Update User Role API
+- ✅ Protected API using Admin middleware
+- ✅ Implemented RBAC (Admin-only access)
+- ✅ Added role dropdown for Admin users
+- ✅ Displayed role badges for Analyst users
+- ✅ Updated roles dynamically without page reload
+- ✅ Added success/error toast notifications
+
+### Skills Learned
+- Role-Based Access Control (RBAC)
+- Protected Express routes
+- React state updates
+- Dynamic UI rendering
+- JWT authorization
 
 
 
@@ -850,7 +872,8 @@ Build the Users Management module to display registered users and user statistic
 - feat: implement upload logs module
 - feat: add threat management api
 - feat: implement threat management module
-- feat: implement users management module
+- feat: implement users management 
+- feat: implement RBAC and user role management
 ---
 
 ## Current Progress

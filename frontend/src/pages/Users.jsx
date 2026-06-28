@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { Heading, Spinner, Center } from "@chakra-ui/react";
+import { Heading, Spinner, Center, useToast } from "@chakra-ui/react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import UserTable from "../components/users/UserTable";
 import UserStats from "../components/users/UserStats";
 
 import { getAllUsers } from "../services/userService";
+import { updateUserRole } from "../services/userService";
 
 function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const toast = useToast();
 
   useEffect(() => {
     fetchUsers();
@@ -23,6 +25,28 @@ function Users() {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRoleChange = async (id, role) => {
+    try {
+      await updateUserRole(id, role);
+
+      toast({
+        title: "Role updated successfully",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+
+      fetchUsers();
+    } catch (error) {
+      toast({
+        title: error.response?.data?.message || "Failed to update role",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -42,7 +66,10 @@ function Users() {
 
       <UserStats users={users} />
 
-      <UserTable users={users} />
+      <UserTable
+        users={users}
+        onRoleChange={handleRoleChange}
+      />
     </DashboardLayout>
   );
 }

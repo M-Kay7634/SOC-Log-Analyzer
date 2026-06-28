@@ -8,9 +8,13 @@ import {
   Tr,
   Th,
   Td,
+  Select,
 } from "@chakra-ui/react";
 
-function UserTable({ users }) {
+import { useAuth } from "../../context/AuthContext";
+
+function UserTable({ users, onRoleChange }) {
+  const { user } = useAuth();
   return (
     <Box
       bg="white"
@@ -33,26 +37,39 @@ function UserTable({ users }) {
         </Thead>
 
         <Tbody>
-          {users.map((user) => (
-            <Tr key={user._id}>
-              <Td>{user.name}</Td>
+          {users.map((u) => (
+            <Tr key={u._id}>
+              <Td>{u.name}</Td>
 
-              <Td>{user.email}</Td>
+              <Td>{u.email}</Td>
 
               <Td>
-                <Badge
-                  colorScheme={
-                    user.role === "Admin"
-                      ? "red"
-                      : "green"
-                  }
-                >
-                  {user.role}
-                </Badge>
+                {user?.role === "Admin" ? (
+                  <Select
+                    size="sm"
+                    value={u.role}
+                    onChange={(e) =>
+                      onRoleChange(u._id, e.target.value)
+                    }
+                  >
+                    <option value="Admin">Admin</option>
+                    <option value="Analyst">Analyst</option>
+                  </Select>
+                ) : (
+                  <Badge
+                    colorScheme={
+                      u.role === "Admin"
+                        ? "red"
+                        : "green"
+                    }
+                  >
+                    {u.role}
+                  </Badge>
+                )}
               </Td>
 
               <Td>
-                {new Date(user.createdAt).toLocaleDateString()}
+                {new Date(u.createdAt).toLocaleDateString()}
               </Td>
             </Tr>
           ))}

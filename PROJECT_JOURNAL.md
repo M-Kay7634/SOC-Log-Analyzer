@@ -790,6 +790,31 @@ Create a dedicated API for threat management.
 - Modal state management
 
 
+# Lesson 14 - Users Management (Phase 1)
+
+**Date:** 28 June 2026
+
+## Objective
+Build the Users Management module to display registered users and user statistics.
+
+### Completed
+- ✅ Created User Management API (`GET /api/users`)
+- ✅ Protected API using JWT authentication
+- ✅ Created User Service
+- ✅ Built Users page
+- ✅ Added User Statistics cards
+- ✅ Displayed registered users in a table
+- ✅ Added role badges (Admin/Analyst)
+- ✅ Displayed account creation date
+- ✅ Maintained responsive and professional UI
+
+### Skills Learned
+- Protected API integration
+- MongoDB field projection using `.select()`
+- React API data fetching with Axios
+- Dashboard statistics implementation
+- Reusable component architecture
+
 
 
 
@@ -825,6 +850,7 @@ Create a dedicated API for threat management.
 - feat: implement upload logs module
 - feat: add threat management api
 - feat: implement threat management module
+- feat: implement users management module
 ---
 
 ## Current Progress

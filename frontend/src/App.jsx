@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOTP from "./pages/VerifyOTP";
 import ResetPassword from "./pages/ResetPassword";
+import Reports from "./pages/Reports";
 
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
       <Route path="/threats"element={<ProtectedRoute><Threats /></ProtectedRoute>}/>
 
       <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>}/>
+
+      <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>}/>
 
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>}/>
       

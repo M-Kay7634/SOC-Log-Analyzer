@@ -959,6 +959,32 @@ Build a professional Settings module and complete the authenticated password man
 - React component organization
 
 
+# Lesson 20 - Reports Module (Part 1)
+
+**Date:** 28 June 2026
+
+## Objective
+
+Build the foundation of the Reports module and prepare it for professional report generation.
+
+### Completed
+
+- ✅ Created Reports page
+- ✅ Designed modular Reports architecture
+- ✅ Built Report Summary component with live backend data
+- ✅ Created Report Filters UI
+- ✅ Added Export section (CSV, Excel, PDF placeholders)
+- ✅ Planned reusable backend filtering using query parameters
+- ✅ Reused Dashboard Summary API to avoid duplicate logic
+
+### Skills Learned
+
+- API reuse and modular backend design
+- Query parameter filtering
+- Modular React component architecture
+- Report generation workflow design
+
+
 
 ## Git Commits
 
@@ -998,6 +1024,7 @@ Build a professional Settings module and complete the authenticated password man
 - feat: implement email OTP password recovery
 - feat: implement frontend password recovery flow
 - feat: implement settings module with theme support and change password
+- feat: build reports module foundation
 ---
 
 ## Current Progress

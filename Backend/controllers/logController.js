@@ -55,6 +55,58 @@ const uploadLog = async (req, res) => {
   }
 };
 
+// Get All Logs
+const getAllLogs = async (req, res) => {
+  try {
+    const query = {};
+
+      const {
+        startDate,
+        endDate,
+        severity,
+        threatType,
+      } = req.query;
+
+      if (severity) {
+        query.severity = severity;
+      }
+
+      if (threatType) {
+        query.threatType = threatType;
+      }
+
+      if (startDate || endDate) {
+        query.createdAt = {};
+
+        if (startDate) {
+          query.createdAt.$gte = new Date(startDate);
+        }
+
+        if (endDate) {
+          query.createdAt.$lte = new Date(endDate);
+        }
+      }
+
+      const logs = await Log.find(query)
+        .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      total: logs.length,
+      logs,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   uploadLog,
+  getAllLogs,
 };

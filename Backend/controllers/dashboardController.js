@@ -45,6 +45,7 @@ const getSummary = async (req, res) => {
     });
   }
 };
+
 const getThreatDistribution = async (req, res) => {
   try {
     const distribution = await Log.aggregate([

@@ -15,6 +15,7 @@ import {
   FaUsers,
   FaCog,
   FaChartBar,
+  FaFileAlt,
 } from "react-icons/fa";
 
 const menu = [
@@ -40,7 +41,7 @@ const menu = [
   },
   {
     name: "Reports",
-    icon: FaChartBar,
+    icon: FaFileAlt,
     path: "/reports",
   },
   {

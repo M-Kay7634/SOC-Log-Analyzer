@@ -709,6 +709,29 @@ Display recent threats detected by the SOC engine.
 - Conditional Badge Styling
 - API Integration
 
+# Frontend Lesson 10 - Upload Logs Module
+
+## Objective
+
+Allow users to upload Apache log files from the frontend.
+
+## Completed
+
+- Created Upload Logs page
+- Connected upload API
+- Added file selection
+- Added upload button
+- Added success/error toast notifications
+- Implemented automatic redirect to Dashboard
+- Dashboard refreshes with newly analyzed logs
+
+## Skills Learned
+
+- File uploads with FormData
+- Multipart/form-data requests
+- React file input handling
+- Navigation after successful API calls
+
 
 
 
@@ -741,6 +764,7 @@ Display recent threats detected by the SOC engine.
 - feat: add threat distribution pie chart
 - feat: add threat timeline chart- feat: add top attacking IPs widget
 - feat: add recent threats table
+- feat: add upload logs module
 ---
 
 ## Current Progress

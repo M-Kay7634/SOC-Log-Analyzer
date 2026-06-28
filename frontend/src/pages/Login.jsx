@@ -8,10 +8,12 @@ import {
   Input,
   VStack,
   useToast,
+  Text,
+  Link,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import { loginUser } from "../services/authService";
 import { useAuth } from "../context/AuthContext";
@@ -102,6 +104,16 @@ function Login() {
             Login
           </Button>
         </VStack>
+        <Text>
+          Don't have an account?{" "}
+          <Link
+            as={RouterLink}
+            color="blue.500"
+            to="/register"
+          >
+            Register
+          </Link>
+        </Text>
       </Box>
     </Container>
   );

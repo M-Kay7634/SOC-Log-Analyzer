@@ -10,12 +10,18 @@ const registerUser = async (req, res) => {
     console.log("===========");
     
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     // Check required fields
     if (!name || !email || !password) {
       return res.status(400).json({
         message: "Please fill all required fields",
+      });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long",
       });
     }
 
@@ -37,7 +43,7 @@ const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: role || "Analyst",
+      role: "Analyst",
     });
 
     // Generate JWT

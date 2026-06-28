@@ -839,6 +839,38 @@ Implement Role-Based Access Control (RBAC) and allow Admins to manage user roles
 - JWT authorization
 
 
+# Lesson 16 - User Registration Module
+
+**Date:** 28 June 2026
+
+## Objective
+
+Implement a secure user registration system integrated with the authentication module.
+
+### Completed
+
+- ✅ Created Register page
+- ✅ Integrated Register API
+- ✅ Added client-side form validation
+- ✅ Added Confirm Password validation
+- ✅ Linked Login and Register pages
+- ✅ Restricted new users to Analyst role
+- ✅ Prevented users from self-registering as Admin
+- ✅ Added success and error toast notifications
+- ✅ Redirected users to Login after successful registration
+
+### Skills Learned
+
+- React form handling
+- API integration with Axios
+- Client-side validation
+- Secure user registration
+- Navigation using React Router
+- Role-based user creation
+
+### Git Commit
+
+
 
 ## Git Commits
 
@@ -874,6 +906,7 @@ Implement Role-Based Access Control (RBAC) and allow Admins to manage user roles
 - feat: implement threat management module
 - feat: implement users management 
 - feat: implement RBAC and user role management
+- feat: implement secure user registration
 ---
 
 ## Current Progress

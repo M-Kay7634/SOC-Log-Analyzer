@@ -7,6 +7,7 @@ import UploadLogs from "./pages/UploadLogs";
 import Threats from "./pages/Threats";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
+import Register from "./pages/Register";
 
 
 function App() {
@@ -15,51 +16,17 @@ function App() {
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/dashboard"element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/>
 
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/upload" element={<ProtectedRoute><UploadLogs /></ProtectedRoute>}/>
 
-      <Route
-        path="/upload"
-        element={
-          <ProtectedRoute>
-            <UploadLogs />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/threats"element={<ProtectedRoute><Threats /></ProtectedRoute>}/>
 
-      <Route
-        path="/threats"
-        element={
-          <ProtectedRoute>
-            <Threats />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>}/>
 
-      <Route
-        path="/users"
-        element={
-          <ProtectedRoute>
-            <Users />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/settings"
-        element={
-          <ProtectedRoute>
-            <Settings />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>}/>
+      
     </Routes>
   );
 }

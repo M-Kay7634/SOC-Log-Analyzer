@@ -751,6 +751,27 @@ Implement a frontend interface for uploading Apache log files.
 - React file handling
 - API integration
 
+# Backend Lesson 13 - Threat Management API
+
+## Objective
+
+Create a dedicated API for threat management.
+
+## Completed
+
+- Created threatController
+- Created threatRoutes
+- Added GET /api/threats
+- Protected route with JWT
+- Returned all detected threats
+
+## Skills Learned
+
+- REST API design
+- Feature-based architecture
+- Separation of concerns
+
+
 
 
 
@@ -786,6 +807,7 @@ Implement a frontend interface for uploading Apache log files.
 - feat: add recent threats table
 - feat: add upload logs module
 - feat: implement upload logs module
+- feat: add threat management api
 ---
 
 ## Current Progress

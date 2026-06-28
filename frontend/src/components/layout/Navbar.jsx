@@ -1,10 +1,11 @@
 import {
-  Box,
   Flex,
   Heading,
   Spacer,
-  Text,
   Button,
+  Avatar,
+  HStack,
+  Text,
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
@@ -22,27 +23,39 @@ function Navbar() {
   return (
     <Flex
       bg="white"
-      p={4}
-      shadow="md"
+      px={8}
+      py={4}
+      shadow="sm"
       align="center"
     >
-      <Heading size="md">
+      <Heading
+        size="lg"
+        color="#1E3A8A"
+      >
         SOC Log Analyzer
       </Heading>
 
       <Spacer />
 
-      <Text mr={5}>
-        {user?.name}
-      </Text>
+      <HStack gap={4}>
+        <Avatar
+          size="sm"
+          name={user?.name}
+        />
 
-      <Button
-        colorScheme="red"
-        size="sm"
-        onClick={handleLogout}
-      >
-        Logout
-      </Button>
+        <Text
+          fontWeight="bold"
+        >
+          {user?.name}
+        </Text>
+
+        <Button
+          colorScheme="red"
+          onClick={handleLogout}
+        >
+          Logout
+        </Button>
+      </HStack>
     </Flex>
   );
 }

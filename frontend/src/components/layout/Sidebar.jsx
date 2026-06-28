@@ -1,44 +1,97 @@
 import {
   Box,
   VStack,
-  Button,
-  Heading,
+  Text,
 } from "@chakra-ui/react";
 
-import { NavLink } from "react-router-dom";
+import {
+  NavLink,
+} from "react-router-dom";
+
+import {
+  FaHome,
+  FaUpload,
+  FaShieldAlt,
+  FaUsers,
+  FaCog,
+  FaChartBar,
+} from "react-icons/fa";
+
+const menu = [
+  {
+    name: "Dashboard",
+    icon: FaHome,
+    path: "/dashboard",
+  },
+  {
+    name: "Upload Logs",
+    icon: FaUpload,
+    path: "/upload",
+  },
+  {
+    name: "Threats",
+    icon: FaShieldAlt,
+    path: "/threats",
+  },
+  {
+    name: "Users",
+    icon: FaUsers,
+    path: "/users",
+  },
+  {
+    name: "Reports",
+    icon: FaChartBar,
+    path: "/reports",
+  },
+  {
+    name: "Settings",
+    icon: FaCog,
+    path: "/settings",
+  },
+];
 
 function Sidebar() {
   return (
     <Box
       w="250px"
-      bg="gray.900"
+      bg="#111827"
       color="white"
-      p={5}
+      minH="100vh"
+      p={6}
     >
-      <Heading size="md" mb={8}>
-        SOC Dashboard
-      </Heading>
+      <Text
+        fontSize="2xl"
+        fontWeight="bold"
+        mb={10}
+      >
+        SOC
+      </Text>
 
-      <VStack spacing={4} align="stretch">
-        <Button as={NavLink} to="/dashboard">
-          Dashboard
-        </Button>
+      <VStack align="stretch" gap={2}>
+        {menu.map((item) => {
+          const Icon = item.icon;
 
-        <Button as={NavLink} to="/upload">
-          Upload Logs
-        </Button>
-
-        <Button as={NavLink} to="/threats">
-          Threats
-        </Button>
-
-        <Button as={NavLink} to="/users">
-          Users
-        </Button>
-
-        <Button as={NavLink} to="/settings">
-          Settings
-        </Button>
+          return (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              style={({ isActive }) => ({
+                textDecoration: "none",
+                background: isActive
+                  ? "#2563eb"
+                  : "transparent",
+                borderRadius: "10px",
+                padding: "14px",
+                color: "white",
+              })}
+            >
+              <Box display="flex" alignItems="center" gap={3}>
+                <Icon />
+                <Text>{item.name}</Text>
+              </Box>
+            </NavLink>
+          );
+        })}
       </VStack>
     </Box>
   );

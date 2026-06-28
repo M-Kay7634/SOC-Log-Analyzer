@@ -732,6 +732,26 @@ Allow users to upload Apache log files from the frontend.
 - React file input handling
 - Navigation after successful API calls
 
+# Lesson 12 - Upload Logs Module
+
+## Objective
+Implement a frontend interface for uploading Apache log files.
+
+## Completed
+- Created Upload Logs page
+- Connected frontend to upload API
+- Added file selection
+- Added upload summary
+- Added success/error notifications
+- Added navigation back to dashboard
+
+## Skills Learned
+- Multipart form uploads
+- FormData
+- React file handling
+- API integration
+
+
 
 
 
@@ -765,6 +785,7 @@ Allow users to upload Apache log files from the frontend.
 - feat: add threat timeline chart- feat: add top attacking IPs widget
 - feat: add recent threats table
 - feat: add upload logs module
+- feat: implement upload logs module
 ---
 
 ## Current Progress

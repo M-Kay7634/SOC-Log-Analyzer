@@ -6,17 +6,24 @@ import {
   Text,
   VStack,
   useToast,
+  Divider,
+  HStack,
+  Stat,
+  StatLabel,
+  StatNumber,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaCloudUploadAlt } from "react-icons/fa";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import { uploadLog } from "../services/logService";
-import { useNavigate } from "react-router-dom";
 
 function UploadLogs() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -27,8 +34,8 @@ function UploadLogs() {
         title: "Please select a log file",
         status: "warning",
         duration: 3000,
+        isClosable: true,
       });
-
       return;
     }
 
@@ -37,31 +44,42 @@ function UploadLogs() {
 
       const data = await uploadLog(file);
 
+      setResult(data);
+
       toast({
-        title: data.message,
-        description: `${data.totalLogs} logs uploaded successfully`,
+        title: "Upload Successful",
+        description: `${data.totalLogs} logs analyzed successfully`,
         status: "success",
-        duration: 2000,
+        duration: 3000,
         isClosable: true,
       });
 
       setFile(null);
 
-      // Redirect after showing the toast
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 2000);
-
     } catch (error) {
       toast({
-        title: error.response?.data?.message || "Upload failed",
+        title: error.response?.data?.message || "Upload Failed",
         status: "error",
         duration: 3000,
+        isClosable: true,
       });
     } finally {
       setLoading(false);
     }
   };
+
+  const threatCount =
+    result?.analyzedLogs.filter((log) => log.threat).length || 0;
+
+  const criticalCount =
+    result?.analyzedLogs.filter(
+      (log) => log.priority === "Critical"
+    ).length || 0;
+
+  const highCount =
+    result?.analyzedLogs.filter(
+      (log) => log.priority === "High"
+    ).length || 0;
 
   return (
     <DashboardLayout>
@@ -69,34 +87,141 @@ function UploadLogs() {
         bg="white"
         p={8}
         rounded="lg"
-        shadow="md"
-        maxW="600px"
+        shadow="lg"
+        maxW="700px"
       >
-        <Heading mb={6}>
-          Upload Apache Log
+        <Heading mb={8}>
+          Upload Apache Log File
         </Heading>
 
-        <VStack align="stretch" gap={5}>
+        <VStack spacing={6} align="stretch">
 
-          <Input
-            type="file"
-            accept=".log,.txt"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
+          <Box
+            border="2px dashed"
+            borderColor="blue.300"
+            rounded="lg"
+            p={10}
+            textAlign="center"
+          >
+            <FaCloudUploadAlt
+              size={60}
+              color="#3182ce"
+            />
+
+            <Text
+              mt={4}
+              fontSize="lg"
+              fontWeight="bold"
+            >
+              Select Apache Log File
+            </Text>
+
+            <Text color="gray.500" mb={5}>
+              Supported format: .log
+            </Text>
+
+            <Input
+              type="file"
+              accept=".log,.txt"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+          </Box>
 
           {file && (
-            <Text>
-              Selected File: <b>{file.name}</b>
-            </Text>
+            <Box
+              bg="gray.50"
+              p={4}
+              rounded="md"
+            >
+              <Text>
+                <strong>File:</strong> {file.name}
+              </Text>
+
+              <Text>
+                <strong>Size:</strong>{" "}
+                {(file.size / 1024).toFixed(2)} KB
+              </Text>
+            </Box>
           )}
 
           <Button
             colorScheme="blue"
             onClick={handleUpload}
-            loading={loading}
+            isLoading={loading}
           >
             Upload & Analyze
           </Button>
+
+          {result && (
+            <>
+              <Divider />
+
+              <Heading size="md">
+                Upload Summary
+              </Heading>
+
+              <HStack spacing={5} flexWrap="wrap">
+
+                <Stat
+                  p={4}
+                  borderWidth="1px"
+                  rounded="md"
+                >
+                  <StatLabel>Total Logs</StatLabel>
+                  <StatNumber>{result.totalLogs}</StatNumber>
+                </Stat>
+
+                <Stat
+                  p={4}
+                  borderWidth="1px"
+                  rounded="md"
+                >
+                  <StatLabel>Threats</StatLabel>
+                  <StatNumber>{threatCount}</StatNumber>
+                </Stat>
+
+                <Stat
+                  p={4}
+                  borderWidth="1px"
+                  rounded="md"
+                >
+                  <StatLabel>Critical</StatLabel>
+                  <StatNumber>{criticalCount}</StatNumber>
+                </Stat>
+
+                <Stat
+                  p={4}
+                  borderWidth="1px"
+                  rounded="md"
+                >
+                  <StatLabel>High</StatLabel>
+                  <StatNumber>{highCount}</StatNumber>
+                </Stat>
+
+              </HStack>
+
+              <HStack pt={4} spacing={4}>
+
+                <Button
+                  colorScheme="green"
+                  onClick={() => navigate("/dashboard")}
+                >
+                  Go to Dashboard
+                </Button>
+
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setResult(null);
+                    setFile(null);
+                  }}
+                >
+                  Upload Another File
+                </Button>
+
+              </HStack>
+            </>
+          )}
 
         </VStack>
       </Box>

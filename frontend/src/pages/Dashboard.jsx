@@ -13,7 +13,7 @@ import SummaryCard from "../components/dashboard/SummaryCard";
 import ThreatChart from "../components/dashboard/ThreatChart";
 import TimelineChart from "../components/dashboard/TimelineChart";
 import TopIPs from "../components/dashboard/TopIPs";
-import ThreatTable from "../components/dashboard/ThreatTable";
+import RecentThreatsTable from "../components/dashboard/RecentThreatsTable";
 
 import {
   getSummary,
@@ -110,7 +110,7 @@ function Dashboard() {
           <TopIPs topIPs={topIPs} />
         </Box>
         <Box mt={8}>
-          <ThreatTable threats={recentThreats} />
+          <RecentThreatsTable threats={recentThreats} />
         </Box>
       </SimpleGrid>
     </DashboardLayout>

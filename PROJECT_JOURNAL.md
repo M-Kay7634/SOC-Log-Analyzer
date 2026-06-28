@@ -732,7 +732,7 @@ Allow users to upload Apache log files from the frontend.
 - React file input handling
 - Navigation after successful API calls
 
-# Lesson 12 - Upload Logs Module
+# Lesson 11 - Upload Logs Module
 
 ## Objective
 Implement a frontend interface for uploading Apache log files.
@@ -751,7 +751,7 @@ Implement a frontend interface for uploading Apache log files.
 - React file handling
 - API integration
 
-# Backend Lesson 13 - Threat Management API
+# Backend Lesson 12 - Threat Management API
 
 ## Objective
 
@@ -771,7 +771,23 @@ Create a dedicated API for threat management.
 - Feature-based architecture
 - Separation of concerns
 
+# Lesson 13 - Threat Management
 
+## Completed
+
+- Dedicated Threats page
+- Threat API integration
+- Search by IP and threat type
+- Priority filter
+- Threat details modal
+- Threat summary cards
+
+## Skills Learned
+
+- Feature-based architecture
+- Client-side filtering
+- Reusable components
+- Modal state management
 
 
 
@@ -808,6 +824,7 @@ Create a dedicated API for threat management.
 - feat: add upload logs module
 - feat: implement upload logs module
 - feat: add threat management api
+- feat: implement threat management module
 ---
 
 ## Current Progress

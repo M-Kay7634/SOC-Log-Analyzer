@@ -1,3 +1,4 @@
+const { getIO } = require("../socket/socket");
 const { randomUUID } = require("crypto");
 const Log = require("../models/Log");
 const parseApacheLog = require("../parser/apacheParser");
@@ -43,6 +44,15 @@ const uploadLog = async (req, res) => {
     }));
 
     await Log.insertMany(logsToSave);
+    const io = getIO();
+
+    io.emit("newLog", {
+      totalLogs: analyzedLogs.length,
+      threats: analyzedLogs.filter((log) => log.threat).length,
+      sourceFile: req.file.originalname,
+      uploadedBy: req.user.name,
+      uploadedAt: new Date(),
+    });
     res.status(201).json({
       success: true,
       message: "Logs analyzed and stored successfully",

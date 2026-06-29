@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
+import { useToast } from "@chakra-ui/react";
 import socket from "./services/socket";
 
 import Login from "./pages/Login";
@@ -17,13 +18,28 @@ import Reports from "./pages/Reports";
 
 
 function App() {
+  const toast = useToast();
   useEffect(() => {
     socket.on("connected", (data) => {
       console.log(data.message);
     });
 
+    socket.on("newLog", (data) => {
+      console.log("New Upload:", data);
+
+      toast({
+        title: "New Log Uploaded",
+        description: `${data.sourceFile} (${data.totalLogs} logs)`,
+        status: "info",
+        duration: 4000,
+        isClosable: true,
+        position: "top-right",
+      });
+    });
+
     return () => {
       socket.off("connected");
+      socket.off("newLog");
     };
   }, []);
   return (

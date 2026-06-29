@@ -1199,6 +1199,28 @@ Integrate Socket.IO to enable live communication between the backend and fronten
 - CORS configuration
 - Event-driven programming
 
+# Lesson 24.2 - First Live Event
+
+**Date:** 29 June 2026
+
+## Objective
+
+Broadcast a real-time event when a new log file is uploaded.
+
+### Completed
+
+- ✅ Backend emits "newLog" event
+- ✅ Frontend listens for "newLog"
+- ✅ Displayed live toast notification
+- ✅ Verified end-to-end real-time communication
+
+### Skills Learned
+
+- Socket.IO event emission
+- Socket.IO event listeners
+- Real-time notifications
+- Event-driven architecture
+
 
 
 
@@ -1247,6 +1269,7 @@ Integrate Socket.IO to enable live communication between the backend and fronten
 - feat: implement secure single log deletion
 - feat: implement complete threat management with secure log lifecycle
 - feat: integrate socket.io for live monitoring
+- feat: broadcast live log upload events
 ---
 
 ## Current Progress

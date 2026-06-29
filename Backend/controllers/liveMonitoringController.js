@@ -1,3 +1,4 @@
+const { getIO } = require("../socket/socket");
 const {startWatcher,stopWatcher,} = require("../services/liveMonitoring/watcher");
 const { parseApacheLine } = require("../parser/apacheParser");
 const { analyzeLogs } = require("../services/logAnalysisService");
@@ -66,6 +67,7 @@ const startMonitoring = (req, res) => {
           return;
         }
 
+        
         await analyzeLogs(
           [parsedLog],
           req.user.id,
@@ -74,6 +76,16 @@ const startMonitoring = (req, res) => {
             uploadBatchId: "LIVE-" + Date.now(),
           }
         );
+        // Emit live update to all connected clients
+        const io = getIO();
+
+        io.emit("liveLog", {
+          log: parsedLog,
+          threat: parsedLog.threat || false,
+          timestamp: new Date(),
+        });
+
+        console.log("📡 Live event emitted");
 
         monitoringConfig.linesProcessed++;
         monitoringConfig.lastEvent = new Date().toLocaleTimeString();

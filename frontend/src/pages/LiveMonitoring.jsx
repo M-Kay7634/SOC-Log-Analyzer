@@ -2,7 +2,7 @@ import {
   Heading,
   useToast,
 } from "@chakra-ui/react";
-
+import socket from "../services/socket";
 import { useEffect, useState } from "react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -37,8 +37,33 @@ function LiveMonitoring() {
     });
 
   useEffect(() => {
-    loadStatus();
-  }, []);
+      socket.on("liveLog", (log) => {
+        console.log("Live Log:", log);
+
+        setMonitoring((prev) => ({
+          ...prev,
+          linesProcessed: prev.linesProcessed + 1,
+          threatsDetected:
+            prev.threatsDetected +
+            (log.threat ? 1 : 0),
+          lastEvent: new Date().toLocaleTimeString(),
+          activities: [
+            {
+              time: new Date().toLocaleTimeString(),
+              event: log.url,
+              status: log.threat
+                ? log.threatType
+                : "Normal",
+            },
+            ...(prev.activities || []),
+          ].slice(0, 20),
+        }));
+      });
+
+      return () => {
+        socket.off("liveLog");
+      };
+    }, []);
 
   const loadStatus = async () => {
     try {

@@ -20,6 +20,11 @@ import {
 
 const menu = [
   {
+    name: "Live Monitoring",
+    icon: FaChartBar,
+    path: "/live-monitoring",
+  },
+  {
     name: "Dashboard",
     icon: FaHome,
     path: "/dashboard",

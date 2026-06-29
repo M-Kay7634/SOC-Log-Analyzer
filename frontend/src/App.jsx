@@ -15,6 +15,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import VerifyOTP from "./pages/VerifyOTP";
 import ResetPassword from "./pages/ResetPassword";
 import Reports from "./pages/Reports";
+import LiveMonitoring from "./pages/LiveMonitoring";
 
 
 function App() {
@@ -63,6 +64,8 @@ function App() {
       <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>}/>
 
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>}/>
+
+      <Route path="/live-monitoring" element={<ProtectedRoute> <LiveMonitoring /> </ProtectedRoute>}/>
       
     </Routes>
   );

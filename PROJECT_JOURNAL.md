@@ -1243,7 +1243,23 @@ Create the user interface for continuous log monitoring.
 - Status indicators
 - Monitoring interface design
 
+# Lesson 24.5.2 – Monitoring Statistics
 
+## Objective
+Create a statistics section for the Live Monitoring dashboard.
+
+### Features
+- Lines Processed card
+- Threats Detected card
+- Events/Minute card
+- System Health card
+- Responsive layout
+- Dark mode support
+
+### Skills Learned
+- Chakra UI Stat components
+- Responsive card layouts
+- Dashboard metrics visualization
 
 
 ## Git Commits
@@ -1292,6 +1308,7 @@ Create the user interface for continuous log monitoring.
 - feat: integrate socket.io for live monitoring
 - feat: broadcast live log upload events
 - feat: add live monitoring interface
+- feat: add live monitoring statistics cards
 ---
 
 ## Current Progress

@@ -1221,6 +1221,27 @@ Broadcast a real-time event when a new log file is uploaded.
 - Real-time notifications
 - Event-driven architecture
 
+# Lesson 24.2 - Live Monitoring UI
+
+**Objective**
+
+Create the user interface for continuous log monitoring.
+
+## Features
+
+- Live Monitoring page
+- Monitoring status card
+- Log source information
+- Start/Stop controls
+- Recent monitoring activity
+- Sidebar navigation
+
+## Skills Learned
+
+- Dashboard design
+- Reusable component architecture
+- Status indicators
+- Monitoring interface design
 
 
 
@@ -1270,6 +1291,7 @@ Broadcast a real-time event when a new log file is uploaded.
 - feat: implement complete threat management with secure log lifecycle
 - feat: integrate socket.io for live monitoring
 - feat: broadcast live log upload events
+- feat: add live monitoring interface
 ---
 
 ## Current Progress

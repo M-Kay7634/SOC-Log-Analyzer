@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Heading, Spinner, Center } from "@chakra-ui/react";
+import { Heading, Spinner, Center, useToast } from "@chakra-ui/react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import ThreatTable from "../components/threats/ThreatTable";
 import { getAllThreats } from "../services/threatService";
 import ThreatFilters from "../components/threats/ThreatFilters";
 import ThreatStats from "../components/threats/ThreatStats";
+import { deleteLog } from "../services/logService";
 
 function Threats() {
   const [threats, setThreats] = useState([]);
@@ -13,6 +14,7 @@ function Threats() {
 
   const [search, setSearch] = useState("");
   const [priority, setPriority] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
     fetchThreats();
@@ -28,6 +30,32 @@ function Threats() {
       setLoading(false);
     }
   };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteLog(id);
+
+      toast({
+        title: "Log deleted successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      fetchThreats();
+
+    } catch (error) {
+      toast({
+        title:
+          error.response?.data?.message ||
+          "Failed to delete log",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
 
   if (loading) {
     return (
@@ -62,7 +90,7 @@ function Threats() {
         setPriority={setPriority}
       />
 
-      <ThreatTable threats={filteredThreats} />
+      <ThreatTable threats={filteredThreats} onDelete={handleDelete} />
     </DashboardLayout>
   );
 }

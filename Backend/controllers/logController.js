@@ -106,7 +106,51 @@ const getAllLogs = async (req, res) => {
   }
 };
 
+// Delete Single Log
+const deleteLog = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const log = await Log.findById(id);
+
+    if (!log) {
+      return res.status(404).json({
+        success: false,
+        message: "Log not found",
+      });
+    }
+
+    // Authorization check
+    if (
+      req.user.role !== "Admin" &&
+      log.uploadedBy.toString() !== req.user.id
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to delete this log",
+      });
+    }
+
+    await Log.findByIdAndDelete(id);
+
+    res.status(200).json({
+      success: true,
+      message: "Log deleted successfully",
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
 module.exports = {
   uploadLog,
   getAllLogs,
+  deleteLog,
 };

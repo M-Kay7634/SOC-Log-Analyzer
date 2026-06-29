@@ -10,12 +10,20 @@ import {
   Td,
   useColorModeValue,
 } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+} from "@chakra-ui/react";
 
 import { Button, useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ThreatDetailsModal from "./ThreatDetailsModal";
 
-function ThreatTable({ threats }) {
+function ThreatTable({ threats, onDelete }) {
   const getColor = (priority) => {
     switch (priority) {
       case "Critical":
@@ -31,10 +39,24 @@ function ThreatTable({ threats }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [selectedThreat, setSelectedThreat] = useState(null);
+    const cancelRef = useRef();
+
+    const [deleteThreat, setDeleteThreat] = useState(null);
+
+    const {
+      isOpen: isDeleteOpen,
+      onOpen: onDeleteOpen,
+      onClose: onDeleteClose,
+    } = useDisclosure();
 
     const handleView = (threat) => {
     setSelectedThreat(threat);
     onOpen();
+    };
+
+    const handleDeleteClick = (threat) => {
+      setDeleteThreat(threat);
+      onDeleteOpen();
     };
 
     const cardBg = useColorModeValue("white", "gray.800");
@@ -79,6 +101,16 @@ function ThreatTable({ threats }) {
                 >
                     View
                 </Button>
+
+                <Button
+                  size="sm"
+                  colorScheme="red"
+                  onClick={() =>
+                    handleDeleteClick(threat)
+                  }
+                >
+                  Delete
+                </Button>
               </td>
             </Tr>
           ))}
@@ -89,6 +121,59 @@ function ThreatTable({ threats }) {
         onClose={onClose}
         threat={selectedThreat}
         />
+        <AlertDialog
+          isOpen={isDeleteOpen}
+          leastDestructiveRef={cancelRef}
+          onClose={onDeleteClose}
+        >
+          <AlertDialogOverlay>
+
+            <AlertDialogContent>
+
+              <AlertDialogHeader>
+                Delete Log
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                Are you sure you want to delete this log?
+
+                <br /><br />
+
+                <strong>IP:</strong>{" "}
+                {deleteThreat?.ip}
+
+                <br />
+
+                <strong>Threat:</strong>{" "}
+                {deleteThreat?.threatType}
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+
+                <Button
+                  ref={cancelRef}
+                  onClick={onDeleteClose}
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  colorScheme="red"
+                  ml={3}
+                  onClick={() => {
+                    onDelete(deleteThreat._id);
+                    onDeleteClose();
+                  }}
+                >
+                  Delete
+                </Button>
+
+              </AlertDialogFooter>
+
+            </AlertDialogContent>
+
+          </AlertDialogOverlay>
+        </AlertDialog>
     </Box>
   );
 }

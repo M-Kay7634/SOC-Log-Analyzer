@@ -18,3 +18,8 @@ export const uploadLog = async (file) => {
 
   return response.data;
 };
+
+export const deleteLog = async (id) => {
+  const response = await API.delete(`/logs/${id}`);
+  return response.data;
+};

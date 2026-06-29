@@ -1014,6 +1014,62 @@ Develop a professional reporting module with filtering and export capabilities.
 - PDFKit integration
 
 
+# Lesson 22 - Reports Module Completion
+
+**Date:** 29 June 2026
+
+## Objective
+
+Complete the reporting system with export functionality and prepare the project for deployment.
+
+### Completed
+
+- ✅ Designed professional Reports page
+- ✅ Implemented report filtering
+- ✅ Added CSV export
+- ✅ Added Excel (.xlsx) export
+- ✅ Added PDF report generation
+- ✅ Connected report exports with backend APIs
+- ✅ Improved reporting workflow for SOC analysis
+
+### Skills Learned
+
+- CSV file generation
+- Excel report creation using ExcelJS
+- PDF generation using PDFKit
+- File downloads in React
+- Report filtering using query parameters
+- Backend file streaming
+
+# Lesson 23 - Secure Log Deletion (Part 1)
+
+**Date:** 29 June 2026
+
+## Objective
+
+Implement secure log deletion with role-based access control.
+
+### Completed
+
+- ✅ Created Delete Log API
+- ✅ Added role-based authorization
+- ✅ Admin can delete any log
+- ✅ Analyst can delete only their own uploaded logs
+- ✅ Added confirmation dialog before deletion
+- ✅ Integrated delete functionality into Threat Management
+- ✅ Automatically refreshed the threat list after deletion
+- ✅ Displayed success and error toast notifications
+
+### Skills Learned
+
+- Secure CRUD operations
+- MongoDB document deletion
+- Role-Based Access Control (RBAC)
+- React AlertDialog
+- API integration with protected routes
+- Frontend state refresh after deletion
+
+
 
 
 ## Git Commits
@@ -1056,6 +1112,8 @@ Develop a professional reporting module with filtering and export capabilities.
 - feat: implement settings module with theme support and change password
 - feat: build reports module foundation
 - feat: implement reports module with CSV, Excel and PDF export
+- feat: complete reports module with export functionality
+- feat: implement secure single log deletion
 ---
 
 ## Current Progress

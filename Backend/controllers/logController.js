@@ -1,10 +1,8 @@
 const { getIO } = require("../socket/socket");
 const { randomUUID } = require("crypto");
 const Log = require("../models/Log");
-const parseApacheLog = require("../parser/apacheParser");
-const detectThreats = require("../detection");
-const correlateThreats = require("../correlation");
-const calculateThreatScore = require("../scoring/threatScoring");
+const {parseApacheLog} = require("../parser/apacheParser");
+const { analyzeLogs } = require("../services/logAnalysisService");
 // Upload Log Controller
 const uploadLog = async (req, res) => {
   try {
@@ -20,30 +18,17 @@ const uploadLog = async (req, res) => {
     // Parse uploaded Apache log
     const parsedLogs = parseApacheLog(req.file.path);
 
-    // Add SQL Injection detection to each log
-    // Step 1 - Individual Detection
-    let analyzedLogs = parsedLogs.map((log) => ({
-      ...log,
-      ...detectThreats(log),
-    }));
 
-    // Step 2 - Correlation
-    analyzedLogs = correlateThreats(analyzedLogs);
+    const analyzedLogs = await analyzeLogs(
+        parsedLogs,
+        req.user.id,
+        {
+          sourceFile: req.file.originalname,
+          uploadBatchId: Date.now().toString(),
+        }
+    );
+    
 
-    // Step 3 - Threat Scoring
-    analyzedLogs = analyzedLogs.map((log) => ({
-      ...log,
-      ...calculateThreatScore(log.threatType),
-    }));
-    // Step 4 - Save analyzed logs to MongoDB
-    const logsToSave = analyzedLogs.map((log) => ({
-      ...log,
-      uploadedBy: req.user.id,
-      uploadBatchId,
-      sourceFile: req.file.originalname,
-    }));
-
-    await Log.insertMany(logsToSave);
     const io = getIO();
 
     io.emit("newLog", {

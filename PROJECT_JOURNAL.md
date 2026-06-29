@@ -1261,6 +1261,24 @@ Create a statistics section for the Live Monitoring dashboard.
 - Responsive card layouts
 - Dashboard metrics visualization
 
+Lesson 24.8 – Live Monitoring Analysis Integration
+
+Objective:
+Connect the live file watcher to the shared log analysis pipeline.
+
+Completed:
+- Reused parseApacheLine() for live logs.
+- Reused analyzeLogs() service.
+- Stored live log entries in MongoDB.
+- Updated monitoring statistics after each processed line.
+
+Skills Learned:
+- Service reuse
+- Incremental log processing
+- Asynchronous callbacks
+- Shared business logic
+
+
 
 ## Git Commits
 
@@ -1309,6 +1327,7 @@ Create a statistics section for the Live Monitoring dashboard.
 - feat: broadcast live log upload events
 - feat: add live monitoring interface
 - feat: add live monitoring statistics cards
+- feat: connect live monitoring to analysis service
 ---
 
 ## Current Progress

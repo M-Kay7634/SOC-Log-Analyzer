@@ -11,9 +11,11 @@ import MonitoringControls from "../components/liveMonitoring/MonitoringControls"
 import MonitoringActivity from "../components/liveMonitoring/MonitoringActivity";
 import MonitoringHeader from "../components/liveMonitoring/MonitoringHeader";
 import MonitoringStats from "../components/liveMonitoring/MonitoringStats";
+import MonitoringConfig from "../components/liveMonitoring/MonitoringConfig";
 
 import {
   getMonitoringStatus,
+  saveMonitoringConfig,
   startMonitoring,
   stopMonitoring,
 } from "../services/liveMonitoringService";
@@ -51,32 +53,77 @@ function LiveMonitoring() {
   };
 
   const handleStart = async () => {
-    const data =
-      await startMonitoring();
+    try{
+        console.log("Start button clicked");
+        const data = await startMonitoring();
 
-    setMonitoring(data.monitoring);
+            setMonitoring(data.monitoring);
 
-    toast({
-      title: data.message,
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-  };
+            toast({
+            title: data.message,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            });
+    }catch(err){
+         console.error(err);
+
+            toast({
+            title: err.response?.data?.message || "Failed to start monitoring",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            });
+        }
+    };
 
   const handleStop = async () => {
-    const data =
-      await stopMonitoring();
+    try{
+        console.log("Stop button clicked");
+        const data = await stopMonitoring();
 
-    setMonitoring(data.monitoring);
+        setMonitoring(data.monitoring);
 
-    toast({
-      title: data.message,
-      status: "info",
-      duration: 3000,
-      isClosable: true,
-    });
+        toast({
+        title: data.message,
+        status: "info",
+        duration: 3000,
+        isClosable: true,
+        });
+    }catch (err) {
+        console.error(err);
+
+        toast({
+        title: err.response?.data?.message || "Failed to stop monitoring",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        });
+    }
   };
+  const handleSaveConfig = async (config) => {
+        try {
+            const data =
+            await saveMonitoringConfig(config);
+
+            setMonitoring(data.monitoring);
+
+            toast({
+            title: data.message,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            });
+
+        } catch (error) {
+            toast({
+            title: "Failed to save configuration",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            });
+        }
+    };
 
   return (
     <DashboardLayout>
@@ -86,26 +133,35 @@ function LiveMonitoring() {
       </Heading>
 
       <MonitoringHeader
-        status={monitoring.status}
-        source={monitoring.source}
-        logPath={monitoring.logPath}
-        startedAt={monitoring.startedAt}
-        lastEvent={monitoring.lastEvent}
+            status={monitoring.status}
+            source={monitoring.source}
+            logPath={monitoring.logPath}
+            startedAt={monitoring.startedAt}
+            lastEvent={monitoring.lastEvent}
         />
 
         <MonitoringStats
-        linesProcessed={monitoring.linesProcessed}
-        threatsDetected={monitoring.threatsDetected}
-        eventsPerMinute={monitoring.eventsPerMinute || 0}
-        health={monitoring.isMonitoring ? "Healthy" : "Stopped"}
+            linesProcessed={monitoring.linesProcessed}
+            threatsDetected={monitoring.threatsDetected}
+            eventsPerMinute={monitoring.eventsPerMinute || 0}
+            health={monitoring.isMonitoring ? "Healthy" : "Stopped"}
+        />
+
+        <MonitoringConfig
+            source={monitoring.source}
+            logPath={monitoring.logPath}
+            onSave={handleSaveConfig}
         />
 
       <MonitoringControls
-        handleStart={handleStart}
-        handleStop={handleStop}
+            status={monitoring.status}
+            onStart={handleStart}
+            onStop={handleStop}
       />
 
-      <MonitoringActivity />
+      <MonitoringActivity
+            activities={monitoring.activities || []}
+        />
 
     </DashboardLayout>
   );

@@ -1172,6 +1172,34 @@ DELETE /api/logs/all
 
 ---
 
+# Lesson 24.1 - Real-Time Communication Setup
+
+**Date:** 29 June 2026
+
+## Objective
+
+Integrate Socket.IO to enable live communication between the backend and frontend.
+
+## Completed
+
+- ✅ Installed Socket.IO
+- ✅ Installed Socket.IO Client
+- ✅ Created modular socket manager
+- ✅ Integrated Socket.IO with Express HTTP server
+- ✅ Established frontend connection
+- ✅ Fixed WebSocket connection issues
+- ✅ Fixed Express CORS middleware configuration
+
+## Skills Learned
+
+- HTTP Server vs Express Server
+- Socket.IO architecture
+- Real-time client/server communication
+- WebSocket debugging
+- CORS configuration
+- Event-driven programming
+
+
 
 
 
@@ -1218,6 +1246,7 @@ DELETE /api/logs/all
 - feat: complete reports module with export functionality
 - feat: implement secure single log deletion
 - feat: implement complete threat management with secure log lifecycle
+- feat: integrate socket.io for live monitoring
 ---
 
 ## Current Progress

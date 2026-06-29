@@ -1,4 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import socket from "./services/socket";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -15,6 +17,15 @@ import Reports from "./pages/Reports";
 
 
 function App() {
+  useEffect(() => {
+    socket.on("connected", (data) => {
+      console.log(data.message);
+    });
+
+    return () => {
+      socket.off("connected");
+    };
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/dashboard" replace />} />

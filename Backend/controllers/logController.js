@@ -1,3 +1,4 @@
+const { randomUUID } = require("crypto");
 const Log = require("../models/Log");
 const parseApacheLog = require("../parser/apacheParser");
 const detectThreats = require("../detection");
@@ -12,6 +13,8 @@ const uploadLog = async (req, res) => {
         message: "No file uploaded",
       });
     }
+
+    const uploadBatchId = randomUUID();
 
     // Parse uploaded Apache log
     const parsedLogs = parseApacheLog(req.file.path);
@@ -35,6 +38,8 @@ const uploadLog = async (req, res) => {
     const logsToSave = analyzedLogs.map((log) => ({
       ...log,
       uploadedBy: req.user.id,
+      uploadBatchId,
+      sourceFile: req.file.originalname,
     }));
 
     await Log.insertMany(logsToSave);
@@ -42,6 +47,8 @@ const uploadLog = async (req, res) => {
       success: true,
       message: "Logs analyzed and stored successfully",
       totalLogs: analyzedLogs.length,
+      uploadBatchId,
+      sourceFile: req.file.originalname,
       analyzedLogs,
     });
 

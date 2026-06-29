@@ -76,6 +76,15 @@ const logSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    uploadBatchId: {
+      type: String,
+      required: true,
+    },
+
+    sourceFile: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

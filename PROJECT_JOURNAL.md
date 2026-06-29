@@ -1069,6 +1069,109 @@ Implement secure log deletion with role-based access control.
 - API integration with protected routes
 - Frontend state refresh after deletion
 
+# Lesson 23 - Threat Management & Log Lifecycle
+
+**Date:** 29 June 2026
+
+## Objective
+
+Enhance the Threat Management module by implementing secure log deletion features with role-based access control and bulk operations.
+
+---
+
+## Features Completed
+
+### Single Log Deletion
+- Implemented Delete Log API
+- Added frontend Delete button
+- Added confirmation dialog
+- Auto-refresh after deletion
+- Success and error toast notifications
+
+### Role-Based Access Control (RBAC)
+- Admin can delete any log
+- Analyst can delete only logs uploaded by them
+- Backend authorization for secure deletion
+- Frontend permission-based controls
+
+### Bulk Delete
+- Added row selection using checkboxes
+- Implemented Select All functionality
+- Bulk Delete API
+- Delete Selected button
+- Auto-refresh after deletion
+
+### Delete My Uploaded Logs
+- Added API to delete only the current user's uploaded logs
+- Frontend button integration
+- Success notification with deleted log count
+- Automatic table refresh
+
+### Delete All Logs (Admin Only)
+- Admin-only API
+- Frontend visibility restricted to Admin users
+- Confirmation before deletion
+- Dashboard and Threat list refresh
+
+---
+
+## Security Improvements
+
+- Implemented Role-Based Access Control (RBAC)
+- Protected all delete APIs with JWT authentication
+- Backend authorization validation
+- Frontend permission-based UI
+- Prevented analysts from deleting other users' logs
+- Defense-in-depth security approach
+
+---
+
+## UI Improvements
+
+- Threat Details Modal
+- Confirmation dialogs for destructive actions
+- Bulk selection
+- Permission-aware controls
+- Toast notifications
+- Auto-refresh after operations
+
+---
+
+## APIs Added
+
+DELETE /api/logs/:id
+
+DELETE /api/logs/bulk
+
+DELETE /api/logs/my
+
+DELETE /api/logs/all
+
+---
+
+## Skills Learned
+
+- MongoDB deleteOne() and deleteMany()
+- Secure REST API design
+- Role-Based Access Control (RBAC)
+- React state management
+- Bulk operations
+- Confirmation dialogs
+- Protected backend routes
+- Frontend authorization
+- Defensive programming
+
+---
+
+## Challenges Solved
+
+- Fixed "Cannot access 'log' before initialization" error
+- Fixed frontend permission issue for bulk delete
+- Protected bulk delete using backend validation
+- Implemented role-aware UI rendering
+
+---
+
 
 
 
@@ -1114,6 +1217,7 @@ Implement secure log deletion with role-based access control.
 - feat: implement reports module with CSV, Excel and PDF export
 - feat: complete reports module with export functionality
 - feat: implement secure single log deletion
+- feat: implement complete threat management with secure log lifecycle
 ---
 
 ## Current Progress

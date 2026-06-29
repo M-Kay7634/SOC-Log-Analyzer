@@ -23,3 +23,21 @@ export const deleteLog = async (id) => {
   const response = await API.delete(`/logs/${id}`);
   return response.data;
 };
+
+export const bulkDeleteLogs = async (ids) => {
+  const response = await API.delete("/logs/bulk", {
+    data: { ids },
+  });
+
+  return response.data;
+};
+
+export const deleteMyLogs = async () => {
+  const response = await API.delete("/logs/my");
+  return response.data;
+};
+
+export const deleteAllLogs = async () => {
+  const response = await API.delete("/logs/all");
+  return response.data;
+};

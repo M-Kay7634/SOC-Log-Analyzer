@@ -148,9 +148,108 @@ const deleteLog = async (req, res) => {
   }
 };
 
+// Bulk Delete Logs
+const bulkDeleteLogs = async (req, res) => {
+  try {
+    const { ids } = req.body;
+
+    if (!ids || ids.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No logs selected",
+      });
+    }
+
+    // Admin can delete everything
+    if (req.user.role === "Admin") {
+      await Log.deleteMany({
+        _id: { $in: ids },
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: "Selected logs deleted successfully",
+      });
+    }
+
+    // Analyst → only own logs
+    await Log.deleteMany({
+      _id: { $in: ids },
+      uploadedBy: req.user.id,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Selected logs deleted successfully",
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Delete My Uploaded Logs
+const deleteMyLogs = async (req, res) => {
+  try {
+    const result = await Log.deleteMany({
+      uploadedBy: req.user.id,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `${result.deletedCount} logs deleted successfully`,
+      deletedCount: result.deletedCount,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Delete All Logs (Admin Only)
+const deleteAllLogs = async (req, res) => {
+  try {
+    if (req.user.role !== "Admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Only Admin can delete all logs.",
+      });
+    }
+
+    const result = await Log.deleteMany({});
+
+    res.status(200).json({
+      success: true,
+      message: `${result.deletedCount} logs deleted successfully.`,
+      deletedCount: result.deletedCount,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 
 module.exports = {
   uploadLog,
   getAllLogs,
   deleteLog,
+  bulkDeleteLogs,
+  deleteMyLogs,
+  deleteAllLogs,
 };

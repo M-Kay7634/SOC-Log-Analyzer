@@ -5,7 +5,10 @@ const getAllThreats = async (req, res) => {
   try {
     const threats = await Log.find({
       threat: true,
-    }).sort({
+    }).populate(
+          "uploadedBy",
+          "name email role"
+      ).sort({
       createdAt: -1,
     });
 

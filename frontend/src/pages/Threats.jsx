@@ -1,46 +1,76 @@
 import { useEffect, useState } from "react";
-import { Heading, Spinner, Center, useToast } from "@chakra-ui/react";
+import { Heading, Spinner, Center, useToast, Button } from "@chakra-ui/react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import ThreatTable from "../components/threats/ThreatTable";
 import { getAllThreats } from "../services/threatService";
 import ThreatFilters from "../components/threats/ThreatFilters";
 import ThreatStats from "../components/threats/ThreatStats";
-import { deleteLog } from "../services/logService";
+import { deleteLog, bulkDeleteLogs, deleteMyLogs, deleteAllLogs } from "../services/logService";
+import { useAuth } from "../context/AuthContext";
 
 function Threats() {
   const [threats, setThreats] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedLogs, setSelectedLogs] = useState([]);
 
   const [search, setSearch] = useState("");
   const [priority, setPriority] = useState("");
   const toast = useToast();
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchThreats();
   }, []);
 
-  const fetchThreats = async () => {
-    try {
-      const data = await getAllThreats();
-      setThreats(data.threats);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchThreats = async () => {
+      try {
+        const data = await getAllThreats();
+        setThreats(data.threats);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleDelete = async (id) => {
+    const handleDelete = async (id) => {
+      try {
+        await deleteLog(id);
+
+        toast({
+          title: "Log deleted successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+
+        fetchThreats();
+
+      } catch (error) {
+        toast({
+          title:
+            error.response?.data?.message ||
+            "Failed to delete log",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    };
+
+    const handleBulkDelete = async () => {
     try {
-      await deleteLog(id);
+      await bulkDeleteLogs(selectedLogs);
 
       toast({
-        title: "Log deleted successfully",
+        title: "Selected logs deleted successfully",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
+
+      setSelectedLogs([]);
 
       fetchThreats();
 
@@ -48,7 +78,7 @@ function Threats() {
       toast({
         title:
           error.response?.data?.message ||
-          "Failed to delete log",
+          "Failed to delete logs",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -56,6 +86,58 @@ function Threats() {
     }
   };
 
+  const handleDeleteMyLogs = async () => {
+    try {
+      const data = await deleteMyLogs();
+
+      toast({
+        title: data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      setSelectedLogs([]);
+
+      fetchThreats();
+
+    } catch (error) {
+      toast({
+        title:
+          error.response?.data?.message ||
+          "Failed to delete logs",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleDeleteAllLogs = async () => {
+    try {
+      const data = await deleteAllLogs();
+
+      toast({
+        title: data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      setSelectedLogs([]);
+      fetchThreats();
+
+    } catch (error) {
+      toast({
+        title:
+          error.response?.data?.message ||
+          "Failed to delete logs",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
 
   if (loading) {
     return (
@@ -89,8 +171,31 @@ function Threats() {
         priority={priority}
         setPriority={setPriority}
       />
+      <Button
+        colorScheme="orange"
+        mb={4}
+        onClick={handleDeleteMyLogs}
+      >
+        Delete My Uploaded Logs
+      </Button>
+      {user.role === "Admin" && (
+        <Button
+          colorScheme="red"
+          mb={4}
+          ml={3}
+          onClick={handleDeleteAllLogs}
+        >
+          Delete All Logs
+        </Button>
+      )}
 
-      <ThreatTable threats={filteredThreats} onDelete={handleDelete} />
+      <ThreatTable 
+        threats={filteredThreats}
+        onDelete={handleDelete}
+        selectedLogs={selectedLogs}
+        setSelectedLogs={setSelectedLogs}
+        onBulkDelete={handleBulkDelete}
+      />
     </DashboardLayout>
   );
 }

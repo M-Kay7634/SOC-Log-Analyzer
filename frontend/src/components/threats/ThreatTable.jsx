@@ -9,6 +9,9 @@ import {
   Th,
   Td,
   useColorModeValue,
+  Tooltip,
+  Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import {
   AlertDialog,
@@ -17,13 +20,25 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  Checkbox,
 } from "@chakra-ui/react";
 
-import { Button, useDisclosure } from "@chakra-ui/react";
+import {LockIcon} from "@chakra-ui/icons";
+
 import { useState, useRef } from "react";
 import ThreatDetailsModal from "./ThreatDetailsModal";
 
-function ThreatTable({ threats, onDelete }) {
+import { useAuth } from "../../context/AuthContext";
+
+function ThreatTable({ 
+  threats, 
+  onDelete,
+  selectedLogs,
+  setSelectedLogs,
+  onBulkDelete,
+}) {
+  const { user } = useAuth();
+
   const getColor = (priority) => {
     switch (priority) {
       case "Critical":
@@ -59,6 +74,32 @@ function ThreatTable({ threats, onDelete }) {
       onDeleteOpen();
     };
 
+    const handleSelectAll = (e) => {
+      if (e.target.checked) {
+        if (user.role === "Admin") {
+          setSelectedLogs(threats.map((t) => t._id));
+        } else {
+          setSelectedLogs(
+            threats
+              .filter((t) => t.uploadedBy === user.id)
+              .map((t) => t._id)
+          );
+        }
+      } else {
+        setSelectedLogs([]);
+      }
+    };
+
+    const handleSelect = (id) => {
+      if (selectedLogs.includes(id)) {
+        setSelectedLogs(
+          selectedLogs.filter((item) => item !== id)
+        );
+      } else {
+        setSelectedLogs([...selectedLogs, id]);
+      }
+    };
+
     const cardBg = useColorModeValue("white", "gray.800");
 
   return (
@@ -66,10 +107,28 @@ function ThreatTable({ threats, onDelete }) {
       <Heading size="md" mb={5}>
         All Detected Threats
       </Heading>
+      {selectedLogs.length > 0 && (
+        <Button
+          colorScheme="red"
+          mb={5}
+          onClick={onBulkDelete}
+        >
+          Delete Selected ({selectedLogs.length})
+        </Button>
+      )}
 
       <Table variant="simple">
         <Thead>
           <Tr>
+            <Th>
+              <Checkbox
+                isChecked={
+                  threats.length > 0 &&
+                  selectedLogs.length === threats.length
+                }
+                onChange={handleSelectAll}
+              />
+            </Th>
             <Th>IP Address</Th>
             <Th>Threat</Th>
             <Th>Severity</Th>
@@ -83,6 +142,20 @@ function ThreatTable({ threats, onDelete }) {
         <Tbody>
           {threats.map((threat) => (
             <Tr key={threat._id}>
+              <Td>
+                {user.role === "Admin" ||
+                threat.uploadedBy === user.id ? (
+                  <Checkbox
+                    isChecked={selectedLogs.includes(threat._id)}
+                    onChange={() => handleSelect(threat._id)}
+                  />
+                ) : ( <Tooltip
+                          label="You can only delete logs you uploaded."
+                      >
+                          <LockIcon color="gray.500" />
+                      </Tooltip> 
+                    )}
+              </Td>
               <Td>{threat.ip}</Td>
               <Td>{threat.threatType}</Td>
               <Td>{threat.severity}</Td>

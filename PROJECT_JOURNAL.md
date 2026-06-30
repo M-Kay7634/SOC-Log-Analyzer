@@ -1378,6 +1378,23 @@ Automatically notify SOC analysts when High or Critical threats are detected.
 - Service reuse
 - Production-ready alert handling
 
+# Lesson 27 – GeoIP Threat Intelligence
+
+## Objective
+Enrich detected logs with geographic information.
+
+### Planned Features
+- Country lookup
+- Region lookup
+- City lookup
+- Timezone lookup
+- Threat table enhancement
+- Dashboard country statistics
+
+### Skills
+- Threat enrichment
+- GeoIP databases
+- Data visualization
 
 
 
@@ -1436,6 +1453,7 @@ Automatically notify SOC analysts when High or Critical threats are detected.
 - feat: setup reusable email alert service
 - feat: add test email endpoint
 - feat: add automatic email alerts for threats
+- feat: add GeoIP threat intelligence
 ---
 
 ## Current Progress

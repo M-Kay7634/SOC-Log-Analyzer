@@ -1396,6 +1396,22 @@ Enrich detected logs with geographic information.
 - GeoIP databases
 - Data visualization
 
+# Lesson 27.1 – GeoIP Service
+
+## Objective
+Create a reusable GeoIP lookup service for enriching analyzed logs.
+
+### Completed
+- Installed geoip-lite.
+- Created reusable GeoIP service.
+- Extended the Log model with geographic fields.
+- Verified GeoIP lookups locally.
+
+### Skills Learned
+- IP geolocation
+- Data enrichment
+- Service-based architecture
+
 
 
 
@@ -1454,6 +1470,7 @@ Enrich detected logs with geographic information.
 - feat: add test email endpoint
 - feat: add automatic email alerts for threats
 - feat: add GeoIP threat intelligence
+- feat: add GeoIP lookup service
 ---
 
 ## Current Progress

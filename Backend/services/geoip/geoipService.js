@@ -1,9 +1,9 @@
 const geoip = require("geoip-lite");
 
 const lookupIP = (ip) => {
-  const result = geoip.lookup(ip);
+  const geo = geoip.lookup(ip);
 
-  if (!result) {
+  if (!geo) {
     return {
       country: "Unknown",
       region: "Unknown",
@@ -13,10 +13,10 @@ const lookupIP = (ip) => {
   }
 
   return {
-    country: result.country,
-    region: result.region,
-    city: result.city || "Unknown",
-    timezone: result.timezone,
+    country: geo.country,
+    region: geo.region || "Unknown",
+    city: geo.city || "Unknown",
+    timezone: geo.timezone || "Unknown",
   };
 };
 

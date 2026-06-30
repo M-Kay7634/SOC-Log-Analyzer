@@ -84,6 +84,7 @@ const startMonitoring = (req, res) => {
           threat: parsedLog.threat || false,
           timestamp: new Date(),
         });
+        io.emit("dashboardUpdated");
 
         console.log("📡 Live event emitted");
 

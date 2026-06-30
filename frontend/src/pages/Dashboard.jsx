@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
+import socket from "../services/socket";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import SummaryCard from "../components/dashboard/SummaryCard";
@@ -38,6 +39,15 @@ function Dashboard() {
 
   useEffect(() => {
     fetchSummary();
+
+    socket.on("dashboardUpdated", () => {
+      console.log("📊 Dashboard refreshing...");
+      fetchSummary();
+    });
+
+    return () => {
+      socket.off("dashboardUpdated");
+    };
   }, []);
 
   const fetchSummary = async () => {

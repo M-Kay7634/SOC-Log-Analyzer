@@ -38,6 +38,8 @@ const uploadLog = async (req, res) => {
       uploadedBy: req.user.name,
       uploadedAt: new Date(),
     });
+    io.emit("dashboardUpdated");
+    
     res.status(201).json({
       success: true,
       message: "Logs analyzed and stored successfully",

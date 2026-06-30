@@ -1295,6 +1295,22 @@ Skills Learned:
 - React event subscriptions
 - Live dashboard architecture
 
+# Lesson 25.1 - Live Dashboard Refresh
+
+## Objective
+Automatically refresh dashboard data when logs are uploaded or detected through live monitoring.
+
+### Completed
+- Emitted `dashboardUpdated` Socket.IO event from upload flow.
+- Emitted `dashboardUpdated` Socket.IO event from live monitoring.
+- Dashboard subscribed to `dashboardUpdated`.
+- Reused existing dashboard APIs to refresh widgets.
+
+### Skills Learned
+- Event-driven UI updates
+- Reusing existing REST APIs with Socket.IO notifications
+- Decoupling real-time events from business logic
+
 
 
 ## Git Commits
@@ -1346,6 +1362,7 @@ Skills Learned:
 - feat: add live monitoring statistics cards
 - feat: connect live monitoring to analysis service
 - feat: implement real-time live monitoring updates
+- feat: implement live dashboard refresh
 ---
 
 ## Current Progress

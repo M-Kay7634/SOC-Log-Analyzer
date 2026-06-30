@@ -1361,6 +1361,24 @@ Verify SMTP configuration independently.
 - REST API design
 - Service reuse
 
+# Lesson 26.3 – Automatic Email Alerts
+
+## Objective
+Automatically notify SOC analysts when High or Critical threats are detected.
+
+### Completed
+- Integrated email service into log analysis pipeline.
+- Triggered alerts for High and Critical threats.
+- Supported Upload Logs and Live Monitoring.
+- Prevented email failures from interrupting log analysis.
+
+### Skills Learned
+- Event-driven notifications
+- Error isolation
+- Service reuse
+- Production-ready alert handling
+
+
 
 
 
@@ -1417,6 +1435,7 @@ Verify SMTP configuration independently.
 - feat: enhance live monitoring with analyzed events
 - feat: setup reusable email alert service
 - feat: add test email endpoint
+- feat: add automatic email alerts for threats
 ---
 
 ## Current Progress

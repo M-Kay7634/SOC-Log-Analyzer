@@ -1345,6 +1345,23 @@ Prepare a reusable email service for SOC alerts.
 - HTML email templating
 
 
+# Lesson 26.2 – Test Email API
+
+## Objective
+Verify SMTP configuration independently.
+
+### Completed
+- Created Email Controller
+- Added Test Email API
+- Protected API using JWT
+- Verified SMTP connection
+
+### Skills Learned
+- SMTP testing
+- REST API design
+- Service reuse
+
+
 
 
 ## Git Commits
@@ -1399,6 +1416,7 @@ Prepare a reusable email service for SOC alerts.
 - feat: implement live dashboard refresh
 - feat: enhance live monitoring with analyzed events
 - feat: setup reusable email alert service
+- feat: add test email endpoint
 ---
 
 ## Current Progress

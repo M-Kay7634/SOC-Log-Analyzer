@@ -1311,6 +1311,23 @@ Automatically refresh dashboard data when logs are uploaded or detected through 
 - Reusing existing REST APIs with Socket.IO notifications
 - Decoupling real-time events from business logic
 
+# Lesson 25.3 – Enhanced Live Monitoring
+
+## Objective
+Improve live monitoring with complete event payloads and live threat notifications.
+
+### Completed
+- Emitted analyzed logs instead of parsed logs.
+- Updated monitoring statistics in real time.
+- Stored recent monitoring activities.
+- Added real-time threat notifications.
+- Refreshed dashboard automatically.
+
+### Skills Learned
+- Event-driven architecture
+- Socket.IO payload optimization
+- Real-time state synchronization
+
 
 
 ## Git Commits
@@ -1363,6 +1380,7 @@ Automatically refresh dashboard data when logs are uploaded or detected through 
 - feat: connect live monitoring to analysis service
 - feat: implement real-time live monitoring updates
 - feat: implement live dashboard refresh
+- feat: enhance live monitoring with analyzed events
 ---
 
 ## Current Progress

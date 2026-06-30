@@ -9,6 +9,8 @@ let monitoringConfig = {
   isMonitoring: false,
   linesProcessed: 0,
   threatsDetected: 0,
+  lastEvent: "",
+  activities: [],
 };
 
 
@@ -68,7 +70,7 @@ const startMonitoring = (req, res) => {
         }
 
         
-        await analyzeLogs(
+        const analyzed = await analyzeLogs(
           [parsedLog],
           req.user.id,
           {
@@ -76,20 +78,46 @@ const startMonitoring = (req, res) => {
             uploadBatchId: "LIVE-" + Date.now(),
           }
         );
-        // Emit live update to all connected clients
+
+        const analyzedLog = analyzed[0];
+
         const io = getIO();
 
-        io.emit("liveLog", {
-          log: parsedLog,
-          threat: parsedLog.threat || false,
-          timestamp: new Date(),
-        });
+        // Send complete analyzed log
+        io.emit("liveLog", analyzedLog);
+
+        // Refresh dashboard
         io.emit("dashboardUpdated");
+
+        // Show alert if it's a threat
+        if (analyzedLog.threat) {
+          io.emit("criticalThreat", analyzedLog);
+        }
 
         console.log("📡 Live event emitted");
 
+        // Update monitoring statistics
         monitoringConfig.linesProcessed++;
-        monitoringConfig.lastEvent = new Date().toLocaleTimeString();
+
+        if (analyzedLog.threat) {
+          monitoringConfig.threatsDetected++;
+        }
+
+        monitoringConfig.lastEvent =
+          new Date().toLocaleTimeString();
+
+        // Store recent activity
+        monitoringConfig.activities.unshift({
+          time: new Date().toLocaleTimeString(),
+          ip: analyzedLog.ip,
+          event: analyzedLog.threat
+            ? analyzedLog.threatType
+            : analyzedLog.method,
+          priority: analyzedLog.priority,
+        });
+
+        monitoringConfig.activities =
+          monitoringConfig.activities.slice(0, 20);
 
         console.log("✅ Live log analyzed and stored.");
 

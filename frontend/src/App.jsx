@@ -38,9 +38,22 @@ function App() {
       });
     });
 
+    socket.on("criticalThreat", (threat) => {
+      toast({
+        title: `🚨 ${threat.priority} Threat Detected`,
+        description: `${threat.threatType} from ${threat.ip}`,
+        status: "warning",
+        duration: 6000,
+        isClosable: true,
+        position: "top-right",
+      });
+    });
+
+
     return () => {
       socket.off("connected");
       socket.off("newLog");
+      socket.off("criticalThreat");
     };
   }, []);
   return (

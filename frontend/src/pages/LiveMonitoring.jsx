@@ -44,16 +44,16 @@ function LiveMonitoring() {
           ...prev,
           linesProcessed: prev.linesProcessed + 1,
           threatsDetected:
-            prev.threatsDetected +
-            (log.threat ? 1 : 0),
+            prev.threatsDetected + (log.threat ? 1 : 0),
           lastEvent: new Date().toLocaleTimeString(),
           activities: [
             {
               time: new Date().toLocaleTimeString(),
-              event: log.url,
-              status: log.threat
-                ? log.threatType
-                : "Normal",
+              ip: log.ip,
+              event: log.threat
+              ? log.threatType
+              : log.method,
+              priority:log.priority,
             },
             ...(prev.activities || []),
           ].slice(0, 20),

@@ -1328,6 +1328,23 @@ Improve live monitoring with complete event payloads and live threat notificatio
 - Socket.IO payload optimization
 - Real-time state synchronization
 
+# Lesson 26.1 – Email Service Setup
+
+## Objective
+Prepare a reusable email service for SOC alerts.
+
+### Completed
+- Installed Nodemailer
+- Added SMTP configuration
+- Created reusable email service
+- Created HTML email template
+
+### Skills Learned
+- SMTP configuration
+- Service abstraction
+- HTML email templating
+
+
 
 
 ## Git Commits
@@ -1381,6 +1398,7 @@ Improve live monitoring with complete event payloads and live threat notificatio
 - feat: implement real-time live monitoring updates
 - feat: implement live dashboard refresh
 - feat: enhance live monitoring with analyzed events
+- feat: setup reusable email alert service
 ---
 
 ## Current Progress

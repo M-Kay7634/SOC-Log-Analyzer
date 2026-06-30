@@ -112,8 +112,8 @@ const startMonitoring = (req, res) => {
           ip: analyzedLog.ip,
           event: analyzedLog.threat
             ? analyzedLog.threatType
-            : analyzedLog.method,
-          priority: analyzedLog.priority,
+            : `${analyzedLog.method} ${analyzedLog.url}`,
+          priority: analyzedLog.priority || "Normal",
         });
 
         monitoringConfig.activities =

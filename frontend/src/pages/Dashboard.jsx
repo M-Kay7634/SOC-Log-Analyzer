@@ -16,6 +16,8 @@ import ThreatChart from "../components/dashboard/ThreatChart";
 import TimelineChart from "../components/dashboard/TimelineChart";
 import TopIPs from "../components/dashboard/TopIPs";
 import RecentThreatsTable from "../components/dashboard/RecentThreatsTable";
+import AttackOriginCard from "../components/dashboard/AttackOriginCard";
+import ThreatWorldMap from "../components/dashboard/ThreatWorldMap";
 
 import {
   getSummary,
@@ -23,6 +25,7 @@ import {
   getTimeline,
   getTopIPs,
   getRecentThreats,
+  getAttackOrigins,
 } from "../services/dashboardService";
 
 function Dashboard() {
@@ -32,6 +35,7 @@ function Dashboard() {
   const [topIPs, setTopIPs] = useState([]);
   const [recentThreats, setRecentThreats] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [attackOrigins, setAttackOrigins] = useState([]);
 
   const cardBg = useColorModeValue("white", "gray.800");
   const headingColor = useColorModeValue("gray.800", "white");
@@ -66,6 +70,9 @@ function Dashboard() {
 
       const recentData = await getRecentThreats();
       setRecentThreats(recentData.recentThreats);
+
+      const originData = await getAttackOrigins();
+      setAttackOrigins(originData.origins);
 
     } catch (error) {
       console.error(error);
@@ -123,6 +130,10 @@ function Dashboard() {
         <Box mt={8}>
           <RecentThreatsTable threats={recentThreats} />
         </Box>
+        <SimpleGrid columns={{ base:1, lg:2 }} spacing={6} mt={8}>
+          <AttackOriginCard origins={attackOrigins} />
+          <ThreatWorldMap origins={attackOrigins}/>
+        </SimpleGrid>
       </SimpleGrid>
     </DashboardLayout>
   );

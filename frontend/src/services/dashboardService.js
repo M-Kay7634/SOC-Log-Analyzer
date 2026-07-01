@@ -27,3 +27,10 @@ export const getRecentThreats = async () => {
   );
   return response.data;
 };
+
+export const getAttackOrigins = async () => {
+  const response = await API.get(
+    "/dashboard/attack-origins"
+  );
+  return response.data;
+};

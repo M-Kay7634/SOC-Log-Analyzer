@@ -21,6 +21,13 @@ function Threats() {
 
   useEffect(() => {
     fetchThreats();
+    socket.on("dashboardUpdated", () => {
+      console.log("📡 Threat List Updated");
+      fetchThreats();
+    });
+    return () => {
+      socket.off("dashboardUpdated");
+    };
   }, []);
 
     const fetchThreats = async () => {
@@ -150,8 +157,21 @@ function Threats() {
   }
   const filteredThreats = threats.filter((threat) => {
   const matchesSearch =
-    threat.ip.toLowerCase().includes(search.toLowerCase()) ||
-    threat.threatType.toLowerCase().includes(search.toLowerCase());
+    (threat.ip || "")
+      .toLowerCase()
+      .includes(search.toLowerCase()) ||
+
+    (threat.threatType || "")
+      .toLowerCase()
+      .includes(search.toLowerCase()) ||
+
+    (threat.country || "")
+      .toLowerCase()
+      .includes(search.toLowerCase()) ||
+
+    (threat.region || "")
+      .toLowerCase()
+    .includes(search.toLowerCase());
 
   const matchesPriority =
     priority === "" || threat.priority === priority;

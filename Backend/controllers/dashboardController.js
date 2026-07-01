@@ -207,10 +207,59 @@ const getRecentThreats = async (req, res) => {
   }
 };
 
+const getAttackOrigins = async (req, res) => {
+  try {
+    const origins = await Log.aggregate([
+      {
+        $match: {
+          threat: true,
+        },
+      },
+      {
+        $group: {
+          _id: "$country",
+          attacks: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          country: "$_id",
+          attacks: 1,
+        },
+      },
+      {
+        $sort: {
+          attacks: -1,
+        },
+      },
+      {
+        $limit: 10,
+      },
+    ]);
+
+    res.json({
+      success: true,
+      origins,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getSummary,
   getThreatDistribution,
   getTopAttackingIPs,
   getThreatTimeline,
   getRecentThreats,
+  getAttackOrigins,
 };

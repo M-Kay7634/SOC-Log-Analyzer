@@ -1,3 +1,4 @@
+const { lookupIP } = require("./geoipService");
 const { sendEmail } = require("./email/emailService");
 const { threatAlertTemplate } = require("./email/templates");
 const Log = require("../models/Log");
@@ -26,17 +27,56 @@ const analyzeLogs = async (logs, uploadedBy, metadata = {}) => {
   // Step 4 - Send Email Alerts
   // ============================
   for (const log of analyzedLogs) {
+    const geo = lookupIP(log.ip);
+
+    log.country = geo.country;
+    log.region = geo.region;
+    log.city = geo.city;
+    log.timezone = geo.timezone;
     if (
       log.threat &&
       (log.priority === "High" ||
         log.priority === "Critical")
     ) {
       try {
-        await sendEmail({
-          to: process.env.EMAIL_USER,
-          subject: `🚨 ${log.priority} Threat Detected`,
-          html: threatAlertTemplate(log),
-        });
+        const Settings = require("../models/Settings");
+
+        const settings = await Settings.findOne();
+
+        if (
+          settings &&
+          settings.emailAlertsEnabled &&
+          settings.alertEmail
+        ) {
+
+          let shouldSend = false;
+
+          if (
+            log.priority === "High" &&
+            settings.highAlerts
+          ) {
+            shouldSend = true;
+          }
+
+          if (
+            log.priority === "Critical" &&
+            settings.criticalAlerts
+          ) {
+            shouldSend = true;
+          }
+
+          if (shouldSend) {
+            await sendEmail({
+              to: settings.alertEmail,
+              subject: `🚨 ${log.priority} Threat Detected`,
+              html: threatAlertTemplate(log),
+            });
+
+            console.log(
+              `📧 Alert sent to ${settings.alertEmail}`
+            );
+          }
+        }
 
         console.log(
           `📧 Alert email sent for ${log.threatType}`

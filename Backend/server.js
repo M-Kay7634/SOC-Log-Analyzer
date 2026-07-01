@@ -21,6 +21,7 @@ const threatRoutes = require("./routes/threatRoutes");
 const userRoutes = require("./routes/userRoutes");
 const liveMonitoringRoutes = require("./routes/liveMonitoringRoutes");
 const emailRoutes = require("./routes/emailRoutes");
+const settingsRoutes = require("./routes/settingsRoutes");
 
 app.use(
   cors({
@@ -40,6 +41,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/reports", require("./routes/reportRoutes"));
 app.use("/api/live", liveMonitoringRoutes);
 app.use("/api/email", emailRoutes);
+app.use("/api/settings", settingsRoutes);
 
 app.get("/", (req, res) => {
   res.send("SOC Log Analyzer API Running...");

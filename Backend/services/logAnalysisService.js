@@ -1,6 +1,6 @@
 const { lookupIP } = require("./geoipService");
 const { sendEmail } = require("./email/emailService");
-const { threatAlertTemplate } = require("./email/templates");
+const threatAlertTemplate = require("../services/email/threatAlertTemplate");
 const Log = require("../models/Log");
 const detectThreats = require("../detection");
 const correlateThreats = require("../correlation");

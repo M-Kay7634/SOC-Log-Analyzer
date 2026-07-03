@@ -7,6 +7,7 @@ import ReportSummary from "../components/reports/ReportSummary";
 import ReportFilters from "../components/reports/ReportFilters";
 import ReportTable from "../components/reports/ReportTable";
 import ExportButtons from "../components/reports/ExportButtons";
+import ReportHistoryTable from '../components/reports/ReportHistoryTable';
 
 function Reports() {
   const [filters, setFilters] = useState({});
@@ -29,6 +30,8 @@ function Reports() {
         </SimpleGrid>
 
         <ReportTable filters={filters} />
+
+        <ReportHistoryTable />
 
       </VStack>
     </DashboardLayout>

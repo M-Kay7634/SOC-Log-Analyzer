@@ -4,10 +4,20 @@ const router = express.Router();
 
 const protect = require("../middleware/authMiddleware");
 
-const {
-  exportCSV, exportExcel, exportPDF
-} = require("../controllers/reportController");
+const {exportCSV, exportExcel, exportPDF} = require("../controllers/reportController");
+const {getReportHistory, deleteReportHistory,} = require("../controllers/reportHistoryController");
 
+router.get(
+  "/history",
+  protect,
+  getReportHistory
+);
+
+router.delete(
+  "/history/:id",
+  protect,
+  deleteReportHistory
+);
 router.get(
   "/export/csv",
   protect,

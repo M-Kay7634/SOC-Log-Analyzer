@@ -8,6 +8,7 @@ import ThreatFilters from "../components/threats/ThreatFilters";
 import ThreatStats from "../components/threats/ThreatStats";
 import { deleteLog, bulkDeleteLogs, deleteMyLogs, deleteAllLogs } from "../services/logService";
 import { useAuth } from "../context/AuthContext";
+import socket from "../services/socket";
 
 function Threats() {
   const [threats, setThreats] = useState([]);

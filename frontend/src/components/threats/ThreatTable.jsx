@@ -133,7 +133,6 @@ function ThreatTable({
             <Th>Country</Th>
             <Th>Region</Th>
             <Th>Threat</Th>
-            <Th>Threat</Th>
             <Th>Severity</Th>
             <Th>Priority</Th>
             <Th>MITRE</Th>
@@ -147,7 +146,7 @@ function ThreatTable({
             <Tr key={threat._id}>
               <Td>
                 {user.role === "Admin" ||
-                threat.uploadedBy === user.id ? (
+                threat.uploadedBy?._id === user.id ? (
                   <Checkbox
                     isChecked={selectedLogs.includes(threat._id)}
                     onChange={() => handleSelect(threat._id)}
@@ -171,25 +170,31 @@ function ThreatTable({
               </Td>
               <Td>{threat.mitreTechnique}</Td>
               <Td>{threat.timestamp}</Td>
-              <td>
-                <Button
-                    size="sm"
-                    colorScheme="blue"
-                    onClick={() => handleView(threat)}
-                >
-                    View
-                </Button>
-
+              <Td>
                 <Button
                   size="sm"
-                  colorScheme="red"
-                  onClick={() =>
-                    handleDeleteClick(threat)
-                  }
+                  colorScheme="blue"
+                  mr={2}
+                  onClick={() => handleView(threat)}
                 >
-                  Delete
+                  View
                 </Button>
-              </td>
+
+                {user.role === "Admin" ||
+                threat.uploadedBy?._id === user.id ? (
+                  <Button
+                    size="sm"
+                    colorScheme="red"
+                    onClick={() => handleDeleteClick(threat)}
+                  >
+                    Delete
+                  </Button>
+                ) : (
+                  <Tooltip label="You can only delete logs you uploaded.">
+                    <LockIcon color="gray.500" />
+                  </Tooltip>
+                )}
+              </Td>
             </Tr>
           ))}
         </Tbody>

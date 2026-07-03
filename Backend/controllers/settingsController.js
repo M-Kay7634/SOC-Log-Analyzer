@@ -18,7 +18,7 @@ const getSettings = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error",
     });
   }
 };
@@ -32,7 +32,12 @@ const updateSettings = async (req, res) => {
       settings = await Settings.create({});
     }
 
-    Object.assign(settings, req.body);
+    settings.alertEmail = req.body.alertEmail;
+    settings.emailAlertsEnabled = req.body.emailAlertsEnabled;
+    settings.highAlerts = req.body.highAlerts;
+    settings.criticalAlerts = req.body.criticalAlerts;
+    settings.defaultLogSource = req.body.defaultLogSource;
+    settings.defaultLogPath = req.body.defaultLogPath;
 
     await settings.save();
 
@@ -48,7 +53,7 @@ const updateSettings = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error",
     });
 
   }

@@ -1,10 +1,13 @@
-const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
-const crypto = require("crypto");
-const sendEmail = require("../utils/sendEmail");
-const otpTemplate = require("../utils/emailTemplate");
+const { sendEmail } = require("../services/email/emailService");
+const otpTemplate = require("../services/email/otpTemplate");
+
+const { hashPassword } = require("../utils/password");
+const generateToken = require("../utils/jwt");
+
+const {PASSWORD_MIN_LENGTH,OTP_EXPIRY_MINUTES,} = require("../utils/constants");
 
 // Register User
 const registerUser = async (req, res) => {
@@ -14,6 +17,7 @@ const registerUser = async (req, res) => {
     console.log("===========");
     
   try {
+     console.log("BODY:", req.body);
     const { name, email, password } = req.body;
 
     // Check required fields
@@ -22,7 +26,7 @@ const registerUser = async (req, res) => {
         message: "Please fill all required fields",
       });
     }
-    if (password.length < 6) {
+    if (password.length < PASSWORD_MIN_LENGTH) {
       return res.status(400).json({
         success: false,
         message: "Password must be at least 6 characters long",
@@ -39,29 +43,21 @@ const registerUser = async (req, res) => {
     }
 
     // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await hashPassword(password);
 
+    const createdAt = new Date().toISOString();
     // Create user
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
       role: "Analyst",
+      createdAt: createdAt,
     });
 
     // Generate JWT
-    const token = jwt.sign(
-      {
-        id: user._id,
-        role: user.role,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
-
+    const token = generateToken(user);
+    console.log("token generated");
     res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -89,6 +85,7 @@ const loginUser = async (req, res) => {
   try {
     console.log("Login API Hit");
     const { email, password } = req.body;
+    // email = email.trim().toLowerCase();
 
     // Check required fields
     if (!email || !password) {
@@ -119,16 +116,7 @@ const loginUser = async (req, res) => {
     }
 
     // Generate JWT Token
-    const token = jwt.sign(
-      {
-        id: user._id,
-        role: user.role,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
+    const token = generateToken(user);
 
     // Send response
     res.status(200).json({
@@ -140,6 +128,7 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        createdAt: user.createdAt,
       },
     });
 
@@ -157,6 +146,7 @@ const loginUser = async (req, res) => {
 const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
+    email = email.trim().toLowerCase();
 
     if (!email) {
       return res.status(400).json({
@@ -183,7 +173,7 @@ const forgotPassword = async (req, res) => {
 
     // Store OTP and expiry
     user.resetOTP = otp;
-    user.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+    user.otpExpires = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000);
 
     await user.save();
 
@@ -213,6 +203,7 @@ const forgotPassword = async (req, res) => {
 const verifyOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
+    email = email.trim().toLowerCase();
 
     if (!email || !otp) {
       return res.status(400).json({
@@ -263,6 +254,7 @@ const verifyOTP = async (req, res) => {
 const resetPassword = async (req, res) => {
   try {
     const { email, otp, newPassword } = req.body;
+    email = email.trim().toLowerCase();
 
     if (!email || !otp || !newPassword) {
       return res.status(400).json({
@@ -271,7 +263,7 @@ const resetPassword = async (req, res) => {
       });
     }
 
-    if (newPassword.length < 6) {
+    if (newPassword.length < PASSWORD_MIN_LENGTH) {
       return res.status(400).json({
         success: false,
         message: "Password must be at least 6 characters long",
@@ -302,10 +294,7 @@ const resetPassword = async (req, res) => {
     }
 
     // Hash new password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-    user.password = hashedPassword;
+    user.password = await hashPassword(newPassword);
 
     // Clear OTP
     user.resetOTP = undefined;
@@ -340,7 +329,7 @@ const changePassword = async (req, res) => {
       });
     }
 
-    if (newPassword.length < 6) {
+    if (newPassword.length < PASSWORD_MIN_LENGTH) {
       return res.status(400).json({
         success: false,
         message: "New password must be at least 6 characters",
@@ -361,12 +350,7 @@ const changePassword = async (req, res) => {
       });
     }
 
-    const salt = await bcrypt.genSalt(10);
-
-    user.password = await bcrypt.hash(
-      newPassword,
-      salt
-    );
+    user.password = await hashPassword(newPassword);
 
     await user.save();
 
@@ -380,7 +364,7 @@ const changePassword = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error",
     });
   }
 };

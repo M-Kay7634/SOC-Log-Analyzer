@@ -16,7 +16,13 @@ const startWatcher = (filePath, onNewLine) => {
   watcher = fs.watch(filePath, (eventType) => {
     if (eventType !== "change") return;
 
-    const currentSize = fs.statSync(filePath).size;
+    let currentSize;
+    try {
+      currentSize = fs.statSync(filePath).size;
+    } catch (err) {
+      console.error("Watcher file access error:", err.message);
+      return;
+    }
 
     if (currentSize <= lastSize) return;
 
@@ -30,6 +36,10 @@ const startWatcher = (filePath, onNewLine) => {
 
     stream.on("data", (chunk) => {
       newContent += chunk;
+    });
+
+    stream.on("error", (err) => {
+      console.error("Read stream error:", err);
     });
 
     stream.on("end", () => {

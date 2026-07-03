@@ -37,39 +37,42 @@ function LiveMonitoring() {
     });
 
   useEffect(() => {
-      socket.on("liveLog", (log) => {
-        console.log("Live Log:", log);
+    socket.on("liveLog", (log) => {
+      console.log("Live Log:", log);
 
-        setMonitoring((prev) => ({
-          ...prev,
-          linesProcessed: prev.linesProcessed + 1,
-          threatsDetected:
-            prev.threatsDetected + (log.threat ? 1 : 0),
-          lastEvent: new Date().toLocaleTimeString(),
-          activities: [
-            {
-              time: new Date().toLocaleTimeString(),
-              ip: log.ip,
-              event: log.threat
-              ? log.threatType
-              : log.method,
-              priority:log.priority,
-            },
-            ...(prev.activities || []),
-          ].slice(0, 20),
-        }));
-      });
+      setMonitoring((prev) => ({
+        ...prev,
+        linesProcessed: prev.linesProcessed + 1,
+        threatsDetected:
+          prev.threatsDetected + (log.threat ? 1 : 0),
+        lastEvent: new Date().toLocaleTimeString(),
+        activities: [
+          {
+            time: new Date().toLocaleTimeString(),
+            ip: log.ip,
+            event: log.threat
+            ? log.threatType
+            : log.method,
+            priority:log.priority,
+          },
+          ...(prev.activities || []),
+        ].slice(0, 20),
+      }));
+  });
 
       return () => {
         socket.off("liveLog");
       };
     }, []);
 
+  useEffect(() => {
+    loadStatus();
+  }, []);
+
   const loadStatus = async () => {
     try {
-      const data =
-        await getMonitoringStatus();
-
+      const data = await getMonitoringStatus();
+      console.log("Status from backend:", data.monitoring);
       setMonitoring(data.monitoring);
 
     } catch (error) {
@@ -82,14 +85,14 @@ function LiveMonitoring() {
         console.log("Start button clicked");
         const data = await startMonitoring();
 
-            setMonitoring(data.monitoring);
+        await loadStatus();
 
-            toast({
-            title: data.message,
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-            });
+        toast({
+        title: data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        });
     }catch(err){
          console.error(err);
 
@@ -107,7 +110,7 @@ function LiveMonitoring() {
         console.log("Stop button clicked");
         const data = await stopMonitoring();
 
-        setMonitoring(data.monitoring);
+        await loadStatus();
 
         toast({
         title: data.message,

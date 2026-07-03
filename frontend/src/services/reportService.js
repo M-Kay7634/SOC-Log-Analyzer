@@ -1,5 +1,5 @@
 import API from "./api";
-import { API_ENDPOINTS } from "../constants/apiEndpoints";
+import { API_ENDPOINTS } from "../config/apiEndpoints";
 
 export const getReportSummary = async () => {
   const response = await API.get(
@@ -46,6 +46,20 @@ export const exportPDF = async (filters) => {
       params: filters,
       responseType: "blob",
     }
+  );
+  return response.data;
+};
+
+export const getReportHistory = async () => {
+  const response = await API.get(
+    "/reports/history"
+  );
+  return response.data;
+};
+
+export const deleteReportHistory = async (id) => {
+  const response = await API.delete(
+    `/reports/history/${id}`
   );
   return response.data;
 };

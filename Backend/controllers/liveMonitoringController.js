@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const { getIO } = require("../socket/socket");
 const {startWatcher,stopWatcher,} = require("../services/liveMonitoring/watcher");
 const { parseApacheLine } = require("../parser/apacheParser");
@@ -36,6 +38,13 @@ const saveMonitoringConfig = (req, res) => {
 
 const startMonitoring = (req, res) => {
 
+  if (monitoringConfig.isMonitoring) {
+    return res.status(400).json({
+      success: false,
+      message: "Monitoring is already running.",
+    });
+  }
+
   if (!monitoringConfig.logPath) {
     return res.status(400).json({
       success: false,
@@ -48,7 +57,6 @@ const startMonitoring = (req, res) => {
 
   console.log("PATH =", monitoringConfig.logPath);
 
-  const fs = require("fs");
 
   if (!fs.existsSync(monitoringConfig.logPath)) {
     return res.status(400).json({
@@ -56,6 +64,12 @@ const startMonitoring = (req, res) => {
       message: "Log file does not exist.",
     });
   }
+  // Reset monitoring statistics for a fresh session
+  monitoringConfig.linesProcessed = 0;
+  monitoringConfig.threatsDetected = 0;
+  monitoringConfig.activities = [];
+  monitoringConfig.lastEvent = "";
+
   startWatcher(
     monitoringConfig.logPath,
     async (line) => {
@@ -136,6 +150,13 @@ const startMonitoring = (req, res) => {
 
 const stopMonitoring = (req, res) => {
    console.log("STOP API CALLED");
+
+  if (!monitoringConfig.isMonitoring) {
+    return res.status(400).json({
+      success: false,
+      message: "Monitoring is not running.",
+    });
+  }
   stopWatcher();
 
   monitoringConfig.status = "Stopped";

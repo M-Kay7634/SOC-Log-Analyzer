@@ -1,8 +1,11 @@
 const Log = require("../models/Log");
+const Report = require("../models/Report");
 
 const getSummary = async (req, res) => {
   try {
     const totalLogs = await Log.countDocuments();
+
+    const totalReports = await Report.countDocuments();
 
     const totalThreats = await Log.countDocuments({
       threat: true,
@@ -33,6 +36,7 @@ const getSummary = async (req, res) => {
         highThreats,
         mediumThreats,
         lowThreats,
+        totalReports,
       },
     });
 
@@ -41,7 +45,7 @@ const getSummary = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error",
     });
   }
 };
@@ -52,6 +56,9 @@ const getThreatDistribution = async (req, res) => {
       {
         $match: {
           threat: true,
+          country: {
+            $ne: "Unknown",
+          },
         },
       },
       {
@@ -84,7 +91,7 @@ const getThreatDistribution = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error",
     });
   }
 };
@@ -94,13 +101,16 @@ const getTopAttackingIPs = async (req, res) => {
       {
         $match: {
           threat: true,
+          country: {
+            $ne: "Unknown",
+          },
         },
       },
       {
         $group: {
           _id: "$ip",
           attacks: { $sum: 1 },
-          highestSeverity: { $max: "$severity" },
+          // highestSeverity: { $max: "$severity" },
         },
       },
       {
@@ -132,7 +142,7 @@ const getTopAttackingIPs = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error",
     });
   }
 };
@@ -142,6 +152,9 @@ const getThreatTimeline = async (req, res) => {
       {
         $match: {
           threat: true,
+          country: {
+            $ne: "Unknown",
+          },
         },
       },
       {
@@ -175,7 +188,7 @@ const getThreatTimeline = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error",
     });
   }
 };
@@ -202,7 +215,7 @@ const getRecentThreats = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error",
     });
   }
 };
@@ -213,6 +226,9 @@ const getAttackOrigins = async (req, res) => {
       {
         $match: {
           threat: true,
+          country: {
+            $ne: "Unknown",
+          },
         },
       },
       {
@@ -250,7 +266,7 @@ const getAttackOrigins = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error",
     });
   }
 };

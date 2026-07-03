@@ -1,5 +1,5 @@
 import API from "./api";
-import { API_ENDPOINTS } from "../constants/apiEndpoints";
+import { API_ENDPOINTS } from "../config/apiEndpoints";
 
 export const getSummary = async () => {
   const response = await API.get(API_ENDPOINTS.DASHBOARD.SUMMARY);

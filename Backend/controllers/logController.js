@@ -1,6 +1,7 @@
+const fs = require("fs");
+
 const { getIO } = require("../socket/socket");
 const { randomUUID } = require("crypto");
-const Log = require("../models/Log");
 const {parseApacheLog} = require("../parser/apacheParser");
 const { analyzeLogs } = require("../services/logAnalysisService");
 // Upload Log Controller
@@ -24,7 +25,7 @@ const uploadLog = async (req, res) => {
         req.user.id,
         {
           sourceFile: req.file.originalname,
-          uploadBatchId: Date.now().toString(),
+          uploadBatchId,
         }
     );
     
@@ -54,10 +55,21 @@ const uploadLog = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error",
     });
+  }finally{
+    if (req.file && fs.existsSync(req.file.path)) {
+      await fs.promises.unlink(req.file.path, (err) => {
+        if (err) {
+          console.error("Failed to delete uploaded file:", err);
+        } else {
+          console.log("🗑 Uploaded file removed.");
+        }
+      });
+    }
   }
 };
+const Log = require("../models/Log")
 
 // Get All Logs
 const getAllLogs = async (req, res) => {
@@ -69,7 +81,10 @@ const getAllLogs = async (req, res) => {
         endDate,
         severity,
         threatType,
+        page = 1,
+        limit = 20,
       } = req.query;
+      const skip = (parseInt(page) - 1) * parseInt(limit);
 
       if (severity) {
         query.severity = severity;
@@ -91,12 +106,18 @@ const getAllLogs = async (req, res) => {
         }
       }
 
+      const totalLogs = await Log.countDocuments(query);
       const logs = await Log.find(query)
-        .sort({ createdAt: -1 });
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(parseInt(limit));
 
     res.status(200).json({
-      success: true,
-      total: logs.length,
+       success: true,
+      total: totalLogs,
+      page: parseInt(page),
+      limit: parseInt(limit),
+      totalPages: Math.ceil(totalLogs / parseInt(limit)),
       logs,
     });
 

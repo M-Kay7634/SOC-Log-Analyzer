@@ -109,4 +109,16 @@ const logSchema = new mongoose.Schema(
   }
 );
 
+logSchema.index({ threat: 1 });
+
+logSchema.index({ priority: 1 });
+
+logSchema.index({ uploadedBy: 1 });
+
+logSchema.index({ createdAt: -1 });
+
+logSchema.index({ country: 1 });
+
+logSchema.index({ ip: 1 });
+
 module.exports = mongoose.model("Log", logSchema);

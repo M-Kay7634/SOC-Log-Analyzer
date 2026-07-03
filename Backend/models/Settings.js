@@ -33,7 +33,7 @@ const settingsSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true,
+    timestamps: Date,
   }
 );
 

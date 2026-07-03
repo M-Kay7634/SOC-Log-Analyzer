@@ -1,47 +1,51 @@
 const Log = require("../models/Log");
+const Report = require("../models/Report");
+const buildReportQuery = require("../utils/reportFilters");
+const { saveReport } = require("../services/reportService");
 const ExcelJS = require("exceljs");
 const PDFDocument = require("pdfkit");
 
 const exportCSV = async (req, res) => {
+  console.log("✅ exportCSV controller called");
   try {
-    const query = {};
+    const query = buildReportQuery(req.query);
 
-      const {
-        startDate,
-        endDate,
-        severity,
-        threatType,
-      } = req.query;
+    const {
+      startDate,
+      endDate,
+      severity,
+      threatType,
+    } = req.query;
 
-      if (severity) {
-        query.severity = severity;
+    if (startDate || endDate) {
+      query.createdAt = {};
+
+      if (startDate) {
+        query.createdAt.$gte = new Date(startDate);
       }
 
-      if (threatType) {
-        query.threatType = threatType;
+      if (endDate) {
+        query.createdAt.$lte = new Date(endDate);
       }
+    }
 
-      if (startDate || endDate) {
-        query.createdAt = {};
+    const logs = await Log.find(query).sort({
+      createdAt: -1,
+    });
 
-        if (startDate) {
-          query.createdAt.$gte = new Date(startDate);
-        }
-
-        if (endDate) {
-          query.createdAt.$lte = new Date(endDate);
-        }
-      }
-
-      const logs = await Log.find(query).sort({
-        createdAt: -1,
-      });
+    await saveReport({
+      userId: req.user.id,
+      format: "CSV",
+      totalLogs: logs.length,
+      severity,
+      threatType,
+    });
 
     let csv =
-      "IP,Threat Type,Severity,Priority,Status,Method,URL,Timestamp\n";
+      "IP,Country,Threat Type,Severity,Priority,Threat Score,MITRE,Status,Method,URL,Timestamp\n";
 
     logs.forEach((log) => {
-      csv += `"${log.ip}","${log.threatType || ""}","${log.severity || ""}","${log.priority}","${log.status}","${log.method}","${log.url}","${log.timestamp}"\n`;
+      csv += `"${log.ip}","${log.country}","${log.threatType || ""}","${log.severity || ""}","${log.priority}","${log.threatScore}","${log.mitreTechnique || ""}","${log.status}","${log.method}","${log.url}","${log.timestamp}"\n`;
     });
 
     res.setHeader(
@@ -66,7 +70,7 @@ const exportCSV = async (req, res) => {
 
 const exportExcel = async (req, res) => {
   try {
-    const query = {};
+    const query = buildReportQuery(req.query);
 
     const {
       startDate,
@@ -74,10 +78,6 @@ const exportExcel = async (req, res) => {
       severity,
       threatType,
     } = req.query;
-
-    if (severity) query.severity = severity;
-
-    if (threatType) query.threatType = threatType;
 
     if (startDate || endDate) {
       query.createdAt = {};
@@ -93,6 +93,14 @@ const exportExcel = async (req, res) => {
       createdAt: -1,
     });
 
+    await saveReport({
+      userId: req.user.id,
+      format: "Excel",
+      totalLogs: logs.length,
+      severity,
+      threatType,
+    });
+
     const workbook = new ExcelJS.Workbook();
 
     const worksheet =
@@ -100,9 +108,12 @@ const exportExcel = async (req, res) => {
 
     worksheet.columns = [
       { header: "IP", key: "ip", width: 18 },
+      { header: "Country", key: "country", width: 15 },
       { header: "Threat Type", key: "threatType", width: 20 },
       { header: "Severity", key: "severity", width: 15 },
       { header: "Priority", key: "priority", width: 15 },
+      { header: "Threat Score", key: "threatScore", width: 15 },
+      { header: "MITRE", key: "mitreTechnique", width: 15 },
       { header: "Status", key: "status", width: 12 },
       { header: "Method", key: "method", width: 12 },
       { header: "URL", key: "url", width: 35 },
@@ -112,9 +123,12 @@ const exportExcel = async (req, res) => {
     logs.forEach((log) => {
       worksheet.addRow({
         ip: log.ip,
+        country: log.country,
         threatType: log.threatType,
         severity: log.severity,
         priority: log.priority,
+        threatScore: log.threatScore,
+        mitreTechnique: log.mitreTechnique,
         status: log.status,
         method: log.method,
         url: log.url,
@@ -146,7 +160,7 @@ const exportExcel = async (req, res) => {
 
 const exportPDF = async (req, res) => {
   try {
-    const query = {};
+    const query = buildReportQuery(req.query);
 
     const {
       startDate,
@@ -154,9 +168,6 @@ const exportPDF = async (req, res) => {
       severity,
       threatType,
     } = req.query;
-
-    if (severity) query.severity = severity;
-    if (threatType) query.threatType = threatType;
 
     if (startDate || endDate) {
       query.createdAt = {};
@@ -170,6 +181,14 @@ const exportPDF = async (req, res) => {
 
     const logs = await Log.find(query).sort({
       createdAt: -1,
+    });
+
+    await saveReport({
+      userId: req.user.id,
+      format: "PDF",
+      totalLogs: logs.length,
+      severity,
+      threatType,
     });
 
     const doc = new PDFDocument({
@@ -226,13 +245,30 @@ const exportPDF = async (req, res) => {
 
     doc.fontSize(12);
 
-    doc.text(`Total Logs : ${logs.length}`);
+    const threats = logs.filter(log => log.threat).length;
 
-    const threats = logs.filter(
-      (log) => log.threat
+    const critical = logs.filter(
+      log => log.priority === "Critical"
     ).length;
 
+    const high = logs.filter(
+      log => log.priority === "High"
+    ).length;
+
+    const medium = logs.filter(
+      log => log.priority === "Medium"
+    ).length;
+
+    const low = logs.filter(
+      log => log.priority === "Low"
+    ).length;
+
+    doc.text(`Total Logs : ${logs.length}`);
     doc.text(`Threats : ${threats}`);
+    doc.text(`Critical : ${critical}`);
+    doc.text(`High : ${high}`);
+    doc.text(`Medium : ${medium}`);
+    doc.text(`Low : ${low}`);
 
     doc.moveDown();
 

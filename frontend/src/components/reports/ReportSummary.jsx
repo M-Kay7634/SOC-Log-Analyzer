@@ -101,6 +101,16 @@ function ReportSummary() {
           </StatNumber>
         </Stat>
 
+        <Stat>
+          <StatLabel>
+            Reports Generated
+          </StatLabel>
+
+          <StatNumber>
+            {summary.totalReports}
+          </StatNumber>
+        </Stat>
+
       </SimpleGrid>
     </Box>
   );

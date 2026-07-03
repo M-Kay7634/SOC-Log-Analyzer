@@ -25,19 +25,22 @@ function Threats() {
 
   useEffect(() => {
     fetchThreats();
+
     socket.on("dashboardUpdated", () => {
       console.log("📡 Threat List Updated");
       fetchThreats();
     });
+
     return () => {
       socket.off("dashboardUpdated");
     };
-  }, []);
+  }, [page]);
 
     const fetchThreats = async () => {
       try {
-        const data = await getAllThreats(page);
+        const data = await getAllThreats(page, 10);
         setThreats(data.threats);
+        setTotalPages(data.totalPages);
       } catch (error) {
         console.error(error);
       } finally {
@@ -219,6 +222,9 @@ function Threats() {
         selectedLogs={selectedLogs}
         setSelectedLogs={setSelectedLogs}
         onBulkDelete={handleBulkDelete}
+        page={page}
+        setPage={setPage}
+        totalPages={totalPages}
       />
     </DashboardLayout>
   );

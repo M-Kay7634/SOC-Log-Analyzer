@@ -1443,6 +1443,58 @@ Updated the frontend threat service to support server-side pagination.
 - Default function parameters
 - Client-server pagination
 
+## Lesson 14.3 – Threat Page Pagination
+
+### Objective
+Integrated the Threat page with the paginated backend API.
+
+### Changes
+- Added page state management.
+- Reloaded threats when the page changes.
+- Stored total pages returned by the backend.
+- Passed pagination props to ThreatTable.
+
+### Concepts Learned
+- React dependency arrays
+- State-driven API calls
+- Server-side pagination workflow
+
+# Lesson 14.4 – Reusable Pagination Component
+
+## Objective
+
+Built a reusable pagination component that can be used throughout the application.
+
+## Features
+
+- Previous button
+- Next button
+- Current page indicator
+- Disabled navigation at boundaries
+- Reusable across modules
+
+## Benefits
+
+- Eliminates duplicate pagination code.
+- Improves maintainability.
+- Follows enterprise React component architecture.
+
+## Files
+
+Created:
+- components/common/Pagination.jsx
+
+Updated:
+- ThreatTable.jsx
+
+## Concepts Learned
+
+- Reusable React Components
+- Component Props
+- UI Reusability
+
+
+
 ## Git Commits
 
 - Initial project setup

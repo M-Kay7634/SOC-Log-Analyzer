@@ -27,6 +27,7 @@ import {LockIcon} from "@chakra-ui/icons";
 
 import { useState, useRef } from "react";
 import ThreatDetailsModal from "./ThreatDetailsModal";
+import Pagination from "../common/Pagination";
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -36,6 +37,9 @@ function ThreatTable({
   selectedLogs,
   setSelectedLogs,
   onBulkDelete,
+  page,
+  setPage,
+  totalPages,
 }) {
   const { user } = useAuth();
 
@@ -263,6 +267,16 @@ function ThreatTable({
 
           </AlertDialogOverlay>
         </AlertDialog>
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onPrevious={() =>
+            setPage(page - 1)
+          }
+          onNext={() =>
+            setPage(page + 1)
+          }
+        />
     </Box>
   );
 }

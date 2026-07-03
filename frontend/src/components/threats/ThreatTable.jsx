@@ -132,6 +132,7 @@ function ThreatTable({
             <Th>IP Address</Th>
             <Th>Country</Th>
             <Th>Region</Th>
+            <Th>Uploaded By</Th>
             <Th>Threat</Th>
             <Th>Severity</Th>
             <Th>Priority</Th>
@@ -159,9 +160,14 @@ function ThreatTable({
                     )}
               </Td>
               <Td>{threat.ip}</Td>
-              <Td>🌍 {threat.country || "Unknown"}</Td>
-              <Td>{threat.region || "Unknown"}</Td>
-              <Td>{threat.threatType || "-"}</Td>
+              <Td>{threat.country !== "Unknown" ? `🌍 ${threat.country}` : "-"}</Td>
+              <Td>{threat.region !== "Unknown" ? threat.region : "-"}</Td>
+              <Td>
+                {threat.uploadedBy?._id === user.id ? (<Badge colorScheme="green">You </Badge>) : (threat.uploadedBy?.name || "Unknown")}
+              </Td>
+              <Td>
+                {threat.threatType ? (<Badge colorScheme="purple">{threat.threatType}</Badge>) : ("-")}
+              </Td>
               <Td>{threat.severity}</Td>
               <Td>
                 <Badge colorScheme={getColor(threat.priority)}>

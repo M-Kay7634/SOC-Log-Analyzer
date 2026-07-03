@@ -1412,7 +1412,22 @@ Create a reusable GeoIP lookup service for enriching analyzed logs.
 - Data enrichment
 - Service-based architecture
 
+# Lesson 14 – Threat Pagination (Backend)
 
+## Objective
+Implemented server-side pagination for Threat Management.
+
+## Backend
+- Added page and limit query parameters.
+- Implemented MongoDB skip() and limit().
+- Returned pagination metadata:
+  - page
+  - limit
+  - total
+  - totalPages
+
+## Result
+The Threat API now returns only the requested page of threats, reducing response size and improving scalability.
 
 
 ## Git Commits

@@ -1429,6 +1429,19 @@ Implemented server-side pagination for Threat Management.
 ## Result
 The Threat API now returns only the requested page of threats, reducing response size and improving scalability.
 
+## Lesson 14.2 – Threat Service Pagination
+
+### Objective
+Updated the frontend threat service to support server-side pagination.
+
+### Changes
+- Added page and limit parameters to `getAllThreats()`.
+- Sent pagination values as query parameters to the backend.
+
+### Concepts Learned
+- Axios query parameters
+- Default function parameters
+- Client-server pagination
 
 ## Git Commits
 

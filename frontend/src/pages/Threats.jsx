@@ -20,6 +20,9 @@ function Threats() {
   const toast = useToast();
   const { user } = useAuth();
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     fetchThreats();
     socket.on("dashboardUpdated", () => {
@@ -33,7 +36,7 @@ function Threats() {
 
     const fetchThreats = async () => {
       try {
-        const data = await getAllThreats();
+        const data = await getAllThreats(page);
         setThreats(data.threats);
       } catch (error) {
         console.error(error);

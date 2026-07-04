@@ -6,6 +6,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
+import SearchBar from "../common/SearchBar";
+
 function ThreatFilters({
   search,
   setSearch,
@@ -22,13 +24,11 @@ function ThreatFilters({
       mb={6}
     >
       <HStack spacing={4}>
-        <Input
-          placeholder="Search by IP or Threat..."
+        <SearchBar
           value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
-        />
+          onChange={setSearch}
+          placeholder="Search IP, Country, Threat..."
+      />
 
         <Select
           value={priority}

@@ -30,6 +30,7 @@ import ThreatDetailsModal from "./ThreatDetailsModal";
 import Pagination from "../common/Pagination";
 import ConfirmDialog from "../common/ConfirmDialog";
 import StatusBadge from '../common/StatusBadge';
+import EmptyState from '../common/EmptyState';
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -149,7 +150,17 @@ function ThreatTable({
         </Thead>
 
         <Tbody>
-          {threats.map((threat) => (
+          {threats.length === 0 ? (
+            <Tr>
+              <Td colSpan={10}>
+                <EmptyState
+                  title="No Threats Found"
+                  description="Upload logs or change the applied filters."
+                />
+              </Td>
+            </Tr>
+          ) : (
+            threats.map((threat) => (
             <Tr key={threat._id}>
               <Td>
                 {user.role === "Admin" ||
@@ -209,7 +220,8 @@ function ThreatTable({
                 )}
               </Td>
             </Tr>
-          ))}
+          ))
+        )}
         </Tbody>
       </Table>
       <ThreatDetailsModal

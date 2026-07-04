@@ -1,7 +1,6 @@
 import {
   Box,
   Heading,
-  Spinner,
   Center,
   Table,
   Thead,
@@ -29,6 +28,9 @@ import { getReportHistory, deleteReportHistory } from "../../services/reportServ
 import ReportDetailsModal from "./ReportDetailsModal";
 import ConfirmDialog from '../common/ConfirmDialog';
 import StatusBadge from '../common/StatusBadge';
+import EmptyState from '../common/EmptyState';
+import SearchBar from '../common/SearchBar';
+import LoadingSkeleton from '../common/LoadingSkeleton';
 import { useAuth } from "../../context/AuthContext";
 
 function ReportHistoryTable() {
@@ -108,9 +110,7 @@ function ReportHistoryTable() {
 
   if (loading) {
     return (
-      <Center h="250px">
-        <Spinner size="lg" />
-      </Center>
+      <LoadingSkeleton />
     );
   }
 
@@ -147,14 +147,11 @@ function ReportHistoryTable() {
           alignItems="center"
           mb={5}
         >
-          <Input
-            placeholder="Search by user or format..."
+          <SearchBar
             value={search}
-            onChange={(e) =>
-              setSearch(e.target.value)
-            }
-            maxW="400px"
-          />
+            onChange={setSearch}
+            placeholder="Search by user or format..."
+        />
 
           <Button
             colorScheme="blue"
@@ -184,13 +181,11 @@ function ReportHistoryTable() {
             {filteredReports.length === 0 ? (
 
               <Tr>
-                <Td
-                  colSpan={6}
-                  textAlign="center"
-                >
-                  <Box py={10} textAlign="center">
-                    No reports match your search.
-                  </Box>
+                <Td colSpan={7}>
+                  <EmptyState
+                    title="No Reports Found"
+                    description="Try changing your search or generate a new report."
+                  />
                 </Td>
               </Tr>
 

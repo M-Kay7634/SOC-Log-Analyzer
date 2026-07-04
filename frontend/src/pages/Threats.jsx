@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Heading, Spinner, Center, useToast, Button } from "@chakra-ui/react";
+import { Heading, Center, useToast, Button } from "@chakra-ui/react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import ThreatTable from "../components/threats/ThreatTable";
@@ -9,6 +9,7 @@ import ThreatStats from "../components/threats/ThreatStats";
 import { deleteLog, bulkDeleteLogs, deleteMyLogs, deleteAllLogs } from "../services/logService";
 import { useAuth } from "../context/AuthContext";
 import socket from "../services/socket";
+import LoadingSkeleton from '../components/common/LoadingSkeleton';
 
 function Threats() {
   const [threats, setThreats] = useState([]);
@@ -156,9 +157,7 @@ function Threats() {
   if (loading) {
     return (
       <DashboardLayout>
-        <Center h="300px">
-          <Spinner size="xl" />
-        </Center>
+        <LoadingSkeleton />
       </DashboardLayout>
     );
   }

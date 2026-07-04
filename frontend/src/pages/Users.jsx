@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Heading, Spinner, Center, useToast, useColorModeValue } from "@chakra-ui/react";
+import { Heading, Center, useToast, useColorModeValue } from "@chakra-ui/react";
 
 import { useAuth } from "../context/AuthContext";
 import MyProfileCard from "../components/users/MyProfileCard";
@@ -10,6 +10,7 @@ import MyActivityCard from "../components/users/MyActivityCard";
 import DashboardLayout from "../layouts/DashboardLayout";
 import UserTable from "../components/users/UserTable";
 import UserStats from "../components/users/UserStats";
+import LoadingSkeleton from '../components/common/LoadingSkeleton';
 
 import { getAllUsers, updateUserRole, getMyActivity } from "../services/userService";
 
@@ -80,9 +81,7 @@ function Users() {
   if (loading) {
     return (
       <DashboardLayout>
-        <Center h="300px">
-          <Spinner size="xl" />
-        </Center>
+        <LoadingSkeleton />
       </DashboardLayout>
     );
   }

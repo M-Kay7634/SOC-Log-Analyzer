@@ -1639,6 +1639,65 @@ Completed the migration from `SummaryCard` to the reusable `StatCard` component.
 - Gradual refactoring
 
 
+# Lesson 15.7 – Reusable SearchBar
+
+## Objective
+Created a reusable SearchBar component to standardize search inputs across the application.
+
+## Features
+- Search icon
+- Dark mode support
+- Configurable placeholder
+- Controlled component
+- Reusable across modules
+
+## Integrated Into
+- Threat Management
+- Report History
+
+## Planned Integration
+- Users
+- Monitoring
+- Logs
+
+## Benefits
+- Reduced duplicate code
+- Consistent UI
+- Easier maintenance
+
+## Concepts Learned
+- Controlled inputs
+- Component reuse
+- Shared UI architecture
+
+
+# Lesson 15.8 – Reusable Loading Skeleton
+
+## Objective
+Replaced repeated loading spinners with a reusable skeleton loading component.
+
+## Files Created
+- components/common/LoadingSkeleton.jsx
+
+## Integrated Into
+- Threat Management
+- Reports
+- Users
+- Report History
+
+## Benefits
+- Improved perceived performance
+- Consistent loading experience
+- Reduced duplicate code
+- Better user experience
+
+## Concepts Learned
+- Skeleton loading
+- Reusable UI components
+- Conditional rendering
+
+
+
 
 ## Git Commits
 

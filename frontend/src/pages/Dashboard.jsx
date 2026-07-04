@@ -1,7 +1,6 @@
 import {
   Heading,
   SimpleGrid,
-  Spinner,
   Center,
   Box,
   useColorModeValue,
@@ -18,6 +17,10 @@ import TopIPs from "../components/dashboard/TopIPs";
 import RecentThreatsTable from "../components/dashboard/RecentThreatsTable";
 import AttackOriginCard from "../components/dashboard/AttackOriginCard";
 import ThreatWorldMap from "../components/dashboard/ThreatWorldMap";
+import LoadingSkeleton from '../components/common/LoadingSkeleton';
+import MonitoringWidget from "../components/dashboard/MonitoringWidget";
+import DashboardHeader from "../components/dashboard/DashboardHeader";
+import SystemHealthWidget from "../components/dashboard/SystemHealthWidget";
 
 import {
   getSummary,
@@ -84,16 +87,14 @@ function Dashboard() {
   if (loading) {
     return (
       <DashboardLayout>
-        <Center h="300px">
-          <Spinner size="xl" />
-        </Center>
+        <LoadingSkeleton />
       </DashboardLayout>
     );
   }
 
   return (
     <DashboardLayout>
-      <Heading mb={8} color={headingColor}>Dashboard</Heading>
+      <DashboardHeader />
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
         <StatCard
@@ -130,9 +131,24 @@ function Dashboard() {
         <Box mt={8}>
           <RecentThreatsTable threats={recentThreats} />
         </Box>
-        <SimpleGrid columns={{ base:1, lg:2 }} spacing={6} mt={8}>
-          <AttackOriginCard origins={attackOrigins} />
-          <ThreatWorldMap origins={attackOrigins}/>
+        <SimpleGrid
+            columns={{ base:1, lg:2 }}
+            spacing={6}
+        >
+
+            <AttackOriginCard />
+
+            <MonitoringWidget />
+
+        </SimpleGrid>
+
+        <SimpleGrid
+          columns={{ base: 1, lg: 2 }}
+          spacing={6}
+        >
+          <ThreatWorldMap />
+
+          <SystemHealthWidget />
         </SimpleGrid>
       </SimpleGrid>
     </DashboardLayout>

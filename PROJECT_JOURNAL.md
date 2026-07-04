@@ -1494,6 +1494,65 @@ Updated:
 - UI Reusability
 
 
+# Lesson 14.4 – Reusable Common Components
+
+## Objective
+Refactored reusable UI elements into a shared `common` directory to improve maintainability and reduce duplicated code.
+
+## Changes
+- Removed module-specific pagination component.
+- Created reusable `Pagination.jsx`.
+- Planned reusable:
+  - ConfirmDialog
+  - EmptyState
+  - LoadingSkeleton
+  - SearchBar
+  - StatusBadge
+  - StatCard
+
+## Benefits
+- Reduced duplicate code.
+- Improved scalability.
+- Consistent UI across all modules.
+- Easier maintenance and future feature development.
+
+## Concepts Learned
+- Component reusability
+- Shared UI architecture
+- Design system principles
+
+
+# Lesson 15.1 – Reusable Confirmation Dialog
+
+## Objective
+
+Created a reusable confirmation dialog component to eliminate duplicate AlertDialog implementations.
+
+## Files Created
+
+components/common/ConfirmDialog.jsx
+
+## Files Updated
+
+ThreatTable.jsx
+
+ReportHistoryTable.jsx
+
+## Benefits
+
+- Reduced duplicate code
+- Improved maintainability
+- Consistent confirmation dialogs
+- Easier future development
+
+## Concepts Learned
+
+- Component composition
+- Props-driven UI
+- Reusable dialog architecture
+
+
+
 
 ## Git Commits
 

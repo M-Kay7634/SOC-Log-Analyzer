@@ -28,6 +28,7 @@ import {LockIcon} from "@chakra-ui/icons";
 import { useState, useRef } from "react";
 import ThreatDetailsModal from "./ThreatDetailsModal";
 import Pagination from "../common/Pagination";
+import ConfirmDialog from "../common/ConfirmDialog";
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -214,59 +215,30 @@ function ThreatTable({
         onClose={onClose}
         threat={selectedThreat}
         />
-        <AlertDialog
+        <ConfirmDialog
           isOpen={isDeleteOpen}
-          leastDestructiveRef={cancelRef}
           onClose={onDeleteClose}
-        >
-          <AlertDialogOverlay>
+          cancelRef={cancelRef}
+          title="Delete Log"
+          message={
+            <>
+              Are you sure you want to delete this log?
 
-            <AlertDialogContent>
+              <br /><br />
 
-              <AlertDialogHeader>
-                Delete Log
-              </AlertDialogHeader>
+              <strong>IP:</strong> {deleteThreat?.ip}
 
-              <AlertDialogBody>
-                Are you sure you want to delete this log?
+              <br />
 
-                <br /><br />
-
-                <strong>IP:</strong>{" "}
-                {deleteThreat?.ip}
-
-                <br />
-
-                <strong>Threat:</strong>{" "}
-                {deleteThreat?.threatType}
-              </AlertDialogBody>
-
-              <AlertDialogFooter>
-
-                <Button
-                  ref={cancelRef}
-                  onClick={onDeleteClose}
-                >
-                  Cancel
-                </Button>
-
-                <Button
-                  colorScheme="red"
-                  ml={3}
-                  onClick={() => {
-                    onDelete(deleteThreat._id);
-                    onDeleteClose();
-                  }}
-                >
-                  Delete
-                </Button>
-
-              </AlertDialogFooter>
-
-            </AlertDialogContent>
-
-          </AlertDialogOverlay>
-        </AlertDialog>
+              <strong>Threat:</strong>{" "}
+              {deleteThreat?.threatType}
+            </>
+          }
+          onConfirm={() => {
+            onDelete(deleteThreat._id);
+            onDeleteClose();
+          }}
+        />
         <Pagination
           page={page}
           totalPages={totalPages}

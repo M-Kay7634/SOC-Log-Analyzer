@@ -29,6 +29,7 @@ import { useState, useRef } from "react";
 import ThreatDetailsModal from "./ThreatDetailsModal";
 import Pagination from "../common/Pagination";
 import ConfirmDialog from "../common/ConfirmDialog";
+import StatusBadge from '../common/StatusBadge';
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -175,9 +176,10 @@ function ThreatTable({
               </Td>
               <Td>{threat.severity}</Td>
               <Td>
-                <Badge colorScheme={getColor(threat.priority)}>
-                  {threat.priority}
-                </Badge>
+                <StatusBadge
+                  value={threat.priority}
+                  type="priority"
+                />
               </Td>
               <Td>{threat.mitreTechnique}</Td>
               <Td>{threat.timestamp}</Td>

@@ -1,5 +1,5 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import SummaryCard from "../dashboard/SummaryCard";
+import StatCard from "../common/StatCard";
 
 function UserStats({ users }) {
   const totalUsers = users.length;
@@ -18,22 +18,22 @@ function UserStats({ users }) {
       spacing={6}
       mb={8}
     >
-      <SummaryCard
+      <StatCard
         title="Total Users"
         value={totalUsers}
-        color="blue.500"
+        borderColor="blue.500"
       />
 
-      <SummaryCard
+      <StatCard
         title="Admins"
         value={admins}
-        color="red.500"
+        borderColor="red.500"
       />
 
-      <SummaryCard
+      <StatCard
         title="Analysts"
         value={analysts}
-        color="green.500"
+        borderColor="green.500"
       />
     </SimpleGrid>
   );

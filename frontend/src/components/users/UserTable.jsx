@@ -61,15 +61,10 @@ function UserTable({ users, onRoleChange }) {
                     <option value="Analyst">Analyst</option>
                   </Select>
                 ) : (
-                  <Badge
-                    colorScheme={
-                      u.role === "Admin"
-                        ? "red"
-                        : "green"
-                    }
-                  >
-                    {u.role}
-                  </Badge>
+                  <StatusBadge
+                    value={user.role}
+                    type="role"
+                  />
                 )}
               </Td>
 

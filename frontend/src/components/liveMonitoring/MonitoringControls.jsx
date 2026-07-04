@@ -3,11 +3,11 @@ import {
   Button,
   Heading,
   HStack,
-  Badge,
   Text,
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
+import StatusBadge from '../common/StatusBadge';
 
 function MonitoringControls({
   status,
@@ -54,18 +54,10 @@ function MonitoringControls({
             Current Status:
           </Text>
 
-          <Badge
-            colorScheme={
-              status === "Active"
-                ? "green"
-                : "red"
-            }
-            fontSize="0.9em"
-            px={2}
-            py={1}
-          >
-            {status}
-          </Badge>
+          <StatusBadge
+            value={status}
+            type="monitoring"
+          />
         </HStack>
       </VStack>
     </Box>

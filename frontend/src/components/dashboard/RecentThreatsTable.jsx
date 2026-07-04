@@ -10,6 +10,7 @@ import {
   Td,
   useColorModeValue,
 } from "@chakra-ui/react";
+import StatusBadge from '../common/StatusBadge';
 
 function ThreatTable({ threats }) {
   const getBadgeColor = (priority) => {
@@ -59,9 +60,10 @@ function ThreatTable({ threats }) {
               <Td>{item.threatType}</Td>
 
               <Td>
-                <Badge colorScheme={getBadgeColor(item.priority)}>
-                  {item.priority}
-                </Badge>
+                <StatusBadge
+                  value={item.priority}
+                  type="priority"
+                />
               </Td>
 
               <Td>{item.mitreTechnique}</Td>

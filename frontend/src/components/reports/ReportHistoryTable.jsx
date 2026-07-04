@@ -27,6 +27,8 @@ import {
 import { useEffect, useState, useRef } from "react";
 import { getReportHistory, deleteReportHistory } from "../../services/reportService";
 import ReportDetailsModal from "./ReportDetailsModal";
+import ConfirmDialog from '../common/ConfirmDialog';
+import StatusBadge from '../common/StatusBadge';
 import { useAuth } from "../../context/AuthContext";
 
 function ReportHistoryTable() {
@@ -198,17 +200,10 @@ function ReportHistoryTable() {
               <Tr key={report._id}>
 
                 <Td>
-                  <Badge
-                    colorScheme={
-                      report.format === "PDF"
-                        ? "red"
-                        : report.format === "Excel"
-                        ? "green"
-                        : "blue"
-                    }
-                  >
-                    {report.format}
-                  </Badge>
+                  <StatusBadge
+                    value={report.format}
+                    type="format"
+                  />
                 </Td>
 
                 <Td>

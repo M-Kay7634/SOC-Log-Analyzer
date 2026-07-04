@@ -2,9 +2,10 @@ import {
   Box,
   Heading,
   Text,
-  Badge,
   VStack,
 } from "@chakra-ui/react";
+
+import StatusBadge from '../common/StatusBadge';
 
 function MonitoringStatus({
   status,
@@ -28,15 +29,10 @@ function MonitoringStatus({
       <VStack align="start" spacing={3}>
         <Text>
           Status:{" "}
-          <Badge
-            colorScheme={
-              status === "Active"
-                ? "green"
-                : "red"
-            }
-          >
-            {status}
-          </Badge>
+          <StatusBadge
+            value={status}
+            type="monitoring"
+          />
         </Text>
 
         <Text>

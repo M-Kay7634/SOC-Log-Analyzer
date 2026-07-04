@@ -1,5 +1,5 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import SummaryCard from "../dashboard/SummaryCard";
+import StatCard from "../common/StatCard";
 
 function ThreatStats({ threats }) {
   const total = threats.length;
@@ -24,28 +24,28 @@ function ThreatStats({ threats }) {
       spacing={5}
       mb={6}
     >
-      <SummaryCard
+      <StatCard
         title="Total Threats"
         value={total}
-        color="blue.500"
+        borderColor="blue.500"
       />
 
-      <SummaryCard
+      <StatCard
         title="Critical"
         value={critical}
-        color="red.500"
+        borderColor="red.500"
       />
 
-      <SummaryCard
+      <StatCard
         title="High"
         value={high}
-        color="orange.500"
+        borderColor="orange.500"
       />
 
-      <SummaryCard
+      <StatCard
         title="Medium / Low"
         value={mediumLow}
-        color="green.500"
+        borderColor="green.500"
       />
     </SimpleGrid>
   );

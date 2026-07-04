@@ -1552,6 +1552,92 @@ ReportHistoryTable.jsx
 - Reusable dialog architecture
 
 
+# Lesson 15.2 – Reusable Status Badge
+
+## Objective
+Created a reusable StatusBadge component to standardize badge colors and reduce duplicated UI logic.
+
+## Files Created
+- components/common/StatusBadge.jsx
+
+## Files Updated
+- ThreatTable.jsx
+- ReportHistoryTable.jsx
+- UserTable.jsx
+
+## Benefits
+- Centralized badge styling
+- Consistent UI across the application
+- Easier maintenance
+- Reduced duplicate code
+
+## Concepts Learned
+- Reusable React components
+- Props-based rendering
+- Centralized UI styling
+
+
+# Lesson 15.3 – Reusable StatCard
+
+## Objective
+Refactored dashboard statistic cards into a reusable StatCard component while preserving the existing UI design.
+
+## Changes
+- Enhanced `StatCard` with hover animation, dark mode support, shadows, and configurable border color.
+- Updated `dashboard/SummaryCard.jsx` to act as a wrapper around `StatCard`.
+
+## Benefits
+- Single source of truth for statistic cards.
+- Consistent appearance across all modules.
+- Easier maintenance and future customization.
+
+## Concepts Learned
+- Wrapper components
+- Component reuse
+- UI standardization
+- Gradual refactoring strategy
+
+
+# Lesson 15.4 – Report Summary Refactoring
+
+## Objective
+Refactored the Report Summary section to use the reusable `StatCard` component.
+
+## Changes
+- Removed Chakra UI `Stat` components.
+- Replaced summary cards with reusable `StatCard`.
+- Standardized layout and styling.
+- Added color-coded cards for different report metrics.
+
+## Benefits
+- Consistent UI with the Dashboard.
+- Reduced duplicate code.
+- Easier maintenance.
+- Improved responsiveness.
+
+# Lesson 15.5 – StatCard Migration
+
+## Objective
+Completed the migration from `SummaryCard` to the reusable `StatCard` component.
+
+## Changes
+- Updated Dashboard to use `StatCard`.
+- Updated ThreatStats to use `StatCard`.
+- Updated ReportSummary to use `StatCard`.
+- Updated UserStats to use `StatCard`.
+- Removed obsolete `SummaryCard` component.
+
+## Benefits
+- Single reusable statistics card component.
+- Cleaner project architecture.
+- Reduced duplicate code.
+- Easier future maintenance.
+
+## Concepts Learned
+- Component consolidation
+- Design system architecture
+- Gradual refactoring
+
 
 
 ## Git Commits

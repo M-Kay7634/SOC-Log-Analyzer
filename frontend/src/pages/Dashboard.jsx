@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import socket from "../services/socket";
 
 import DashboardLayout from "../layouts/DashboardLayout";
-import SummaryCard from "../components/dashboard/SummaryCard";
+import StatCard from '../components/common/StatCard';
 import ThreatChart from "../components/dashboard/ThreatChart";
 import TimelineChart from "../components/dashboard/TimelineChart";
 import TopIPs from "../components/dashboard/TopIPs";
@@ -96,28 +96,28 @@ function Dashboard() {
       <Heading mb={8} color={headingColor}>Dashboard</Heading>
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
-        <SummaryCard
+        <StatCard
           title="Total Logs"
           value={summary.totalLogs}
-          color="blue.500"
+          borderColor="blue.500"
         />
 
-        <SummaryCard
+        <StatCard
           title="Threats"
           value={summary.totalThreats}
           color="orange.500"
         />
 
-        <SummaryCard
+        <StatCard
           title="Critical"
           value={summary.criticalThreats}
-          color="red.500"
+          borderColor="red.500"
         />
 
-        <SummaryCard
+        <StatCard
           title="High"
           value={summary.highThreats}
-          color="yellow.500"
+          borderColor="yellow.500"
         />
       </SimpleGrid>
 

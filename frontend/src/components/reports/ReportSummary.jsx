@@ -2,14 +2,11 @@ import {
   Box,
   Heading,
   SimpleGrid,
-  Stat,
-  StatLabel,
-  StatNumber,
   Spinner,
   Center,
   useColorModeValue,
 } from "@chakra-ui/react";
-
+import StatCard from '../common/StatCard';
 import { useEffect, useState } from "react";
 
 import { getReportSummary } from "../../services/reportService";
@@ -57,61 +54,52 @@ function ReportSummary() {
         Report Summary
       </Heading>
 
-      <SimpleGrid columns={2} spacing={5}>
+      <SimpleGrid
+          columns={{ base: 1, md: 2, lg: 3 }}
+          spacing={5}
+        >
+          <StatCard
+            title="Total Logs"
+            value={summary.totalLogs}
+            borderColor="blue.500"
+          />
 
-        <Stat>
-          <StatLabel>Total Logs</StatLabel>
-          <StatNumber>
-            {summary.totalLogs}
-          </StatNumber>
-        </Stat>
+          <StatCard
+            title="Threats"
+            value={summary.totalThreats}
+            borderColor="red.500"
+          />
 
-        <Stat>
-          <StatLabel>Threats</StatLabel>
-          <StatNumber>
-            {summary.totalThreats}
-          </StatNumber>
-        </Stat>
+          <StatCard
+            title="Critical"
+            value={summary.criticalThreats}
+            borderColor="red.600"
+          />
 
-        <Stat>
-          <StatLabel>Critical</StatLabel>
-          <StatNumber>
-            {summary.criticalThreats}
-          </StatNumber>
-        </Stat>
+          <StatCard
+            title="High"
+            value={summary.highThreats}
+            borderColor="orange.500"
+          />
 
-        <Stat>
-          <StatLabel>High</StatLabel>
-          <StatNumber>
-            {summary.highThreats}
-          </StatNumber>
-        </Stat>
+          <StatCard
+            title="Medium"
+            value={summary.mediumThreats}
+            borderColor="yellow.500"
+          />
 
-        <Stat>
-          <StatLabel>Medium</StatLabel>
-          <StatNumber>
-            {summary.mediumThreats}
-          </StatNumber>
-        </Stat>
+          <StatCard
+            title="Low"
+            value={summary.lowThreats}
+            borderColor="green.500"
+          />
 
-        <Stat>
-          <StatLabel>Low</StatLabel>
-          <StatNumber>
-            {summary.lowThreats}
-          </StatNumber>
-        </Stat>
-
-        <Stat>
-          <StatLabel>
-            Reports Generated
-          </StatLabel>
-
-          <StatNumber>
-            {summary.totalReports}
-          </StatNumber>
-        </Stat>
-
-      </SimpleGrid>
+          <StatCard
+            title="Reports Generated"
+            value={summary.totalReports}
+            borderColor="purple.500"
+          />
+        </SimpleGrid>
     </Box>
   );
 }

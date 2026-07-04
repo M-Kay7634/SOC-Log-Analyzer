@@ -1,7 +1,16 @@
-import { Box, Heading, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
-function SummaryCard({ title, value, color }) {
-
+function StatCard({
+  title,
+  value,
+  subtitle,
+  borderColor = "blue.400",
+}) {
   const cardBg = useColorModeValue("white", "gray.800");
   const headingColor = useColorModeValue("gray.800", "white");
   const textColor = useColorModeValue("gray.600", "gray.300");
@@ -13,7 +22,7 @@ function SummaryCard({ title, value, color }) {
       rounded="lg"
       shadow="lg"
       borderTop="5px solid"
-      borderColor={color}
+      borderColor={borderColor}
       transition="0.3s"
       _hover={{
         transform: "translateY(-5px)",
@@ -35,8 +44,18 @@ function SummaryCard({ title, value, color }) {
       >
         {value}
       </Heading>
+
+      {subtitle && (
+        <Text
+          mt={2}
+          fontSize="sm"
+          color={textColor}
+        >
+          {subtitle}
+        </Text>
+      )}
     </Box>
   );
 }
 
-export default SummaryCard;
+export default StatCard;

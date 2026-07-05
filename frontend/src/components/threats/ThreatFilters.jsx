@@ -1,10 +1,10 @@
 import {
   Box,
-  Input,
   Select,
   HStack,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { memo } from "react";
 
 import SearchBar from "../common/SearchBar";
 
@@ -23,7 +23,14 @@ function ThreatFilters({
       shadow="md"
       mb={6}
     >
-      <HStack spacing={4}>
+      <HStack
+        spacing={4}
+        flexDirection={{
+          base: "column",
+          md: "row",
+        }}
+        align="stretch"
+      >
         <SearchBar
           value={search}
           onChange={setSearch}
@@ -35,7 +42,11 @@ function ThreatFilters({
           onChange={(e) =>
             setPriority(e.target.value)
           }
-          width="220px"
+          width={{
+            base: "100%",
+            md: "220px",
+          }}
+          aria-label="Filter by priority"
         >
           <option value="">All Priorities</option>
           <option value="Critical">Critical</option>
@@ -48,4 +59,4 @@ function ThreatFilters({
   );
 }
 
-export default ThreatFilters;
+export default memo(ThreatFilters);

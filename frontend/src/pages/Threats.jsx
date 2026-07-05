@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Heading, Center, useToast, Button } from "@chakra-ui/react";
+import { useEffect, useState, useCallback, memo, useMemo} from "react";
+import { Heading, Center, useToast, Button, HStack, } from "@chakra-ui/react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
 import ThreatTable from "../components/threats/ThreatTable";
@@ -24,30 +24,36 @@ function Threats() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchThreats();
-
-    socket.on("dashboardUpdated", () => {
-      console.log("📡 Threat List Updated");
-      fetchThreats();
-    });
-
-    return () => {
-      socket.off("dashboardUpdated");
-    };
-  }, [page]);
-
-    const fetchThreats = async () => {
+  const fetchThreats = useCallback(async () => {
       try {
         const data = await getAllThreats(page, 10);
         setThreats(data.threats);
         setTotalPages(data.totalPages);
       } catch (error) {
-        console.error(error);
+        toast({
+          title: "Failed to load threats",
+          description:
+            error.response?.data?.message ||
+            "Please try again.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       } finally {
         setLoading(false);
       }
+    },[page]);
+
+  useEffect(() => {
+    fetchThreats();
+
+    socket.on("dashboardUpdated", fetchThreats);
+
+    return () => {
+      socket.off("dashboardUpdated");
     };
+  }, [fetchThreats]);
+
 
     const handleDelete = async (id) => {
       try {
@@ -154,6 +160,33 @@ function Threats() {
     }
   };
 
+  const filteredThreats = useMemo(() => {
+    return threats.filter((threat) => {
+      const matchesSearch =
+        (threat.ip || "")
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+
+        (threat.threatType || "")
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+
+        (threat.country || "")
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+
+        (threat.region || "")
+          .toLowerCase()
+          .includes(search.toLowerCase());
+
+      const matchesPriority =
+        priority === "" ||
+        threat.priority === priority;
+
+      return matchesSearch && matchesPriority;
+    });
+  }, [threats, search, priority]);
+
   if (loading) {
     return (
       <DashboardLayout>
@@ -161,33 +194,10 @@ function Threats() {
       </DashboardLayout>
     );
   }
-  const filteredThreats = threats.filter((threat) => {
-  const matchesSearch =
-    (threat.ip || "")
-      .toLowerCase()
-      .includes(search.toLowerCase()) ||
-
-    (threat.threatType || "")
-      .toLowerCase()
-      .includes(search.toLowerCase()) ||
-
-    (threat.country || "")
-      .toLowerCase()
-      .includes(search.toLowerCase()) ||
-
-    (threat.region || "")
-      .toLowerCase()
-    .includes(search.toLowerCase());
-
-  const matchesPriority =
-    priority === "" || threat.priority === priority;
-
-    return matchesSearch && matchesPriority;
-  });
 
   return (
     <DashboardLayout>
-      <Heading mb={6}>Threat Management</Heading>
+      <Heading mb={6}>Threat Management Center</Heading>
       
       <ThreatStats threats={filteredThreats} />
 
@@ -197,23 +207,23 @@ function Threats() {
         priority={priority}
         setPriority={setPriority}
       />
-      <Button
-        colorScheme="orange"
-        mb={4}
-        onClick={handleDeleteMyLogs}
-      >
-        Delete My Uploaded Logs
-      </Button>
-      {user.role === "Admin" && (
+      <HStack mb={4} spacing={3}>
         <Button
-          colorScheme="red"
-          mb={4}
-          ml={3}
-          onClick={handleDeleteAllLogs}
+          colorScheme="orange"
+          onClick={handleDeleteMyLogs}
         >
-          Delete All Logs
+          Delete My Uploaded Logs
         </Button>
-      )}
+
+        {user.role === "Admin" && (
+          <Button
+            colorScheme="red"
+            onClick={handleDeleteAllLogs}
+          >
+            Delete All Logs
+          </Button>
+        )}
+      </HStack>
 
       <ThreatTable 
         threats={filteredThreats}
@@ -229,4 +239,4 @@ function Threats() {
   );
 }
 
-export default Threats;
+export default memo(Threats);

@@ -10,35 +10,71 @@ import {
   Geographies,
   Geography,
 } from "react-simple-maps";
+import { useMemo, memo } from "react";
+import EmptyState from "../common/EmptyState";
+import {WORLD_MAP} from '../../constants/map';
 
-const geoUrl =
-  "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+const geoUrl = WORLD_MAP;
+
+
+const countryCodeMap = {
+    "United States of America": "US",
+    Australia: "AU",
+    India: "IN",
+    Germany: "DE",
+    France: "FR",
+    Canada: "CA",
+    China: "CN",
+    Japan: "JP",
+    Russia: "RU",
+    Brazil: "BR",
+    "United Kingdom": "GB",
+};
 
 function ThreatWorldMap({
     origins = [],
 }) {
+      if (!origins.length) {
+        return (
+          <Box
+            bg={bg}
+            p={5}
+            rounded="lg"
+            shadow="md"
+          >
+            <Heading size="md" mb={4}>
+              🌍 World Threat Map
+            </Heading>
+
+            <EmptyState
+              title="No Threat Map"
+              description="Upload logs to visualize attack locations."
+            />
+          </Box>
+        );
+      }
 
   const bg = useColorModeValue(
     "white",
     "gray.800"
   );
 
-  const threatMap = {};
+  const threatMap = useMemo(() => {
+    const map = {};
 
-  origins.forEach((item) => {threatMap[item.country] = item.attacks;});
+    origins.forEach((item) => {
+      map[item.country] = item.attacks;
+    });
 
-  const countryCodeMap = {
-        "United States of America": "US",
-        Australia: "AU",
-        India: "IN",
-        Germany: "DE",
-        France: "FR",
-        Canada: "CA",
-        China: "CN",
-        Japan: "JP",
-        Russia: "RU",
-        Brazil: "BR",
-        "United Kingdom": "GB",
+    return map;
+  }, [origins]);
+
+
+    const getCountryColor = (attacks) => {
+      if (attacks >= 15) return "#E53E3E";
+      if (attacks >= 6) return "#DD6B20";
+      if (attacks >= 1) return "#D69E2E";
+      return "#E2E8F0";
     };
 
 
@@ -48,6 +84,7 @@ function ThreatWorldMap({
       p={5}
       rounded="lg"
       shadow="md"
+      minH="420px"
     >
 
       <Heading
@@ -59,7 +96,7 @@ function ThreatWorldMap({
 
       <ComposableMap
         projectionConfig={{
-          scale: 135,
+          scale: 145,
         }}
       >
       <Geographies geography={geoUrl}>
@@ -70,42 +107,14 @@ function ThreatWorldMap({
 
             return (
                 <Tooltip
-                    label={`${geo.properties.NAME}
-                  Threats:
-                  ${
-                  threatMap[
-                  countryCodeMap[
-                  geo.properties.NAME
-                  ]
-                  ] || 0
-                  }`}
+                  key={geo.rsmKey}
+                  label={`${geo.properties.NAME} • ${attacks} attack(s)`}
                 >
                 <Geography
                     geography={geo}
                     style={{
                         default: {
-                          fill: (() => {
-
-                            const code =
-                              countryCodeMap[
-                                geo.properties.NAME
-                              ];
-
-                            const attacks =
-                              threatMap[code] || 0;
-
-                            if (attacks >= 15)
-                              return "#E53E3E";
-
-                            if (attacks >= 6)
-                              return "#DD6B20";
-
-                            if (attacks >= 1)
-                              return "#D69E2E";
-
-                            return "#E2E8F0";
-
-                        })(),
+                          fill: getCountryColor(attacks),
 
                         outline: "none",
                       },
@@ -113,6 +122,7 @@ function ThreatWorldMap({
                       hover: {
                         fill: "#3182CE",
                         outline: "none",
+                        cursor:"pointer",
                       },
 
                       pressed: {
@@ -131,4 +141,4 @@ function ThreatWorldMap({
   );
 }
 
-export default ThreatWorldMap;
+export default memo(ThreatWorldMap);

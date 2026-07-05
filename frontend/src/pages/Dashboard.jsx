@@ -106,7 +106,7 @@ function Dashboard() {
         <StatCard
           title="Threats"
           value={summary.totalThreats}
-          color="orange.500"
+          borderColor="orange.500"
         />
 
         <StatCard
@@ -122,34 +122,46 @@ function Dashboard() {
         />
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={6} mt={8}>
+      <SimpleGrid
+        columns={{ base: 1, lg: 2 }}
+        spacing={6}
+        mt={8}
+      >
         <ThreatChart distribution={distribution} />
         <TimelineChart timeline={timeline} />
-        <Box mt={8}>
-          <TopIPs topIPs={topIPs} />
-        </Box>
-        <Box mt={8}>
-          <RecentThreatsTable threats={recentThreats} />
-        </Box>
-        <SimpleGrid
-            columns={{ base:1, lg:2 }}
-            spacing={6}
-        >
+      </SimpleGrid>
+      <SimpleGrid
+        columns={{ base: 1, lg: 2 }}
+        spacing={6}
+        mt={6}
+      >
+        <TopIPs topIPs={topIPs} />
 
-            <AttackOriginCard />
+        <RecentThreatsTable
+          threats={recentThreats}
+        />
+      </SimpleGrid>
+      <SimpleGrid
+        columns={{ base: 1, lg: 2 }}
+        spacing={6}
+        mt={6}
+      >
+        <AttackOriginCard
+          origins={attackOrigins}
+        />
 
-            <MonitoringWidget />
+        <MonitoringWidget />
+      </SimpleGrid>
+      <SimpleGrid
+        columns={{ base: 1, lg: 2 }}
+        spacing={6}
+        mt={6}
+      >
+        <ThreatWorldMap
+          origins={attackOrigins}
+        />
 
-        </SimpleGrid>
-
-        <SimpleGrid
-          columns={{ base: 1, lg: 2 }}
-          spacing={6}
-        >
-          <ThreatWorldMap />
-
-          <SystemHealthWidget />
-        </SimpleGrid>
+        <SystemHealthWidget />
       </SimpleGrid>
     </DashboardLayout>
   );

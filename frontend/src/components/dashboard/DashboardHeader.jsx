@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { FaShieldAlt } from "react-icons/fa";
 import {TimeIcon} from "@chakra-ui/icons";
+import { memo } from "react";
 
 function DashboardHeader() {
   const bg = useColorModeValue("white", "gray.800");
@@ -27,6 +28,11 @@ function DashboardHeader() {
     minute: "2-digit",
   });
 
+  const subtitleColor = useColorModeValue(
+    "gray.600",
+    "gray.400"
+  );
+
   return (
     <Box
       bg={bg}
@@ -34,17 +40,26 @@ function DashboardHeader() {
       rounded="lg"
       shadow="md"
       mb={6}
+      minH="120px"
     >
       <Flex
         justify="space-between"
-        align="center"
-        wrap="wrap"
+        align={{
+          base: "flex-start",
+          md: "center",
+        }}
+        direction={{
+          base: "column",
+          md: "row",
+        }}
+        gap={4}
       >
         <HStack spacing={4}>
           <Icon
-            as={FaShieldAlt }
+            as={FaShieldAlt}
             boxSize={10}
             color="blue.500"
+            aria-label="SOC Shield"
           />
 
           <VStack align="start" spacing={1}>
@@ -53,7 +68,7 @@ function DashboardHeader() {
             </Heading>
 
             <Text
-              color="gray.500"
+              color={subtitleColor}
               fontSize="sm"
             >
               Real-Time Security Monitoring &
@@ -89,4 +104,4 @@ function DashboardHeader() {
   );
 }
 
-export default DashboardHeader;
+export default memo(DashboardHeader);

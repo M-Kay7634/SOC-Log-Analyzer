@@ -1,28 +1,23 @@
 import {
   Box,
   Heading,
-  SimpleGrid,
   Text,
   VStack,
   HStack,
-  Icon,
   Spinner,
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import {
-  CheckCircleIcon,
-  WarningIcon,
-} from "@chakra-ui/icons";
-
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 
 import { getMonitoringStatus } from "../../services/liveMonitoringService";
 
 import StatusBadge from "../common/StatusBadge";
+import EmptyState from "../common/EmptyState";
 
 function MonitoringWidget() {
   const bg = useColorModeValue("white", "gray.800");
+  const hoverBg = useColorModeValue("gray.50", "gray.700");
 
   const [monitoring, setMonitoring] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -50,12 +45,34 @@ function MonitoringWidget() {
     );
   }
 
+  if (!monitoring) {
+    return (
+      <Box
+        bg={bg}
+        p={6}
+        rounded="lg"
+        shadow="md"
+        minH="420px"
+      >
+        <Heading size="md" mb={5}>
+          Monitoring Status
+        </Heading>
+
+        <EmptyState
+          title="Monitoring Offline"
+          description="Monitoring status is currently unavailable."
+        />
+      </Box>
+    );
+  }
+
   return (
     <Box
       bg={bg}
       p={6}
       rounded="lg"
       shadow="md"
+      minH="420px"
     >
       <Heading size="md" mb={5}>
         Monitoring Status
@@ -63,7 +80,14 @@ function MonitoringWidget() {
 
       <VStack align="stretch" spacing={4}>
 
-        <HStack justify="space-between">
+        <HStack
+          justify="space-between"
+          p={2}
+          rounded="md"
+          _hover={{
+            bg: hoverBg,
+          }}
+        >
           <Text>Status</Text>
 
           <StatusBadge
@@ -72,35 +96,67 @@ function MonitoringWidget() {
           />
         </HStack>
 
-        <HStack justify="space-between">
-          <Text>Source</Text>
+        <HStack
+          justify="space-between"
+          p={2}
+          rounded="md"
+          _hover={{
+            bg: hoverBg,
+          }}
+        >
+          <Text>Log Source</Text>
 
           <Text fontWeight="bold">
             {monitoring.source}
           </Text>
         </HStack>
 
-        <HStack justify="space-between">
-          <Text>Lines</Text>
+        <HStack
+          justify="space-between"
+          p={2}
+          rounded="md"
+          _hover={{
+            bg: hoverBg,
+          }}
+        >
+          <Text>Lines Processed</Text>
 
           <Text fontWeight="bold">
             {monitoring.linesProcessed}
           </Text>
         </HStack>
 
-        <HStack justify="space-between">
-          <Text>Threats</Text>
+        <HStack
+          justify="space-between"
+          p={2}
+          rounded="md"
+          _hover={{
+            bg: hoverBg,
+          }}
+        >
+          <Text>Threats Detected</Text>
 
           <Text fontWeight="bold">
             {monitoring.threatsDetected}
           </Text>
         </HStack>
 
-        <HStack justify="space-between">
+        <HStack
+          justify="space-between"
+          p={2}
+          rounded="md"
+          _hover={{
+            bg: hoverBg,
+          }}
+        >
           <Text>Last Event</Text>
 
           <Text fontWeight="bold">
-            {monitoring.lastEvent || "--"}
+            {monitoring.lastEvent
+              ? new Date(
+                  monitoring.lastEvent
+                ).toLocaleString()
+              : "--"}
           </Text>
         </HStack>
 
@@ -109,4 +165,4 @@ function MonitoringWidget() {
   );
 }
 
-export default MonitoringWidget;
+export default memo(MonitoringWidget);

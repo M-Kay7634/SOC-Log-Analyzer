@@ -1,4 +1,5 @@
-import { Box, Heading, useColorModeValue } from "@chakra-ui/react";
+import { Box, Heading, useColorModeValue, } from "@chakra-ui/react";
+import { useMemo, memo } from "react";
 import { Pie } from "react-chartjs-2";
 
 import {
@@ -7,6 +8,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import EmptyState from "../common/EmptyState";
+import { PIE_COLORS } from "../../constants/chartColors";
 
 ChartJS.register(
   ArcElement,
@@ -15,26 +18,44 @@ ChartJS.register(
 );
 
 function ThreatChart({ distribution }) {
-  const data = {
-    labels: distribution.map((item) => item.threatType),
+  const data = useMemo(() => ({
+    labels: distribution.map(
+      (item) => item.threatType
+    ),
 
     datasets: [
       {
-        data: distribution.map((item) => item.count),
+        data: distribution.map(
+          (item) => item.count
+        ),
 
-        backgroundColor: [
-          "#e53e3e",
-          "#dd6b20",
-          "#3182ce",
-          "#38a169",
-          "#805ad5",
-        ],
+        backgroundColor: PIE_COLORS,
       },
     ],
-  };
+  }), [distribution]);
 
   const cardBg = useColorModeValue("white", "gray.800");
 
+  if (!distribution.length) {
+    return (
+      <Box
+        bg={cardBg}
+        p={6}
+        rounded="lg"
+        shadow="md"
+        h="420px"
+      >
+        <Heading size="md" mb={5}>
+          Threat Distribution by Type
+        </Heading>
+
+        <EmptyState
+          title="No Threat Data"
+          description="Upload logs to visualize threat distribution."
+        />
+      </Box>
+    );
+  }
   return (
     <Box
       bg={cardBg}
@@ -44,7 +65,7 @@ function ThreatChart({ distribution }) {
       h="420px"
     >
       <Heading size="md" mb={5}>
-        Threat Distribution
+        Threat Distribution by Type
       </Heading>
 
       <Box
@@ -52,6 +73,7 @@ function ThreatChart({ distribution }) {
         display="flex"
         justifyContent="center"
         alignItems="center"
+        aria-label="Threat distribution chart"
       >
         <Pie
           data={data}
@@ -62,6 +84,10 @@ function ThreatChart({ distribution }) {
               legend: {
                 position: "bottom",
               },
+              labels: {
+                boxWidth: 15,
+                padding: 20,
+              }
             },
           }}
         />
@@ -70,4 +96,4 @@ function ThreatChart({ distribution }) {
   );
 }
 
-export default ThreatChart;
+export default memo(ThreatChart);

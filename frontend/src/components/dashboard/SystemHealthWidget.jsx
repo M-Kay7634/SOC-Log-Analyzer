@@ -8,14 +8,10 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import {
-  CheckCircleIcon,
-} from "@chakra-ui/icons";
+import {CheckCircleIcon,} from "@chakra-ui/icons";
+import { memo } from "react";
 
-function SystemHealthWidget() {
-  const bg = useColorModeValue("white", "gray.800");
-
-  const services = [
+const SERVICES = [
     "Backend API",
     "MongoDB",
     "Socket.IO",
@@ -23,24 +19,35 @@ function SystemHealthWidget() {
     "Live Monitoring",
   ];
 
+function SystemHealthWidget() {
+  const bg = useColorModeValue("white", "gray.800");
+  const hoverBg = useColorModeValue("gray.50","gray.700");
+
+
   return (
     <Box
       bg={bg}
       p={6}
       rounded="lg"
       shadow="md"
+      minH="420px"
     >
       <Heading size="md" mb={5}>
-        System Health
+        System Health Status
       </Heading>
 
       <VStack spacing={4} align="stretch">
-        {services.map((service) => (
+        {SERVICES.map((service) => (
           <HStack
             key={service}
             justify="space-between"
+            p={2}
+            rounded="md"
+            _hover={{
+              bg: hoverBg,
+            }}
           >
-            <Text>{service}</Text>
+            <Text fontWeight="600">{service}</Text>
 
             <HStack spacing={2}>
               <Icon
@@ -62,4 +69,4 @@ function SystemHealthWidget() {
   );
 }
 
-export default SystemHealthWidget;
+export default memo(SystemHealthWidget);

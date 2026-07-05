@@ -2,14 +2,14 @@ import {
   Box,
   Heading,
   SimpleGrid,
-  Spinner,
-  Center,
   useColorModeValue,
 } from "@chakra-ui/react";
 import StatCard from '../common/StatCard';
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo, } from "react";
 
 import { getReportSummary } from "../../services/reportService";
+import LoadingSkeleton from "../common/LoadingSkeleton";
+import EmptyState from "../common/EmptyState";
 
 function ReportSummary() {
   const [summary, setSummary] = useState(null);
@@ -30,16 +30,33 @@ function ReportSummary() {
       setSummary(data.summary);
     } catch (error) {
       console.error(error);
+      setSummary(null);
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (!summary) {
     return (
-      <Center h="250px">
-        <Spinner size="xl" />
-      </Center>
+      <Box
+        bg={cardBg}
+        p={6}
+        rounded="lg"
+        shadow="md"
+      >
+        <Heading size="md" mb={5}>
+          Report Summary
+        </Heading>
+
+        <EmptyState
+          title="No Report Data"
+          description="Generate a report to view summary statistics."
+        />
+      </Box>
     );
   }
 
@@ -57,6 +74,7 @@ function ReportSummary() {
       <SimpleGrid
           columns={{ base: 1, md: 2, lg: 3 }}
           spacing={5}
+          alignItems="stretch"
         >
           <StatCard
             title="Total Logs"
@@ -104,4 +122,4 @@ function ReportSummary() {
   );
 }
 
-export default ReportSummary;
+export default memo(ReportSummary);

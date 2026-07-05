@@ -1,5 +1,4 @@
 import {
-  Badge,
   Box,
   Heading,
   Spinner,
@@ -14,9 +13,12 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo, } from "react";
 
 import { getReportLogs } from "../../services/reportService";
+import StatusBadge from "../common/StatusBadge";
+import LoadingSkeleton from "../common/LoadingSkeleton";
+import EmptyState from "../common/EmptyState";
 
 function ReportTable({filters}) {
   const [logs, setLogs] = useState([]);
@@ -25,6 +27,10 @@ function ReportTable({filters}) {
   const cardBg = useColorModeValue(
     "white",
     "gray.800"
+  );
+  const hoverBg = useColorModeValue(
+    "gray.50",
+    "gray.700"
   );
 
   useEffect(() => {
@@ -37,16 +43,33 @@ function ReportTable({filters}) {
       setLogs(data.logs);
     } catch (error) {
       console.error(error);
+      setLogs([]);
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (!logs.length) {
     return (
-      <Center h="300px">
-        <Spinner size="xl" />
-      </Center>
+      <Box
+        bg={cardBg}
+        p={6}
+        rounded="lg"
+        shadow="md"
+      >
+        <Heading size="md" mb={5}>
+          Report Logs
+        </Heading>
+
+        <EmptyState
+          title="No Logs Found"
+          description="Try changing the report filters."
+        />
+      </Box>
     );
   }
 
@@ -79,7 +102,12 @@ function ReportTable({filters}) {
           <Tbody>
 
             {logs.map((log) => (
-              <Tr key={log._id}>
+              <Tr
+                key={log._id}
+                _hover={{
+                  bg: hoverBg,
+                }}
+              >
 
                 <Td>{log.ip}</Td>
 
@@ -90,24 +118,18 @@ function ReportTable({filters}) {
                 <Td>{log.severity || "-"}</Td>
 
                 <Td>
-                  <Badge
-                    colorScheme={
-                      log.priority === "Critical"
-                        ? "red"
-                        : log.priority === "High"
-                        ? "orange"
-                        : log.priority === "Medium"
-                        ? "yellow"
-                        : log.priority === "Low"
-                        ? "green"
-                        : "gray"
-                    }
-                  >
-                    {log.priority}
-                  </Badge>
+                  <StatusBadge
+                    value={log.priority}
+                    type="priority"
+                  />
                 </Td>
 
-                <Td>{log.status}</Td>
+                <Td>
+                  <StatusBadge
+                    value={log.status}
+                    type="status"
+                  />
+                </Td>
 
                 <Td>{log.method}</Td>
 
@@ -125,4 +147,4 @@ function ReportTable({filters}) {
   );
 }
 
-export default ReportTable;
+export default memo(ReportTable);

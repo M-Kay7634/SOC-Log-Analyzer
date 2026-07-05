@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Heading, Center, useToast, useColorModeValue } from "@chakra-ui/react";
+import { useEffect, useState, } from "react";
+import { Heading, Center, useToast, } from "@chakra-ui/react";
 
 import { useAuth } from "../context/AuthContext";
 import MyProfileCard from "../components/users/MyProfileCard";
@@ -21,25 +21,19 @@ function Users() {
   const [activity, setActivity] = useState(null);
   const toast = useToast();
 
-  const cardBg = useColorModeValue(
-    "white",
-    "gray.800"
-  );
-
-  useEffect(() => {
-    if (user.role === "Admin") {
-      fetchUsers();
-    } else {
-      fetchActivity();
-    }
-  }, []);
 
   const fetchUsers = async () => {
     try {
       const data = await getAllUsers();
       setUsers(data.users);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
+      toast({
+        title: "Failed to load users",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     } finally {
       setLoading(false);
     }
@@ -55,6 +49,14 @@ function Users() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (user.role === "Admin") {
+      fetchUsers();
+    } else {
+      fetchActivity();
+    }
+  }, [user.role]);
 
   const handleRoleChange = async (id, role) => {
     try {

@@ -1,16 +1,21 @@
 import { SimpleGrid } from "@chakra-ui/react";
+import { memo, useMemo } from "react";
 import StatCard from "../common/StatCard";
 
 function UserStats({ users }) {
-  const totalUsers = users.length;
+  const stats = useMemo(() => {
+    return {
+      totalUsers: users.length,
 
-  const admins = users.filter(
-    (user) => user.role === "Admin"
-  ).length;
+      admins: users.filter(
+        (user) => user.role === "Admin"
+      ).length,
 
-  const analysts = users.filter(
-    (user) => user.role === "Analyst"
-  ).length;
+      analysts: users.filter(
+        (user) => user.role === "Analyst"
+      ).length,
+    };
+  }, [users]);
 
   return (
     <SimpleGrid
@@ -20,23 +25,23 @@ function UserStats({ users }) {
     >
       <StatCard
         title="Total Users"
-        value={totalUsers}
+        value={stats.totalUsers}
         borderColor="blue.500"
       />
 
       <StatCard
         title="Admins"
-        value={admins}
+        value={stats.admins}
         borderColor="red.500"
       />
 
       <StatCard
         title="Analysts"
-        value={analysts}
+        value={stats.analysts}
         borderColor="green.500"
       />
     </SimpleGrid>
   );
 }
 
-export default UserStats;
+export default memo(UserStats);

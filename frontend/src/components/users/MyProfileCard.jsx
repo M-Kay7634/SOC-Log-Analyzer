@@ -4,9 +4,10 @@ import {
   VStack,
   HStack,
   Text,
-  Badge,
   useColorModeValue,
 } from "@chakra-ui/react";
+import StatusBadge from "../common/StatusBadge";
+import { memo } from "react";
 
 function MyProfileCard({ user }) {
   const bg = useColorModeValue("white", "gray.800");
@@ -25,26 +26,21 @@ function MyProfileCard({ user }) {
       <VStack align="stretch" spacing={4}>
         <HStack justify="space-between">
           <Text fontWeight="bold">Name</Text>
-          <Text>{user.name}</Text>
+          <Text>{user.name || "-"}</Text>
         </HStack>
 
         <HStack justify="space-between">
           <Text fontWeight="bold">Email</Text>
-          <Text>{user.email}</Text>
+          <Text>{user.email || "-"}</Text>
         </HStack>
 
         <HStack justify="space-between">
           <Text fontWeight="bold">Role</Text>
 
-          <Badge
-            colorScheme={
-              user.role === "Admin"
-                ? "red"
-                : "green"
-            }
-          >
-            {user.role}
-          </Badge>
+          <StatusBadge
+            value={user.role}
+            type="role"
+          />
         </HStack>
 
         <HStack justify="space-between">
@@ -55,7 +51,13 @@ function MyProfileCard({ user }) {
           <Text>
             {new Date(
               user.createdAt
-            ).toLocaleDateString()}
+            ).toLocaleDateString(
+              "en-IN",
+            {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
           </Text>
         </HStack>
       </VStack>
@@ -63,4 +65,4 @@ function MyProfileCard({ user }) {
   );
 }
 
-export default MyProfileCard;
+export default memo(MyProfileCard);

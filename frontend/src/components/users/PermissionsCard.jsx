@@ -7,7 +7,7 @@ import {
   Icon,
   useColorModeValue,
 } from "@chakra-ui/react";
-
+import { memo } from "react";
 import {
   CheckCircleIcon,
   NotAllowedIcon,
@@ -41,11 +41,17 @@ function PermissionsCard() {
       <Heading size="md" mb={6}>
         🔐 My Permissions
       </Heading>
-
+      
+      <Text
+        fontWeight="bold"
+        color="green.500"
+      >
+        Allowed
+      </Text>
       <VStack align="stretch" spacing={4}>
 
         {allowed.map((item) => (
-          <HStack key={item}>
+          <HStack key={item} spacing={3}>
             <Icon
               as={CheckCircleIcon}
               color="green.500"
@@ -54,8 +60,15 @@ function PermissionsCard() {
           </HStack>
         ))}
 
+        <Text
+          mt={3}
+          fontWeight="bold"
+          color="red.500"
+        >
+          Restricted
+        </Text>
         {denied.map((item) => (
-          <HStack key={item}>
+          <HStack key={item} spacing={3}>
             <Icon
               as={NotAllowedIcon}
               color="red.500"
@@ -69,4 +82,4 @@ function PermissionsCard() {
   );
 }
 
-export default PermissionsCard;
+export default memo(PermissionsCard);

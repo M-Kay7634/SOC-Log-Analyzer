@@ -1,29 +1,20 @@
 import {
   Box,
   Heading,
-  Center,
   Table,
   Thead,
   Tbody,
   Tr,
   Th,
   Td,
-  Badge,
   TableContainer,
   useColorModeValue,
   Button,
   useDisclosure,
   useToast,
-  Input,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
 } from "@chakra-ui/react";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo, memo, } from "react";
 import { getReportHistory, deleteReportHistory } from "../../services/reportService";
 import ReportDetailsModal from "./ReportDetailsModal";
 import ConfirmDialog from '../common/ConfirmDialog';
@@ -62,10 +53,25 @@ function ReportHistoryTable() {
     "white",
     "gray.800"
   );
+  const hoverBg = useColorModeValue(
+    "gray.50",
+    "gray.700"
+  );
+
+  const loadReports = useCallback(async () => {
+    try {
+      const data = await getReportHistory();
+      setReports(data.reports);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  },[]);
 
   useEffect(() => {
     loadReports();
-  }, []);
+  }, [loadReports]);
 
   const handleView = (report) => {
     setSelectedReport(report);
@@ -97,37 +103,27 @@ function ReportHistoryTable() {
     }
   };
 
-  const loadReports = async () => {
-    try {
-      const data = await getReportHistory();
-      setReports(data.reports);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const filteredReports = useMemo(() => {
+    return reports.filter((report) => {
+      const name = report.generatedBy?.name || "";
+
+      return (
+        name
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+
+        report.format
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      );
+    });
+  }, [reports, search]);
 
   if (loading) {
     return (
       <LoadingSkeleton />
     );
   }
-
-  const filteredReports = reports.filter((report) => {
-    const name =
-      report.generatedBy?.name || "";
-
-    return (
-      name
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
-
-      report.format
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    );
-  });
 
   return (
     <Box
@@ -156,6 +152,7 @@ function ReportHistoryTable() {
           <Button
             colorScheme="blue"
             onClick={loadReports}
+            isLoading={loading}
           >
             Refresh
           </Button>
@@ -192,7 +189,12 @@ function ReportHistoryTable() {
             ):(
 
             filteredReports.map((report) => (
-              <Tr key={report._id}>
+              <Tr
+                key={report._id}
+                _hover={{
+                  bg: hoverBg,
+                }}
+              >
 
                 <Td>
                   <StatusBadge
@@ -202,7 +204,7 @@ function ReportHistoryTable() {
                 </Td>
 
                 <Td>
-                  {report.generatedBy?.name}
+                  {report.generatedBy?.name || "-"}
                 </Td>
 
                 <Td>
@@ -210,11 +212,11 @@ function ReportHistoryTable() {
                 </Td>
 
                 <Td>
-                  {report.severity}
+                  {report.severity || "-"}
                 </Td>
 
                 <Td>
-                  {report.threatType}
+                  {report.threatType || "-"}
                 </Td>
 
                 <Td>
@@ -230,6 +232,7 @@ function ReportHistoryTable() {
                     onClick={() =>
                       handleView(report)
                     }
+                    mr={2}
                   >
                     View
                   </Button>
@@ -291,4 +294,4 @@ function ReportHistoryTable() {
   );
 }
 
-export default ReportHistoryTable;
+export default memo(ReportHistoryTable);

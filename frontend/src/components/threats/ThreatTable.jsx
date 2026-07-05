@@ -12,20 +12,12 @@ import {
   Tooltip,
   Button,
   useDisclosure,
-} from "@chakra-ui/react";
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Checkbox,
+  TableContainer,
 } from "@chakra-ui/react";
-
+import {memo,useState, useRef,} from "react";
 import {LockIcon} from "@chakra-ui/icons";
 
-import { useState, useRef } from "react";
 import ThreatDetailsModal from "./ThreatDetailsModal";
 import Pagination from "../common/Pagination";
 import ConfirmDialog from "../common/ConfirmDialog";
@@ -46,18 +38,6 @@ function ThreatTable({
 }) {
   const { user } = useAuth();
 
-  const getColor = (priority) => {
-    switch (priority) {
-      case "Critical":
-        return "red";
-      case "High":
-        return "orange";
-      case "Medium":
-        return "yellow";
-      default:
-        return "gray";
-    }
-  };
   const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [selectedThreat, setSelectedThreat] = useState(null);
@@ -108,6 +88,7 @@ function ThreatTable({
     };
 
     const cardBg = useColorModeValue("white", "gray.800");
+    const hoverBg = useColorModeValue("gray.50","gray.700");
 
   return (
     <Box bg={cardBg} p={6} rounded="lg" shadow="md">
@@ -124,106 +105,108 @@ function ThreatTable({
         </Button>
       )}
 
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>
-              <Checkbox
-                isChecked={
-                  threats.length > 0 &&
-                  selectedLogs.length === threats.length
-                }
-                onChange={handleSelectAll}
-              />
-            </Th>
-            <Th>IP Address</Th>
-            <Th>Country</Th>
-            <Th>Region</Th>
-            <Th>Uploaded By</Th>
-            <Th>Threat</Th>
-            <Th>Severity</Th>
-            <Th>Priority</Th>
-            <Th>MITRE</Th>
-            <Th>Timestamp</Th>
-            <Th>Action</Th>
-          </Tr>
-        </Thead>
-
-        <Tbody>
-          {threats.length === 0 ? (
+      <TableContainer>
+        <Table variant="simple">
+          <Thead>
             <Tr>
-              <Td colSpan={10}>
-                <EmptyState
-                  title="No Threats Found"
-                  description="Upload logs or change the applied filters."
+              <Th>
+                <Checkbox
+                  isChecked={
+                    threats.length > 0 &&
+                    selectedLogs.length === threats.length
+                  }
+                  onChange={handleSelectAll}
                 />
-              </Td>
+              </Th>
+              <Th>IP Address</Th>
+              <Th>Country</Th>
+              <Th>Region</Th>
+              <Th>Uploaded By</Th>
+              <Th>Threat</Th>
+              <Th>Severity</Th>
+              <Th>Priority</Th>
+              <Th>MITRE</Th>
+              <Th>Timestamp</Th>
+              <Th>Action</Th>
             </Tr>
-          ) : (
-            threats.map((threat) => (
-            <Tr key={threat._id}>
-              <Td>
-                {user.role === "Admin" ||
-                threat.uploadedBy?._id === user.id ? (
-                  <Checkbox
-                    isChecked={selectedLogs.includes(threat._id)}
-                    onChange={() => handleSelect(threat._id)}
-                  />
-                ) : ( <Tooltip
-                          label="You can only delete logs you uploaded."
-                      >
-                          <LockIcon color="gray.500" />
-                      </Tooltip> 
-                    )}
-              </Td>
-              <Td>{threat.ip}</Td>
-              <Td>{threat.country !== "Unknown" ? `🌍 ${threat.country}` : "-"}</Td>
-              <Td>{threat.region !== "Unknown" ? threat.region : "-"}</Td>
-              <Td>
-                {threat.uploadedBy?._id === user.id ? (<Badge colorScheme="green">You </Badge>) : (threat.uploadedBy?.name || "Unknown")}
-              </Td>
-              <Td>
-                {threat.threatType ? (<Badge colorScheme="purple">{threat.threatType}</Badge>) : ("-")}
-              </Td>
-              <Td>{threat.severity}</Td>
-              <Td>
-                <StatusBadge
-                  value={threat.priority}
-                  type="priority"
-                />
-              </Td>
-              <Td>{threat.mitreTechnique}</Td>
-              <Td>{threat.timestamp}</Td>
-              <Td>
-                <Button
-                  size="sm"
-                  colorScheme="blue"
-                  mr={2}
-                  onClick={() => handleView(threat)}
-                >
-                  View
-                </Button>
+          </Thead>
 
-                {user.role === "Admin" ||
-                threat.uploadedBy?._id === user.id ? (
+          <Tbody>
+            {threats.length === 0 ? (
+              <Tr>
+                <Td colSpan={11}>
+                  <EmptyState
+                    title="No Threats Found"
+                    description="Upload logs or change the applied filters."
+                  />
+                </Td>
+              </Tr>
+            ) : (
+              threats.map((threat) => (
+              <Tr key={threat._id} _hover={{bg: hoverBg,}}>
+                <Td>
+                  {user.role === "Admin" ||
+                  threat.uploadedBy?._id === user.id ? (
+                    <Checkbox
+                      isChecked={selectedLogs.includes(threat._id)}
+                      onChange={() => handleSelect(threat._id)}
+                    />
+                  ) : ( <Tooltip
+                            label="You can only delete logs you uploaded."
+                        >
+                            <LockIcon color="gray.500" />
+                        </Tooltip> 
+                      )}
+                </Td>
+                <Td>{threat.ip}</Td>
+                <Td>{threat.country !== "Unknown" ? `🌍 ${threat.country}` : "-"}</Td>
+                <Td>{threat.region !== "Unknown" ? threat.region : "-"}</Td>
+                <Td>
+                  {threat.uploadedBy?._id === user.id ? (<Badge colorScheme="green" variant="solid">You </Badge>) : (threat.uploadedBy?.name || "Unknown")}
+                </Td>
+                <Td>
+                  {threat.threatType ? (<Badge colorScheme="purple">{threat.threatType}</Badge>) : ("-")}
+                </Td>
+                <Td>{threat.severity}</Td>
+                <Td>
+                  <StatusBadge
+                    value={threat.priority}
+                    type="priority"
+                  />
+                </Td>
+                <Td>{threat.mitreTechnique}</Td>
+                <Td>{threat.timestamp}</Td>
+                <Td>
                   <Button
                     size="sm"
-                    colorScheme="red"
-                    onClick={() => handleDeleteClick(threat)}
+                    colorScheme="blue"
+                    mr={2}
+                    onClick={() => handleView(threat)}
                   >
-                    Delete
+                    View
                   </Button>
-                ) : (
-                  <Tooltip label="You can only delete logs you uploaded.">
-                    <LockIcon color="gray.500" />
-                  </Tooltip>
-                )}
-              </Td>
-            </Tr>
-          ))
-        )}
-        </Tbody>
-      </Table>
+
+                  {user.role === "Admin" ||
+                  threat.uploadedBy?._id === user.id ? (
+                    <Button
+                      size="sm"
+                      colorScheme="red"
+                      onClick={() => handleDeleteClick(threat)}
+                    >
+                      Delete
+                    </Button>
+                  ) : (
+                    <Tooltip label="You can only delete logs you uploaded.">
+                      <LockIcon color="gray.500" />
+                    </Tooltip>
+                  )}
+                </Td>
+              </Tr>
+            ))
+          )}
+          </Tbody>
+        </Table>
+      </TableContainer>
       <ThreatDetailsModal
         isOpen={isOpen}
         onClose={onClose}
@@ -267,4 +250,4 @@ function ThreatTable({
   );
 }
 
-export default ThreatTable;
+export default memo(ThreatTable);

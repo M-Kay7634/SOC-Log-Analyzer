@@ -1,6 +1,5 @@
 import {
   Box,
-  Badge,
   Divider,
   Grid,
   GridItem,
@@ -9,14 +8,17 @@ import {
   Icon,
   Text,
   useColorModeValue,
+  Tooltip
 } from "@chakra-ui/react";
-
+import { memo } from "react";
 import {
   FiActivity,
   FiClock,
   FiFileText,
   FiServer,
 } from "react-icons/fi";
+
+import StatusBadge from "../common/StatusBadge";
 
 function MonitoringHeader({
   status,
@@ -26,6 +28,7 @@ function MonitoringHeader({
   lastEvent,
 }) {
   const bg = useColorModeValue("white", "gray.800");
+  const secondaryText = useColorModeValue("gray.600", "gray.400");
 
   return (
     <Box
@@ -53,7 +56,7 @@ function MonitoringHeader({
             <Icon
               as={FiActivity}
               color={
-                status === "Active"
+                status === "Running"
                   ? "green.500"
                   : "red.500"
               }
@@ -63,15 +66,10 @@ function MonitoringHeader({
               Status
             </Text>
 
-            <Badge
-              colorScheme={
-                status === "Active"
-                  ? "green"
-                  : "red"
-              }
-            >
-              {status}
-            </Badge>
+            <StatusBadge
+              value={status}
+              type="monitoring"
+            />
           </HStack>
         </GridItem>
 
@@ -100,16 +98,17 @@ function MonitoringHeader({
 
             <Box>
               <Text fontWeight="bold">
-                Log File
+                Local Log File Path
               </Text>
 
-              <Text
-                color="gray.500"
-                wordBreak="break-all"
-              >
-                {logPath ||
-                  "No log file configured"}
-              </Text>
+              <Tooltip label={logPath}>
+                <Text
+                  color={secondaryText}
+                  noOfLines={1}
+                >
+                  {logPath || "No log file configured"}
+                </Text>
+              </Tooltip>
             </Box>
           </HStack>
         </GridItem>
@@ -126,7 +125,7 @@ function MonitoringHeader({
                 Started At
               </Text>
 
-              <Text color="gray.500">
+              <Text color={secondaryText}>
                 {startedAt || "--"}
               </Text>
             </Box>
@@ -145,7 +144,7 @@ function MonitoringHeader({
                 Last Event
               </Text>
 
-              <Text color="gray.500">
+              <Text color={secondaryText}>
                 {lastEvent ||
                   "Waiting for activity..."}
               </Text>
@@ -157,4 +156,4 @@ function MonitoringHeader({
   );
 }
 
-export default MonitoringHeader;
+export default memo(MonitoringHeader);

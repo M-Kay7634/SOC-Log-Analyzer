@@ -52,8 +52,6 @@ const startMonitoring = (req, res) => {
     });
   }
 
-  monitoringConfig.status = "Active";
-  monitoringConfig.isMonitoring = true;
 
   console.log("PATH =", monitoringConfig.logPath);
 
@@ -64,6 +62,11 @@ const startMonitoring = (req, res) => {
       message: "Log file does not exist.",
     });
   }
+
+  monitoringConfig.status = "Running";
+  monitoringConfig.isMonitoring = true;
+  monitoringConfig.startedAt = new Date().toLocaleString();
+
   // Reset monitoring statistics for a fresh session
   monitoringConfig.linesProcessed = 0;
   monitoringConfig.threatsDetected = 0;
@@ -161,6 +164,7 @@ const stopMonitoring = (req, res) => {
 
   monitoringConfig.status = "Stopped";
   monitoringConfig.isMonitoring = false;
+  monitoringConfig.startedAt = "";
 
   res.json({
     success: true,

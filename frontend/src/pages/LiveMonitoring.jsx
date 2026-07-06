@@ -6,6 +6,7 @@ import socket from "../services/socket";
 import { useEffect, useState } from "react";
 
 import DashboardLayout from "../layouts/DashboardLayout";
+import LoadingSkeleton from '../components/common/LoadingSkeleton';
 
 import MonitoringControls from "../components/liveMonitoring/MonitoringControls";
 import MonitoringActivity from "../components/liveMonitoring/MonitoringActivity";
@@ -22,6 +23,7 @@ import {
 
 function LiveMonitoring() {
   const toast = useToast();
+  const [loading, setLoading] = useState(true);
 
   const [monitoring, setMonitoring] =
     useState({
@@ -34,11 +36,19 @@ function LiveMonitoring() {
       threatsDetected: 0,
       eventsPerMinute: 0,
       isMonitoring: false,
+      activities: [],
     });
 
   useEffect(() => {
-    socket.on("liveLog", (log) => {
-      console.log("Live Log:", log);
+    const handleLiveLog = (log) => {
+      const activity = {
+        time: new Date().toLocaleTimeString(),
+        ip: log.ip,
+        event: log.threat
+          ? log.threatType
+          : log.method,
+        priority: log.priority,
+      };
 
       setMonitoring((prev) => ({
         ...prev,
@@ -47,42 +57,47 @@ function LiveMonitoring() {
           prev.threatsDetected + (log.threat ? 1 : 0),
         lastEvent: new Date().toLocaleTimeString(),
         activities: [
-          {
-            time: new Date().toLocaleTimeString(),
-            ip: log.ip,
-            event: log.threat
-            ? log.threatType
-            : log.method,
-            priority:log.priority,
-          },
-          ...(prev.activities || []),
+          activity,
+          ...prev.activities,
         ].slice(0, 20),
       }));
-  });
+    };
 
-      return () => {
-        socket.off("liveLog");
-      };
-    }, []);
+    socket.on("liveLog", handleLiveLog);
+
+    return () => {
+      socket.off("liveLog", handleLiveLog);
+    };
+  }, []);
 
   useEffect(() => {
     loadStatus();
   }, []);
 
   const loadStatus = async () => {
+    setLoading(true);
     try {
       const data = await getMonitoringStatus();
-      console.log("Status from backend:", data.monitoring);
+      // console.log("Status from backend:", data.monitoring);
       setMonitoring(data.monitoring);
 
     } catch (error) {
       console.error(error);
+
+      toast({
+        title: "Failed to load monitoring status",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleStart = async () => {
     try{
-        console.log("Start button clicked");
+        // console.log("Start button clicked");
         const data = await startMonitoring();
 
         await loadStatus();
@@ -93,11 +108,11 @@ function LiveMonitoring() {
         duration: 3000,
         isClosable: true,
         });
-    }catch(err){
-         console.error(err);
+    }catch(error){
+         console.error(error);
 
             toast({
-            title: err.response?.data?.message || "Failed to start monitoring",
+            title: error.response?.data?.message || "Failed to start monitoring",
             status: "error",
             duration: 3000,
             isClosable: true,
@@ -107,7 +122,7 @@ function LiveMonitoring() {
 
   const handleStop = async () => {
     try{
-        console.log("Stop button clicked");
+        // console.log("Stop button clicked");
         const data = await stopMonitoring();
 
         await loadStatus();
@@ -118,11 +133,11 @@ function LiveMonitoring() {
         duration: 3000,
         isClosable: true,
         });
-    }catch (err) {
-        console.error(err);
+    }catch (error) {
+        console.error(error);
 
         toast({
-        title: err.response?.data?.message || "Failed to stop monitoring",
+        title: error.response?.data?.message || "Failed to stop monitoring",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -145,13 +160,21 @@ function LiveMonitoring() {
 
         } catch (error) {
             toast({
-            title: "Failed to save configuration",
+            title:  error.response?.data?.message ||"Failed to save configuration",
             status: "error",
             duration: 3000,
             isClosable: true,
             });
         }
     };
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <LoadingSkeleton />
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
@@ -172,7 +195,7 @@ function LiveMonitoring() {
             linesProcessed={monitoring.linesProcessed}
             threatsDetected={monitoring.threatsDetected}
             eventsPerMinute={monitoring.eventsPerMinute || 0}
-            health={monitoring.isMonitoring ? "Healthy" : "Stopped"}
+            health={monitoring.status === "Running" ? "Healthy" : "Stopped"}
         />
 
         <MonitoringConfig

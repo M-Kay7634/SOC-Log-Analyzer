@@ -9,26 +9,13 @@ import {
   useColorModeValue,
   SlideFade,
 } from "@chakra-ui/react";
-
+import { memo } from "react";
+import StatusBadge from '../common/StatusBadge';
+import EmptyState from '../common/EmptyState';
 function MonitoringActivity({
   activities = [],
 }) {
-  const bg = useColorModeValue("white", "gray.800");
-
-  const getColor = (priority) => {
-    switch (priority) {
-      case "Critical":
-        return "red";
-      case "High":
-        return "orange";
-      case "Medium":
-        return "yellow";
-      case "Low":
-        return "green";
-      default:
-        return "gray";
-    }
-  };
+  const bg = useColorModeValue("white", "gray.800")
 
   return (
     <Box
@@ -45,12 +32,15 @@ function MonitoringActivity({
       <VStack spacing={4} align="stretch">
         {activities.length === 0 ? (
           <Text color="gray.500">
-            Waiting for monitoring...
+            <EmptyState
+  title="No Live Events"
+  description="Start monitoring to view incoming log events."
+/>
           </Text>
         ) : (
           activities.map((item, index) => (
             <SlideFade
-              key={index}
+              key={item.id}
               in={true}
               offsetY="10px"
             >
@@ -70,13 +60,10 @@ function MonitoringActivity({
                     {item.time}
                   </Text>
 
-                  <Badge
-                    colorScheme={getColor(
-                      item.priority
-                    )}
-                  >
-                    {item.priority || "Normal"}
-                  </Badge>
+                  <StatusBadge
+                    value={item.priority || "Normal"}
+                    type="priority"
+                  />
                 </HStack>
 
                 <Text>
@@ -99,4 +86,4 @@ function MonitoringActivity({
   );
 }
 
-export default MonitoringActivity;
+export default memo(MonitoringActivity);

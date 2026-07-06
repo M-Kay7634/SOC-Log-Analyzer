@@ -28,7 +28,7 @@ function MonitoringConfig({
     toast({
       title: "Coming Soon",
       description:
-        "File picker will be added in the next lesson.",
+        "File picker will be added in the Desktop Version.",
       status: "info",
       duration: 3000,
       isClosable: true,

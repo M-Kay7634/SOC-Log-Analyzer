@@ -7,6 +7,11 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
+import {
+  FiPlay,
+  FiSquare,
+} from "react-icons/fi";
+import { memo } from "react";
 import StatusBadge from '../common/StatusBadge';
 
 function MonitoringControls({
@@ -31,21 +36,29 @@ function MonitoringControls({
       <VStack align="stretch" spacing={5}>
         <HStack spacing={4}>
           <Button
+            leftIcon={<FiPlay />}
             colorScheme="green"
             flex={1}
             onClick={onStart}
-            isDisabled={status === "Active"}
+            isDisabled={status === "Running"}
           >
-            Start Monitoring
+            {status === "Running"
+              ? "Monitoring Running"
+              : "Start Monitoring"
+            }
           </Button>
 
           <Button
+            leftIcon={<FiSquare />}
             colorScheme="red"
             flex={1}
             onClick={onStop}
-            isDisabled={status !== "Active"}
+            isDisabled={status !== "Running"}
           >
-            Stop Monitoring
+            {status === "Running"
+              ? "Stop Monitoring"
+              : "Monitoring Stopped"
+            }
           </Button>
         </HStack>
 
@@ -64,4 +77,4 @@ function MonitoringControls({
   );
 }
 
-export default MonitoringControls;
+export default memo(MonitoringControls);

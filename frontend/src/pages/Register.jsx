@@ -13,6 +13,7 @@ import {
   Text,
   Link,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -32,6 +33,8 @@ function Register() {
 
   const toast = useToast();
   const navigate = useNavigate();
+
+  const cardBg = useColorModeValue("white", "gray.800");
 
   const getPasswordStrength = () => {
     if (password.length === 0) return 0;
@@ -114,6 +117,7 @@ function Register() {
         bg="white"
         rounded="lg"
         shadow="lg"
+        color={cardBg}
       >
         <Heading mb={6} textAlign="center">
           Create Account

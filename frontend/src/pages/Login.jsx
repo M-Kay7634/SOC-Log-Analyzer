@@ -12,6 +12,7 @@ import {
   useToast,
   Text,
   Link,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -29,6 +30,8 @@ function Login() {
   const toast = useToast();
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  const cardBg = useColorModeValue("white", "gray.800");
 
   const handleSubmit = async () => {
     if (!email || !password) {
@@ -79,7 +82,7 @@ function Login() {
 
   return (
     <Container maxW="md" py={20}>
-      <Box p={8} bg="white" rounded="lg" shadow="lg">
+      <Box p={8} bg="white" rounded="lg" shadow="lg" color={cardBg}>
         <Heading mb={6} textAlign="center">
           SOC Log Analyzer
         </Heading>

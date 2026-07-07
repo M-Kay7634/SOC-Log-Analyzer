@@ -3,6 +3,7 @@ import {
   Button,
   Heading,
   Input,
+  Select,
   Text,
   VStack,
   useToast,
@@ -23,6 +24,7 @@ import { uploadLog } from "../services/logService";
 
 function UploadLogs() {
   const [file, setFile] = useState(null);
+  const [source, setSource] = useState("Apache");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
 
@@ -43,7 +45,7 @@ function UploadLogs() {
     try {
       setLoading(true);
 
-      const data = await uploadLog(file);
+      const data = await uploadLog(file,source);
 
       setResult(data);
 
@@ -96,10 +98,19 @@ function UploadLogs() {
         maxW="700px"
       >
         <Heading mb={8}>
-          Upload Apache Log File
+          Upload Log File
         </Heading>
 
         <VStack spacing={6} align="stretch">
+
+          <Select
+            value={source}
+            onChange={(e) => setSource(e.target.value)}
+          >
+            <option value="Apache">Apache</option>
+            <option value="Linux">Linux</option>
+            <option value="Windows">Windows</option>
+          </Select>
 
           <Box
             border="2px dashed"
@@ -118,7 +129,7 @@ function UploadLogs() {
               fontSize="lg"
               fontWeight="bold"
             >
-              Select Apache Log File
+              Select {source} Log File
             </Text>
 
             <Text color="gray.500" mb={5}>

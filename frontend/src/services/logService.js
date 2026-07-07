@@ -1,10 +1,11 @@
 import API from "./api";
 import { API_ENDPOINTS } from "../config/apiEndpoints";
 
-export const uploadLog = async (file) => {
+export const uploadLog = async (file,source) => {
   const formData = new FormData();
 
-  formData.append("logFile", file);
+  formData.append("logFile", file,);
+  formData.append("source", source);
 
   const response = await API.post(
     API_ENDPOINTS.LOGS.UPLOAD,

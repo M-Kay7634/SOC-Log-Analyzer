@@ -13,7 +13,7 @@ const analyzeLogs = async (logs, uploadedBy, metadata = {}) => {
   // Step 1 - Detect threats
   let analyzedLogs = logs.map((log) => ({
     ...log,
-    ...detectThreats(log),
+    ...detectThreats(log, metadata.source || "Apache"),
   }));
 
   // Step 2 - Correlate threats
@@ -32,12 +32,19 @@ const analyzeLogs = async (logs, uploadedBy, metadata = {}) => {
   const settings = await Settings.findOne();
 
   for (const log of analyzedLogs) {
-    const geo = lookupIP(log.ip);
+    if (log.ip) {
+      const geo = lookupIP(log.ip);
 
-    log.country = geo.country;
-    log.region = geo.region;
-    log.city = geo.city;
-    log.timezone = geo.timezone;
+      log.country = geo.country;
+      log.region = geo.region;
+      log.city = geo.city;
+      log.timezone = geo.timezone;
+    } else {
+      log.country = "Unknown";
+      log.region = "Unknown";
+      log.city = "Unknown";
+      log.timezone = "Unknown";
+    }
     if (
       log.threat &&
       (log.priority === "High" ||
@@ -91,10 +98,10 @@ const analyzeLogs = async (logs, uploadedBy, metadata = {}) => {
   // Step 5 - Prepare logs for MongoDB
   const logsToSave = analyzedLogs.map((log) => ({
     ...log,
+    source: metadata.source || log.source || "Apache",
     uploadedBy,
     sourceFile: metadata.sourceFile || "Live Monitoring",
-    uploadBatchId:
-      metadata.uploadBatchId || Date.now().toString(),
+    uploadBatchId: metadata.uploadBatchId || Date.now().toString(),
   }));
 
   // Step 6 - Save logs

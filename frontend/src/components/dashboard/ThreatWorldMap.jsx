@@ -10,7 +10,7 @@ import {
   Geographies,
   Geography,
 } from "react-simple-maps";
-import { useMemo, memo } from "react";
+import { useMemo, memo, } from "react";
 import EmptyState from "../common/EmptyState";
 import {WORLD_MAP} from '../../constants/map';
 
@@ -34,6 +34,7 @@ const countryCodeMap = {
 function ThreatWorldMap({
     origins = [],
 }) {
+      const bg = useColorModeValue("white", "gray.800");
       if (!origins.length) {
         return (
           <Box
@@ -54,10 +55,6 @@ function ThreatWorldMap({
         );
       }
 
-  const bg = useColorModeValue(
-    "white",
-    "gray.800"
-  );
 
   const threatMap = useMemo(() => {
     const map = {};

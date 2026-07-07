@@ -11,13 +11,15 @@ const parseLinuxLine = (line) => {
     return null;
   }
 
-  const message = match[4];
+  const message = match[4].trim();
 
   const ipMatch = message.match(
     /\b(?:\d{1,3}\.){3}\d{1,3}\b/
   );
 
   return {
+    source: "Linux",
+    
     timestamp: match[1],
     host: match[2],
     service: match[3].trim(),

@@ -4,7 +4,7 @@ const logSchema = new mongoose.Schema(
   {
     ip: {
       type: String,
-      required: true,
+      default:null,
     },
     country: {
       type: String,
@@ -29,30 +29,63 @@ const logSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    source: {
+      type: String,
+      enum: ["Apache", "Linux", "Windows"],
+      required: true,
+    },
 
     method: {
       type: String,
-      required: true,
+      default:null,
     },
 
     url: {
       type: String,
-      required: true,
+      default:null,
     },
 
     protocol: {
       type: String,
-      required: true,
+      default:null,
     },
 
     status: {
       type: Number,
-      required: true,
+      default:null,
     },
 
     size: {
       type: Number,
-      required: true,
+      default:null,
+    },
+    host: {
+      type: String,
+      default: null,
+    },
+
+    service: {
+      type: String,
+      default: null,
+    },
+
+    message: {
+      type: String,
+      default: null,
+    },
+    eventId: {
+      type: Number,
+      default: null,
+    },
+
+    level: {
+      type: String,
+      default: null,
+    },
+
+    account: {
+      type: String,
+      default: null,
     },
 
     threat: {

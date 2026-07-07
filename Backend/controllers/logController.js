@@ -2,7 +2,11 @@ const fs = require("fs");
 
 const { getIO } = require("../socket/socket");
 const { randomUUID } = require("crypto");
-const {parseApacheLog} = require("../parser/apacheParser");
+
+const { parseApacheLog,} = require("../parser/apacheParser");
+const { parseLinuxLog,} = require("../parser/linuxParser");
+const { parseWindowsLog,} = require("../parser/windowsParser");
+
 const { analyzeLogs } = require("../services/logAnalysisService");
 // Upload Log Controller
 const uploadLog = async (req, res) => {
@@ -17,18 +21,45 @@ const uploadLog = async (req, res) => {
     const uploadBatchId = randomUUID();
 
     // Parse uploaded Apache log
-    const parsedLogs = parseApacheLog(req.file.path);
+    const { source = "Apache" } = req.body;
+
+    let parsedLogs;
+
+    switch (source) {
+      case "Apache":
+        parsedLogs = parseApacheLog(req.file.path);
+        break;
+
+      case "Linux":
+        parsedLogs = parseLinuxLog(req.file.path);
+        break;
+
+      case "Windows":
+        parsedLogs = parseWindowsLog(req.file.path);
+        break;
+
+      default:
+        return res.status(400).json({
+          success: false,
+          message: "Unsupported log source.",
+        });
+    }
+
+    console.log("Source:", source);
+    console.log("Parsed Logs Count:", parsedLogs.length);
+    console.log(parsedLogs.slice(0, 3));
 
 
     const analyzedLogs = await analyzeLogs(
         parsedLogs,
         req.user.id,
         {
+          source,
           sourceFile: req.file.originalname,
           uploadBatchId,
         }
     );
-    
+
 
     const io = getIO();
 

@@ -28,6 +28,45 @@ const threatScores = Object.freeze({
     priority: "Low",
     severity:"Low",
   },
+  "Failed SSH Login": {
+    score: 45,
+    priority: "Medium",
+  },
+
+  "Root Login": {
+    score: 80,
+    priority: "High",
+  },
+
+  "Sudo Abuse": {
+    score: 75,
+    priority: "High",
+  },
+
+  "Failed Windows Logon": {
+    score: 45,
+    priority: "Medium",
+  },
+
+  "Successful Windows Logon": {
+    score: 15,
+    priority: "Low",
+  },
+
+  "Account Lockout": {
+    score: 70,
+    priority: "High",
+  },
+
+  "New User Created": {
+    score: 80,
+    priority: "High",
+  },
+
+  "Privileged Logon": {
+    score: 95,
+    priority: "Critical",
+  },
 });
 
 const calculateThreatScore = (threatType) => {

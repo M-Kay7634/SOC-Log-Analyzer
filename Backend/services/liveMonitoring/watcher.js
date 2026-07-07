@@ -7,11 +7,11 @@ const startWatcher = (filePath, onNewLine) => {
     watcher.close();
   }
 
-  let lastSize = 0;
-
-  if (fs.existsSync(filePath)) {
-    lastSize = fs.statSync(filePath).size;
+  if (!fs.existsSync(filePath)) {
+    throw new Error("Log file not found.");
   }
+
+  let lastSize = fs.statSync(filePath).size;
 
   watcher = fs.watch(filePath, (eventType) => {
     if (eventType !== "change") return;
@@ -24,7 +24,14 @@ const startWatcher = (filePath, onNewLine) => {
       return;
     }
 
-    if (currentSize <= lastSize) return;
+    if (currentSize < lastSize) {
+      console.log("📄 Log file rotated. Resetting watcher...");
+      lastSize = 0;
+    }
+
+    if (currentSize === lastSize) {
+      return;
+    }
 
     const stream = fs.createReadStream(filePath, {
       start: lastSize,
@@ -49,10 +56,24 @@ const startWatcher = (filePath, onNewLine) => {
         .split("\n")
         .filter((line) => line.trim());
 
-      lines.forEach((line) => {
-        onNewLine(line);
-      });
+      for (const line of lines) {
+        try {
+          onNewLine(line);
+        } catch (err) {
+          console.error(
+            "Live line processing failed:",
+            err.message
+          );
+        }
+      }
     });
+  });
+
+  watcher.on("error", (err) => {
+    console.error(
+      "Watcher error:",
+      err.message
+    );
   });
 
   console.log("👀 Watching:", filePath);
@@ -67,7 +88,10 @@ const stopWatcher = () => {
   }
 };
 
+const isWatching = () => watcher !== null;
+
 module.exports = {
   startWatcher,
   stopWatcher,
+  isWatching,
 };

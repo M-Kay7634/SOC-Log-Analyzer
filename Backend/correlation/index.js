@@ -1,6 +1,6 @@
 const detectBruteForce = require("./bruteForce");
 
-const correlateThreats = (logs) => {
+const correlateThreats = (logs = []) => {
   return detectBruteForce(logs);
 };
 

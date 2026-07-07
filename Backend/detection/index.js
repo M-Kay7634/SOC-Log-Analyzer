@@ -1,12 +1,14 @@
-
 const detectSQLInjection = require("./sqlInjection");
 const detectDirectoryTraversal = require("./directoryTraversal");
 const detectFailedLogin = require("./failedLogin");
+const detectSuspiciousIP = require("./suspiciousIP");
 
 const detectThreats = (log) => {
-  const sqlResult = detectSQLInjection(log.url);
-  const traversalResult = detectDirectoryTraversal(log.url);
+  const url = log.url || "";
+  const sqlResult = detectSQLInjection(url);
+  const traversalResult = detectDirectoryTraversal(url);
   const failedLoginResult = detectFailedLogin(log);
+  const suspiciousIPResult = detectSuspiciousIP(log);
 
   // SQL Injection (Highest Priority)
   if (sqlResult.detected) {
@@ -38,6 +40,16 @@ const detectThreats = (log) => {
       severity: failedLoginResult.severity,
       mitreTechnique: failedLoginResult.mitre,
       description: failedLoginResult.description,
+    };
+  }
+
+  if (suspiciousIPResult.detected) {
+    return {
+      threat: true,
+      threatType: suspiciousIPResult.type,
+      severity: suspiciousIPResult.severity,
+      mitreTechnique: suspiciousIPResult.mitre,
+      description: suspiciousIPResult.description,
     };
   }
 

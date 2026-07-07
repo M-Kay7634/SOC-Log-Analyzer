@@ -2,6 +2,8 @@ const { lookupIP } = require("./geoipService");
 const { sendEmail } = require("./email/emailService");
 const threatAlertTemplate = require("../services/email/threatAlertTemplate");
 const Log = require("../models/Log");
+const Settings = require("../models/Settings");
+
 const detectThreats = require("../detection");
 const correlateThreats = require("../correlation");
 const calculateThreatScore = require("../scoring/threatScoring");
@@ -26,6 +28,9 @@ const analyzeLogs = async (logs, uploadedBy, metadata = {}) => {
   // ============================
   // Step 4 - Send Email Alerts
   // ============================
+
+  const settings = await Settings.findOne();
+
   for (const log of analyzedLogs) {
     const geo = lookupIP(log.ip);
 
@@ -39,9 +44,6 @@ const analyzeLogs = async (logs, uploadedBy, metadata = {}) => {
         log.priority === "Critical")
     ) {
       try {
-        const Settings = require("../models/Settings");
-
-        const settings = await Settings.findOne();
 
         if (
           settings &&
@@ -73,14 +75,10 @@ const analyzeLogs = async (logs, uploadedBy, metadata = {}) => {
             });
 
             console.log(
-              `📧 Alert sent to ${settings.alertEmail}`
+              `📧 Alert sent to ${settings.alertEmail} for ${log.threatType}`
             );
           }
         }
-
-        console.log(
-          `📧 Alert email sent for ${log.threatType}`
-        );
       } catch (err) {
         console.error(
           "Email Alert Failed:",
@@ -100,9 +98,20 @@ const analyzeLogs = async (logs, uploadedBy, metadata = {}) => {
   }));
 
   // Step 6 - Save logs
-  await Log.insertMany(logsToSave);
+  try {
+    if (logsToSave.length > 0) {
+      await Log.insertMany(logsToSave);
+    }
+  } catch (err) {
+    console.error(
+      "MongoDB Save Failed:",
+      err.message
+    );
+    throw err;
+  }
 
   return analyzedLogs;
+  
 };
 
 module.exports = {

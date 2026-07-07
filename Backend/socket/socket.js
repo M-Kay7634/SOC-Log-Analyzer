@@ -4,8 +4,11 @@ let io;
 
 const initializeSocket = (server) => {
   io = new Server(server, {
+    pingTimeout: 60000,
+    pingInterval: 25000,
+
     cors: {
-      origin: "http://localhost:5173", // Vite frontend
+      origin: process.env.CLIENT_URL, // Vite frontend
       methods: ["GET", "POST"],
       credentials: true,
     },
@@ -18,8 +21,12 @@ const initializeSocket = (server) => {
       message: "Connected to SOC Live Monitoring",
     });
 
-    socket.on("disconnect", () => {
-      console.log(`🔴 Client Disconnected: ${socket.id}`);
+    socket.on("error", (err) => {
+      console.error(`Socket Error (${socket.id}):`, err.message);
+    });
+
+    socket.on("disconnect", (reason) => {
+      console.log(`🔴 Client Disconnected: ${socket.id}  (${reason})`);
     });
   });
 

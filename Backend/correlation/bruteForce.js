@@ -1,27 +1,33 @@
+const BRUTE_FORCE_THRESHOLD = 5;
 const detectBruteForce = (logs) => {
   const failedLoginCount = {};
 
   // Count failed logins per IP
   logs.forEach((log) => {
-    if (log.threatType === "Failed Login") {
-      failedLoginCount[log.ip] =
-        (failedLoginCount[log.ip] || 0) + 1;
+    if (log.threatType !== "Failed Login") {
+      return;
     }
+
+    const ip = log.ip || "Unknown";
+
+    failedLoginCount[ip] =
+      (failedLoginCount[ip] || 0) + 1;
   });
 
   // Convert repeated failed logins into Brute Force
   return logs.map((log) => {
+    const ip = log.ip || "Unknown";
     if (
       log.threatType === "Failed Login" &&
-      failedLoginCount[log.ip] >= 5
+      failedLoginCount[ip] >= BRUTE_FORCE_THRESHOLD
     ) {
       return {
         ...log,
         threatType: "Brute Force",
         severity: "High",
+        priority: "High",
         mitreTechnique: "T1110",
-        description:
-          "Multiple failed login attempts detected from the same IP",
+        description:"Detected repeated failed authentication attempts from the same IP address, indicating a possible brute-force attack.",
       };
     }
 

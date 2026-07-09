@@ -1,20 +1,37 @@
 # Dependencies
-Backend/node_modules/
-Frontend/node_modules/
+node_modules/
 
-# Environment files
-Backend/.env
-Frontend/.env
+# Environment Variables
+.env
 
 # Uploads
-Backend/uploads/
+uploads/
 
 # Logs
+logs/
 *.log
+
+# Temporary Files
+tmp/
+temp/
+
+# Coverage
+coverage/
 
 # OS Files
 .DS_Store
 Thumbs.db
 
-# VS Code
-.vscode/settings.json
+# IDE
+.vscode/
+.idea/
+
+# Runtime
+*.pid
+*.seed
+*.pid.lock
+
+# Optional
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*

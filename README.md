@@ -175,31 +175,31 @@ Generate:
 
 ### Dashboard (Light Mode)
 
-> ![alt text](image.png)
+> ![alt text](/Screenshot/image.png)
 
 ---
 
 ### Dashboard (Dark Mode)
 
-> ![alt text](image-1.png)
+> ![alt text](/Screenshot/image-1.png)
 
 ---
 
 ### Live Monitoring
 
-> ![alt text](image-2.png)
+> ![alt text](/Screenshot/image-2.png)
 
 ---
 
 ### Upload Logs
 
-> ![alt text](image-3.png)
+> ![alt text](/Screenshot/image-3.png)
 
 ---
 
 ### Reports
 
-> ![alt text](image-4.png)
+> ![alt text](/Screenshot/image-4.png)
 
 ---
 

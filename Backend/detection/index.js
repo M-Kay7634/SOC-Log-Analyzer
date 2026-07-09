@@ -12,7 +12,7 @@ const detectAccountLockout = require("./windows/accountLockout");
 const detectNewUserCreated = require("./windows/newUserCreated");
 const detectPrivilegedLogon = require("./windows/privilegedLogon");
 
-const detectSuspiciousIP = require("./common/suspiciousIP");
+const detectSuspiciousIP = require("./common/suspiciousIp");
 
 const detectThreats = (log, source = "Apache") => {
   let detectors = [];

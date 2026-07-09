@@ -42,7 +42,7 @@ function ReportTable({filters}) {
       const data = await getReportLogs(filters);
       setLogs(data.logs);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       setLogs([]);
     } finally {
       setLoading(false);

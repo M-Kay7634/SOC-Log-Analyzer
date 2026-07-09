@@ -62,7 +62,7 @@ function Settings() {
         setEmailSettings(data.settings);
 
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       }
 
     };

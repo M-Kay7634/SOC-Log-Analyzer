@@ -22,11 +22,11 @@ function App() {
   const toast = useToast();
   useEffect(() => {
     socket.on("connected", (data) => {
-      console.log(data.message);
+      // console.log(data.message);
     });
 
     socket.on("newLog", (data) => {
-      console.log("New Upload:", data);
+      // console.log("New Upload:", data);
 
       toast({
         title: "New Log Uploaded",

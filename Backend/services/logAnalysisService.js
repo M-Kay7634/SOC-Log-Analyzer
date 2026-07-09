@@ -81,16 +81,11 @@ const analyzeLogs = async (logs, uploadedBy, metadata = {}) => {
               html: threatAlertTemplate(log),
             });
 
-            console.log(
-              `📧 Alert sent to ${settings.alertEmail} for ${log.threatType}`
-            );
+            // console.log(`📧 Alert sent to ${settings.alertEmail} for ${log.threatType}`);
           }
         }
       } catch (err) {
-        console.error(
-          "Email Alert Failed:",
-          err.message
-        );
+        // console.error("Email Alert Failed:",err.message);
       }
     }
   }
@@ -110,10 +105,7 @@ const analyzeLogs = async (logs, uploadedBy, metadata = {}) => {
       await Log.insertMany(logsToSave);
     }
   } catch (err) {
-    console.error(
-      "MongoDB Save Failed:",
-      err.message
-    );
+    // console.error("MongoDB Save Failed:",err.message);
     throw err;
   }
 

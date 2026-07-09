@@ -53,7 +53,7 @@ const startMonitoring = (req, res) => {
   }
 
 
-  console.log("PATH =", monitoringConfig.logPath);
+  // console.log("PATH =", monitoringConfig.logPath);
 
 
   if (!fs.existsSync(monitoringConfig.logPath)) {
@@ -77,12 +77,12 @@ const startMonitoring = (req, res) => {
     monitoringConfig.logPath,
     async (line) => {
       try {
-        console.log("NEW LOG:", line);
+        // console.log("NEW LOG:", line);
 
         const parsedLog = parseApacheLine(line);
 
         if (!parsedLog) {
-          console.log("Skipped invalid log line.");
+          // console.log("Skipped invalid log line.");
           return;
         }
 
@@ -111,7 +111,7 @@ const startMonitoring = (req, res) => {
           io.emit("criticalThreat", analyzedLog);
         }
 
-        console.log("📡 Live event emitted");
+        // console.log("📡 Live event emitted");
 
         // Update monitoring statistics
         monitoringConfig.linesProcessed++;
@@ -136,10 +136,10 @@ const startMonitoring = (req, res) => {
         monitoringConfig.activities =
           monitoringConfig.activities.slice(0, 20);
 
-        console.log("✅ Live log analyzed and stored.");
+        // console.log("✅ Live log analyzed and stored.");
 
       } catch (err) {
-        console.error("Live Monitoring Error:", err);
+        // console.error("Live Monitoring Error:", err);
       }
     }
   );
@@ -152,7 +152,7 @@ const startMonitoring = (req, res) => {
 };
 
 const stopMonitoring = (req, res) => {
-   console.log("STOP API CALLED");
+  //  console.log("STOP API CALLED");
 
   if (!monitoringConfig.isMonitoring) {
     return res.status(400).json({

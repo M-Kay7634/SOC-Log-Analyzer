@@ -20,12 +20,12 @@ const startWatcher = (filePath, onNewLine) => {
     try {
       currentSize = fs.statSync(filePath).size;
     } catch (err) {
-      console.error("Watcher file access error:", err.message);
+      // console.error("Watcher file access error:", err.message);
       return;
     }
 
     if (currentSize < lastSize) {
-      console.log("📄 Log file rotated. Resetting watcher...");
+      // console.log("📄 Log file rotated. Resetting watcher...");
       lastSize = 0;
     }
 
@@ -46,7 +46,7 @@ const startWatcher = (filePath, onNewLine) => {
     });
 
     stream.on("error", (err) => {
-      console.error("Read stream error:", err);
+      // console.error("Read stream error:", err);
     });
 
     stream.on("end", () => {
@@ -60,23 +60,17 @@ const startWatcher = (filePath, onNewLine) => {
         try {
           onNewLine(line);
         } catch (err) {
-          console.error(
-            "Live line processing failed:",
-            err.message
-          );
+          // console.error("Live line processing failed:",err.message);
         }
       }
     });
   });
 
   watcher.on("error", (err) => {
-    console.error(
-      "Watcher error:",
-      err.message
-    );
+    // console.error("Watcher error:",err.message);
   });
 
-  console.log("👀 Watching:", filePath);
+  // console.log("👀 Watching:", filePath);
 };
 
 const stopWatcher = () => {
@@ -84,7 +78,7 @@ const stopWatcher = () => {
     watcher.close();
     watcher = null;
 
-    console.log("🛑 Monitoring stopped.");
+    // console.log("🛑 Monitoring stopped.");
   }
 };
 

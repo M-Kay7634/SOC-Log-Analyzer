@@ -63,7 +63,7 @@ function ReportHistoryTable() {
       const data = await getReportHistory();
       setReports(data.reports);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     } finally {
       setLoading(false);
     }

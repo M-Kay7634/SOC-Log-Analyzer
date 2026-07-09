@@ -41,7 +41,7 @@ const getSummary = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -87,7 +87,7 @@ const getThreatDistribution = async (req, res) => {
       generatedAt: new Date(),
     });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -138,7 +138,7 @@ const getTopAttackingIPs = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -184,7 +184,7 @@ const getThreatTimeline = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -211,7 +211,7 @@ const getRecentThreats = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -262,7 +262,7 @@ const getAttackOrigins = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,

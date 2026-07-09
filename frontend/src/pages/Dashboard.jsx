@@ -48,7 +48,7 @@ function Dashboard() {
     fetchSummary();
 
     socket.on("dashboardUpdated", () => {
-      console.log("📊 Dashboard refreshing...");
+      // console.log("📊 Dashboard refreshing...");
       fetchSummary();
     });
 
@@ -78,7 +78,7 @@ function Dashboard() {
       setAttackOrigins(originData.origins);
 
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     } finally {
       setLoading(false);
     }

@@ -40,7 +40,7 @@ if (ip === "127.0.0.1" || ip === "::1") {
   try {
     geo = geoip.lookup(ip);
   } catch (error) {
-    console.error("GeoIP Lookup Error:", error.message);
+    // console.error("GeoIP Lookup Error:", error.message);
 
     return {
       country: "Unknown",

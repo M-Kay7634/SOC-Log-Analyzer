@@ -29,7 +29,7 @@ function ReportSummary() {
       const data = await getReportSummary();
       setSummary(data.summary);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       setSummary(null);
     } finally {
       setLoading(false);

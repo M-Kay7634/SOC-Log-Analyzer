@@ -45,9 +45,9 @@ const uploadLog = async (req, res) => {
         });
     }
 
-    console.log("Source:", source);
-    console.log("Parsed Logs Count:", parsedLogs.length);
-    console.log(parsedLogs.slice(0, 3));
+    // console.log("Source:", source);
+    // console.log("Parsed Logs Count:", parsedLogs.length);
+    // console.log(parsedLogs.slice(0, 3));
 
 
     const analyzedLogs = await analyzeLogs(
@@ -82,7 +82,7 @@ const uploadLog = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -92,9 +92,9 @@ const uploadLog = async (req, res) => {
     if (req.file && fs.existsSync(req.file.path)) {
       await fs.promises.unlink(req.file.path, (err) => {
         if (err) {
-          console.error("Failed to delete uploaded file:", err);
+          // console.error("Failed to delete uploaded file:", err);
         } else {
-          console.log("🗑 Uploaded file removed.");
+          // console.log("🗑 Uploaded file removed.");
         }
       });
     }
@@ -153,7 +153,7 @@ const getAllLogs = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -195,7 +195,7 @@ const deleteLog = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -240,7 +240,7 @@ const bulkDeleteLogs = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -263,7 +263,7 @@ const deleteMyLogs = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -291,7 +291,7 @@ const deleteAllLogs = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,

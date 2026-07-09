@@ -6,7 +6,7 @@ const ExcelJS = require("exceljs");
 const PDFDocument = require("pdfkit");
 
 const exportCSV = async (req, res) => {
-  console.log("✅ exportCSV controller called");
+  // console.log("✅ exportCSV controller called");
   try {
     const query = buildReportQuery(req.query);
 

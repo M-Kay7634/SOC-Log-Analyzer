@@ -44,7 +44,7 @@ function Users() {
       const data = await getMyActivity();
       setActivity(data.activity);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     } finally {
       setLoading(false);
     }

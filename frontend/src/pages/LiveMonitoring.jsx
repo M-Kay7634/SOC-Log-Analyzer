@@ -82,7 +82,7 @@ function LiveMonitoring() {
       setMonitoring(data.monitoring);
 
     } catch (error) {
-      console.error(error);
+      // console.error(error);
 
       toast({
         title: "Failed to load monitoring status",
@@ -109,7 +109,7 @@ function LiveMonitoring() {
         isClosable: true,
         });
     }catch(error){
-         console.error(error);
+        //  console.error(error);
 
             toast({
             title: error.response?.data?.message || "Failed to start monitoring",
@@ -134,7 +134,7 @@ function LiveMonitoring() {
         isClosable: true,
         });
     }catch (error) {
-        console.error(error);
+        // console.error(error);
 
         toast({
         title: error.response?.data?.message || "Failed to stop monitoring",

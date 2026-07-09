@@ -9,6 +9,7 @@ import {
   VStack,
   Text,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
@@ -27,6 +28,8 @@ function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const cardBg = useColorModeValue("white", "gray.800");
 
   useEffect(() => {
     if (!email || !otp) {
@@ -95,6 +98,7 @@ function ResetPassword() {
         p={8}
         rounded="lg"
         shadow="lg"
+        color={cardBg}
       >
         <Heading mb={3} textAlign="center">
           Reset Password

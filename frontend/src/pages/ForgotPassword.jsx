@@ -10,6 +10,7 @@ import {
   Text,
   Link,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -26,6 +27,8 @@ function ForgotPassword() {
 
   const toast = useToast();
   const navigate = useNavigate();
+
+  const cardBg = useColorModeValue("white", "gray.800");
 
   const handleSubmit = async () => {
     if (!email) {
@@ -76,6 +79,7 @@ function ForgotPassword() {
         p={8}
         rounded="lg"
         shadow="lg"
+        color={cardBg}
       >
         <Heading mb={6} textAlign="center">
           Forgot Password

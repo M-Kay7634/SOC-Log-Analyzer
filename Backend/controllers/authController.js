@@ -12,12 +12,12 @@ const {PASSWORD_MIN_LENGTH,OTP_EXPIRY_MINUTES,} = require("../utils/constants");
 // Register User
 const registerUser = async (req, res) => {
 
-    console.log("===========");
-    console.log("BODY:", req.body);
-    console.log("===========");
+    // console.log("===========");
+    // console.log("BODY:", req.body);
+    // console.log("===========");
     
   try {
-     console.log("BODY:", req.body);
+    //  console.log("BODY:", req.body);
     const { name, email, password } = req.body;
 
     // Check required fields
@@ -57,7 +57,7 @@ const registerUser = async (req, res) => {
 
     // Generate JWT
     const token = generateToken(user);
-    console.log("token generated");
+    // console.log("token generated");
     res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -70,8 +70,8 @@ const registerUser = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("ERROR MESSAGE:", error.message);
-    console.error(error);
+    // console.error("ERROR MESSAGE:", error.message);
+    // console.error(error);
 
     res.status(500).json({
         success: false,
@@ -83,7 +83,7 @@ const registerUser = async (req, res) => {
 // Login User
 const loginUser = async (req, res) => {
   try {
-    console.log("Login API Hit");
+    // console.log("Login API Hit");
     const { email, password } = req.body;
     // email = email.trim().toLowerCase();
 
@@ -133,7 +133,7 @@ const loginUser = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -190,7 +190,7 @@ const forgotPassword = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -241,7 +241,7 @@ const verifyOTP = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -308,7 +308,7 @@ const resetPassword = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,
@@ -360,7 +360,7 @@ const changePassword = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    // console.error(error);
 
     res.status(500).json({
       success: false,

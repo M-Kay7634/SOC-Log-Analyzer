@@ -88,15 +88,14 @@ const uploadLog = async (req, res) => {
       success: false,
       message: "Internal Server Error",
     });
-  }finally{
-    if (req.file && fs.existsSync(req.file.path)) {
-      await fs.promises.unlink(req.file.path, (err) => {
-        if (err) {
-          // console.error("Failed to delete uploaded file:", err);
-        } else {
-          // console.log("🗑 Uploaded file removed.");
-        }
-      });
+  }finally {
+    try {
+      if (req.file?.path && fs.existsSync(req.file.path)) {
+        await fs.promises.unlink(req.file.path);
+        // console.log("🗑 Uploaded file removed.");
+      }
+    } catch (err) {
+      console.error("Failed to delete uploaded file:", err.message);
     }
   }
 };

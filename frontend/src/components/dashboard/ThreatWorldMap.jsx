@@ -113,7 +113,7 @@ function ThreatWorldMap({
       <Geographies geography={geoUrl}>
         {({ geographies }) =>
             geographies.map((geo) => {
-              console.log(geo.properties);
+              // console.log(geo.properties);
             const countryCode = nameToCodeMap[geo.properties.name];
             const attacks = threatMap[countryCode] ?? 0;
 

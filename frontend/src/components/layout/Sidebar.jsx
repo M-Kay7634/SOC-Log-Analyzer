@@ -2,11 +2,14 @@ import {
   Box,
   VStack,
   Text,
+  Avatar,
+  Button,
+  Flex,
+  Divider,
+  Image,
 } from "@chakra-ui/react";
 
-import {
-  NavLink,
-} from "react-router-dom";
+import {NavLink, useNavigate,} from "react-router-dom";
 
 import {
   FaHome,
@@ -17,6 +20,9 @@ import {
   FaChartBar,
   FaFileAlt,
 } from "react-icons/fa";
+
+import { useAuth } from "../../context/AuthContext";
+import logo from '../../assets/SOC_Log_Analyzer.png';
 
 const menu = [
   {
@@ -57,50 +63,133 @@ const menu = [
 ];
 
 function Sidebar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
   return (
-    <Box
-      w="250px"
-      bg="#111827"
-      color="white"
-      minH="100vh"
-      p={6}
-    >
+  <Flex
+    direction="column"
+    w="250px"
+    bg="#111827"
+    color="white"
+    minH="100vh"
+    p={6}
+  >
+    {/* Logo */}
+
+    <Box textAlign="center" mb={10}>
+
+      <Image
+        src={logo}
+        boxSize="70px"
+        mx="auto"
+        mb={4}
+      />
+
       <Text
-        fontSize="2xl"
+        fontSize="xl"
         fontWeight="bold"
-        mb={10}
       >
-        SOC
+        SOC Log Analyzer
       </Text>
 
-      <VStack align="stretch" gap={2}>
-        {menu.map((item) => {
-          const Icon = item.icon;
+      <Text
+        fontSize="sm"
+        color="gray.400"
+      >
+        Security Dashboard
+      </Text>
 
-          return (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              style={({ isActive }) => ({
-                textDecoration: "none",
-                background: isActive
-                  ? "#2563eb"
-                  : "transparent",
-                borderRadius: "10px",
-                padding: "14px",
-                color: "white",
-              })}
-            >
-              <Box display="flex" alignItems="center" gap={3}>
-                <Icon />
-                <Text>{item.name}</Text>
-              </Box>
-            </NavLink>
-          );
-        })}
-      </VStack>
     </Box>
-  );
+
+    {/* Menu */}
+
+    <VStack
+      align="stretch"
+      gap={2}
+      flex="1"
+    >
+      {menu.map((item) => {
+        const Icon = item.icon;
+
+        return (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            style={({ isActive }) => ({
+              textDecoration: "none",
+              background: isActive
+                ? "#2563eb"
+                : "transparent",
+              borderRadius: "10px",
+              padding: "14px",
+              color: "white",
+            })}
+          >
+            <Box
+              display="flex"
+              alignItems="center"
+              gap={3}
+            >
+              <Icon />
+              <Text>{item.name}</Text>
+            </Box>
+          </NavLink>
+        );
+      })}
+    </VStack>
+
+    <Divider
+      borderColor="gray.700"
+      my={5}
+    />
+
+    {/* Footer */}
+
+    <Flex
+      align="center"
+      gap={3}
+      mb={4}
+    >
+      <Avatar
+        size="sm"
+        name={user?.name}
+      />
+
+      <Box>
+
+        <Text
+          fontWeight="bold"
+          fontSize="sm"
+        >
+          {user?.name}
+        </Text>
+
+        <Text
+          fontSize="xs"
+          color="gray.400"
+        >
+          {user?.role}
+        </Text>
+
+      </Box>
+
+    </Flex>
+
+    <Button
+      colorScheme="red"
+      w="100%"
+      onClick={handleLogout}
+    >
+      Logout
+    </Button>
+
+  </Flex>
+);
 }
 
 export default Sidebar;

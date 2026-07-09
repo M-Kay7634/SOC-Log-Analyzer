@@ -1,10 +1,4 @@
-import {
-  Heading,
-  SimpleGrid,
-  Center,
-  Box,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import {SimpleGrid, Box,} from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
 import socket from "../services/socket";
@@ -40,10 +34,6 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [attackOrigins, setAttackOrigins] = useState([]);
 
-  const cardBg = useColorModeValue("white", "gray.800");
-  const headingColor = useColorModeValue("gray.800", "white");
-  const textColor = useColorModeValue("gray.600", "gray.300");
-
   useEffect(() => {
     fetchSummary();
 
@@ -59,26 +49,31 @@ function Dashboard() {
 
   const fetchSummary = async () => {
     try {
-      const summaryData = await getSummary();
+      const [
+        summaryData,
+        distributionData,
+        timelineData,
+        ipData,
+        recentData,
+        originData,
+      ] = await Promise.all([
+        getSummary(),
+        getThreatDistribution(),
+        getTimeline(),
+        getTopIPs(),
+        getRecentThreats(),
+        getAttackOrigins(),
+      ]);
+
       setSummary(summaryData.summary);
-
-      const distributionData = await getThreatDistribution();
       setDistribution(distributionData.distribution);
-
-      const timelineData = await getTimeline();
       setTimeline(timelineData.timeline);
-
-      const ipData = await getTopIPs();
       setTopIPs(ipData.topIPs);
-
-      const recentData = await getRecentThreats();
       setRecentThreats(recentData.recentThreats);
-
-      const originData = await getAttackOrigins();
       setAttackOrigins(originData.origins);
 
     } catch (error) {
-      // console.error(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -94,75 +89,77 @@ function Dashboard() {
 
   return (
     <DashboardLayout>
-      <DashboardHeader />
+      <Box mx="auto">
+        <DashboardHeader />
 
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={6}>
-        <StatCard
-          title="Total Logs"
-          value={summary.totalLogs}
-          borderColor="blue.500"
-        />
+        <SimpleGrid minChildWidth="250px" spacing={5}>
+          <StatCard
+            title="Total Logs"
+            value={summary.totalLogs}
+            borderColor="blue.500"
+          />
 
-        <StatCard
-          title="Threats"
-          value={summary.totalThreats}
-          borderColor="orange.500"
-        />
+          <StatCard
+            title="Threats"
+            value={summary.totalThreats}
+            borderColor="orange.500"
+          />
 
-        <StatCard
-          title="Critical"
-          value={summary.criticalThreats}
-          borderColor="red.500"
-        />
+          <StatCard
+            title="Critical"
+            value={summary.criticalThreats}
+            borderColor="red.500"
+          />
 
-        <StatCard
-          title="High"
-          value={summary.highThreats}
-          borderColor="yellow.500"
-        />
-      </SimpleGrid>
+          <StatCard
+            title="High"
+            value={summary.highThreats}
+            borderColor="yellow.500"
+          />
+        </SimpleGrid>
 
-      <SimpleGrid
-        columns={{ base: 1, lg: 2 }}
-        spacing={6}
-        mt={8}
-      >
-        <ThreatChart distribution={distribution} />
-        <TimelineChart timeline={timeline} />
-      </SimpleGrid>
-      <SimpleGrid
-        columns={{ base: 1, lg: 2 }}
-        spacing={6}
-        mt={6}
-      >
-        <TopIPs topIPs={topIPs} />
+        <SimpleGrid
+          minChildWidth="600px"
+          spacing={5}
+          mt={8}
+        >
+          <ThreatChart distribution={distribution} />
+          <TimelineChart timeline={timeline} />
+        </SimpleGrid>
+        <SimpleGrid
+          minChildWidth="700px"
+          spacing={5}
+          mt={6}
+        >
+          <TopIPs topIPs={topIPs} />
 
-        <RecentThreatsTable
-          threats={recentThreats}
-        />
-      </SimpleGrid>
-      <SimpleGrid
-        columns={{ base: 1, lg: 2 }}
-        spacing={6}
-        mt={6}
-      >
-        <AttackOriginCard
-          origins={attackOrigins}
-        />
+          <RecentThreatsTable
+            threats={recentThreats}
+          />
+        </SimpleGrid>
+        <SimpleGrid
+          minChildWidth="550px"
+          spacing={5}
+          mt={6}
+        >
+          <AttackOriginCard
+            origins={attackOrigins}
+          />
 
-        <MonitoringWidget />
-      </SimpleGrid>
-      <SimpleGrid
-        columns={{ base: 1, lg: 2 }}
-        spacing={6}
-        mt={6}
-      >
-        <ThreatWorldMap
-          origins={attackOrigins}
-        />
+          <MonitoringWidget />
+        </SimpleGrid>
+        <SimpleGrid
+          minChildWidth="650px"
+          spacing={5}
+          mt={6}
+        >
+          <ThreatWorldMap
+            origins={attackOrigins}
+          />
 
-        <SystemHealthWidget />
-      </SimpleGrid>
+          <SystemHealthWidget />
+        </SimpleGrid>
+      </Box>
     </DashboardLayout>
   );
 }

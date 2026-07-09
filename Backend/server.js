@@ -11,6 +11,7 @@ const http = require("http");
 const { initializeSocket } = require("./socket/socket");
 
 const app = express();
+app.set("trust proxy", 1);
 const server = http.createServer(app);
 
 const authRoutes = require("./routes/authRoutes");
@@ -25,11 +26,11 @@ const settingsRoutes = require("./routes/settingsRoutes");
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 
 app.use("/uploads", express.static("uploads"));
 
@@ -44,7 +45,11 @@ app.use("/api/email", emailRoutes);
 app.use("/api/settings", settingsRoutes);
 
 app.get("/", (req, res) => {
-  res.send("SOC Log Analyzer API Running...");
+  res.status(200).json({
+    success: true,
+    message: "SOC Log Analyzer API Running",
+    version: "1.0.0",
+  });
 });
 
 app.get("/api/test", protect, (req, res) => {

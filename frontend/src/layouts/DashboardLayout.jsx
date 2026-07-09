@@ -1,5 +1,5 @@
 import { Box, Flex, useColorModeValue } from "@chakra-ui/react";
-import Navbar from "../components/layout/Navbar";
+
 import Sidebar from "../components/layout/Sidebar";
 
 function DashboardLayout({ children }) {
@@ -11,9 +11,7 @@ function DashboardLayout({ children }) {
     <Flex h="100vh" bg={cardBg}>
       <Sidebar />
 
-      <Box flex="1">
-        <Navbar />
-
+      <Box flex="1" overflowY="auto">
         <Box p={6}>
           {children}
         </Box>

@@ -98,157 +98,160 @@ function UploadLogs() {
   );
   return (
     <DashboardLayout>
-      <Box
-        bg={cardBg}
-        p={8}
-        rounded="lg"
-        shadow="lg"
-        maxW="700px"
-      >
-        <Heading mb={8}>
-          Upload Log File
-        </Heading>
+      <center py={10}>
+        <Box
+          bg={cardBg}
+          p={8}
+          rounded="lg"
+          shadow="lg"
+          w="100%"
+          maxW="700px"
+        >
+          <Heading mb={8}>
+            Upload Log File
+          </Heading>
 
-        <VStack spacing={6} align="stretch">
+          <VStack spacing={6} align="stretch">
 
-          <Select
-            value={source}
-            onChange={(e) => setSource(e.target.value)}
-          >
-            <option value="Apache">Apache</option>
-            <option value="Linux">Linux</option>
-            <option value="Windows">Windows</option>
-          </Select>
-
-          <Box
-            border="2px dashed"
-            borderColor="blue.300"
-            rounded="lg"
-            p={10}
-            textAlign="center"
-          >
-            <FaCloudUploadAlt
-              size={60}
-              color="#3182ce"
-            />
-
-            <Text
-              mt={4}
-              fontSize="lg"
-              fontWeight="bold"
+            <Select
+              value={source}
+              onChange={(e) => setSource(e.target.value)}
             >
-              Select {source} Log File
-            </Text>
+              <option value="Apache">Apache</option>
+              <option value="Linux">Linux</option>
+              <option value="Windows">Windows</option>
+            </Select>
 
-            <Text color={secondaryText} mb={5}>
-              Supported format: .log
-            </Text>
-
-            <Input
-              type="file"
-              accept=".log,.txt"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-          </Box>
-
-          {file && (
             <Box
-              bg={infoBg}
-              p={4}
-              rounded="md"
+              border="2px dashed"
+              borderColor="blue.300"
+              rounded="lg"
+              p={10}
+              textAlign="center"
             >
-              <Text>
-                <strong>File:</strong> {file.name}
+              <FaCloudUploadAlt
+                size={60}
+                color="#3182ce"
+              />
+
+              <Text
+                mt={4}
+                fontSize="lg"
+                fontWeight="bold"
+              >
+                Select {source} Log File
               </Text>
 
-              <Text>
-                <strong>Size:</strong>{" "}
-                {(file.size / 1024).toFixed(2)} KB
+              <Text color={secondaryText} mb={5}>
+                Supported format: .log
               </Text>
+
+              <Input
+                type="file"
+                accept=".log,.txt"
+                onChange={(e) => setFile(e.target.files[0])}
+              />
             </Box>
-          )}
 
-          <Button
-            colorScheme="blue"
-            onClick={handleUpload}
-            isLoading={loading}
-          >
-            Upload & Analyze
-          </Button>
+            {file && (
+              <Box
+                bg={infoBg}
+                p={4}
+                rounded="md"
+              >
+                <Text>
+                  <strong>File:</strong> {file.name}
+                </Text>
 
-          {result && (
-            <>
-              <Divider />
+                <Text>
+                  <strong>Size:</strong>{" "}
+                  {(file.size / 1024).toFixed(2)} KB
+                </Text>
+              </Box>
+            )}
 
-              <Heading size="md">
-                Upload Summary
-              </Heading>
+            <Button
+              colorScheme="blue"
+              onClick={handleUpload}
+              isLoading={loading}
+            >
+              Upload & Analyze
+            </Button>
 
-              <HStack spacing={5} flexWrap="wrap">
+            {result && (
+              <>
+                <Divider />
 
-                <Stat
-                  p={4}
-                  borderWidth="1px"
-                  rounded="md"
-                >
-                  <StatLabel>Total Logs</StatLabel>
-                  <StatNumber>{result.totalLogs}</StatNumber>
-                </Stat>
+                <Heading size="md">
+                  Upload Summary
+                </Heading>
 
-                <Stat
-                  p={4}
-                  borderWidth="1px"
-                  rounded="md"
-                >
-                  <StatLabel>Threats</StatLabel>
-                  <StatNumber>{threatCount}</StatNumber>
-                </Stat>
+                <HStack spacing={5} flexWrap="wrap">
 
-                <Stat
-                  p={4}
-                  borderWidth="1px"
-                  rounded="md"
-                >
-                  <StatLabel>Critical</StatLabel>
-                  <StatNumber>{criticalCount}</StatNumber>
-                </Stat>
+                  <Stat
+                    p={4}
+                    borderWidth="1px"
+                    rounded="md"
+                  >
+                    <StatLabel>Total Logs</StatLabel>
+                    <StatNumber>{result.totalLogs}</StatNumber>
+                  </Stat>
 
-                <Stat
-                  p={4}
-                  borderWidth="1px"
-                  rounded="md"
-                >
-                  <StatLabel>High</StatLabel>
-                  <StatNumber>{highCount}</StatNumber>
-                </Stat>
+                  <Stat
+                    p={4}
+                    borderWidth="1px"
+                    rounded="md"
+                  >
+                    <StatLabel>Threats</StatLabel>
+                    <StatNumber>{threatCount}</StatNumber>
+                  </Stat>
 
-              </HStack>
+                  <Stat
+                    p={4}
+                    borderWidth="1px"
+                    rounded="md"
+                  >
+                    <StatLabel>Critical</StatLabel>
+                    <StatNumber>{criticalCount}</StatNumber>
+                  </Stat>
 
-              <HStack pt={4} spacing={4}>
+                  <Stat
+                    p={4}
+                    borderWidth="1px"
+                    rounded="md"
+                  >
+                    <StatLabel>High</StatLabel>
+                    <StatNumber>{highCount}</StatNumber>
+                  </Stat>
 
-                <Button
-                  colorScheme="green"
-                  onClick={() => navigate("/dashboard")}
-                >
-                  Go to Dashboard
-                </Button>
+                </HStack>
 
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setResult(null);
-                    setFile(null);
-                  }}
-                >
-                  Upload Another File
-                </Button>
+                <HStack pt={4} spacing={4}>
 
-              </HStack>
-            </>
-          )}
+                  <Button
+                    colorScheme="green"
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    Go to Dashboard
+                  </Button>
 
-        </VStack>
-      </Box>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setResult(null);
+                      setFile(null);
+                    }}
+                  >
+                    Upload Another File
+                  </Button>
+
+                </HStack>
+              </>
+            )}
+
+          </VStack>
+        </Box>
+      </center>
     </DashboardLayout>
   );
 }

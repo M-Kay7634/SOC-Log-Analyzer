@@ -88,6 +88,14 @@ function UploadLogs() {
     "white",
     "gray.800"
   );
+  const secondaryText = useColorModeValue(
+    "gray.600",
+    "gray.400"
+  );
+  const infoBg = useColorModeValue(
+    "gray.50",
+    "gray.700"
+  );
   return (
     <DashboardLayout>
       <Box
@@ -132,7 +140,7 @@ function UploadLogs() {
               Select {source} Log File
             </Text>
 
-            <Text color="gray.500" mb={5}>
+            <Text color={secondaryText} mb={5}>
               Supported format: .log
             </Text>
 
@@ -145,7 +153,7 @@ function UploadLogs() {
 
           {file && (
             <Box
-              bg="gray.50"
+              bg={infoBg}
               p={4}
               rounded="md"
             >

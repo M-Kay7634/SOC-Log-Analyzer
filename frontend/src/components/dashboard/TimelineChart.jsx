@@ -12,6 +12,7 @@ import {
   LineElement,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
 
 import EmptyState from "../common/EmptyState";
@@ -23,6 +24,7 @@ ChartJS.register(
   LineElement,
   Tooltip,
   Legend,
+  Filler,
 );
 
 function TimelineChart({ timeline }) {
@@ -84,16 +86,17 @@ function TimelineChart({ timeline }) {
           options={{
             responsive: true,
             maintainAspectRatio: false,
-             y: {
-              beginAtZero: true,
-              grid: {
-                color: "rgba(255,255,255,0.08)",
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: "rgba(255,255,255,0.08)",
+                },
               },
-            },
-
-            x: {
-              grid: {
-                display: false,
+              x: {
+                grid: {
+                  display: false,
+                },
               },
             },
           }}

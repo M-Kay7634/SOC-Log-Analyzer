@@ -6,6 +6,7 @@ import {
   Avatar,
   HStack,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
@@ -20,9 +21,19 @@ function Navbar() {
     navigate("/login");
   };
 
+  const bg = useColorModeValue("white", "gray.800");
+  const headingColor = useColorModeValue(
+    "blue.800",
+    "blue.300"
+  );
+  const textColor = useColorModeValue(
+    "gray.800",
+    "white"
+  );
+
   return (
     <Flex
-      bg="white"
+      bg={bg}
       px={8}
       py={4}
       shadow="sm"
@@ -30,7 +41,7 @@ function Navbar() {
     >
       <Heading
         size="lg"
-        color="#1E3A8A"
+        color={headingColor}
       >
         SOC Log Analyzer
       </Heading>
@@ -45,6 +56,7 @@ function Navbar() {
 
         <Text
           fontWeight="bold"
+          color={textColor}
         >
           {user?.name}
         </Text>

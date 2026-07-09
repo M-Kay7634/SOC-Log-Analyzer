@@ -29,7 +29,25 @@ function ResetPassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const cardBg = useColorModeValue("white", "gray.800");
+  const pageBg = useColorModeValue(
+    "gray.50",
+    "gray.900"
+  );
+
+  const cardBg = useColorModeValue(
+    "white",
+    "gray.800"
+  );
+
+  const textColor = useColorModeValue(
+    "gray.800",
+    "white"
+  );
+
+  const secondaryText = useColorModeValue(
+    "gray.600",
+    "gray.400"
+  );
 
   useEffect(() => {
     if (!email || !otp) {
@@ -92,13 +110,13 @@ function ResetPassword() {
   };
 
   return (
-    <Container maxW="md" py={20}>
+    <Container maxW="md" py={20} minH="100vh">
       <Box
-        bg="white"
+        bg={cardBg}
+        color={textColor}
         p={8}
         rounded="lg"
         shadow="lg"
-        color={cardBg}
       >
         <Heading mb={3} textAlign="center">
           Reset Password
@@ -107,7 +125,7 @@ function ResetPassword() {
         <Text
           mb={6}
           textAlign="center"
-          color="gray.600"
+          color={secondaryText}
         >
           Create a new password for your account.
         </Text>

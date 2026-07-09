@@ -34,7 +34,25 @@ function Register() {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const cardBg = useColorModeValue("white", "gray.800");
+  const pageBg = useColorModeValue(
+    "gray.50",
+    "gray.900"
+  );
+
+  const cardBg = useColorModeValue(
+    "white",
+    "gray.800"
+  );
+
+  const textColor = useColorModeValue(
+    "gray.800",
+    "white"
+  );
+
+  const secondaryText = useColorModeValue(
+    "gray.600",
+    "gray.400"
+  );
 
   const getPasswordStrength = () => {
     if (password.length === 0) return 0;
@@ -111,13 +129,13 @@ function Register() {
   };
 
   return (
-    <Container maxW="md" py={20}>
+    <Container maxW="md" py={20} minH="100vh">
       <Box
         p={8}
-        bg="white"
+        bg={cardBg}
         rounded="lg"
         shadow="lg"
-        color={cardBg}
+        color={textColor}
       >
         <Heading mb={6} textAlign="center">
           Create Account

@@ -145,8 +145,7 @@ const loginUser = async (req, res) => {
 // Forgot Password
 const forgotPassword = async (req, res) => {
   try {
-    const { email } = req.body;
-    email = email.trim().toLowerCase();
+    const email = req.body.email?.trim().toLowerCase();
 
     if (!email) {
       return res.status(400).json({
@@ -202,8 +201,8 @@ const forgotPassword = async (req, res) => {
 // Verify OTP
 const verifyOTP = async (req, res) => {
   try {
-    const { email, otp } = req.body;
-    email = email.trim().toLowerCase();
+    const email = req.body.email?.trim().toLowerCase();
+    const otp = req.body.otp?.trim();
 
     if (!email || !otp) {
       return res.status(400).json({
@@ -253,8 +252,9 @@ const verifyOTP = async (req, res) => {
 // Reset Password
 const resetPassword = async (req, res) => {
   try {
-    const { email, otp, newPassword } = req.body;
-    email = email.trim().toLowerCase();
+    const email = req.body.email?.trim().toLowerCase();
+    const otp = req.body.otp?.trim();
+    const newPassword = req.body.newPassword;
 
     if (!email || !otp || !newPassword) {
       return res.status(400).json({

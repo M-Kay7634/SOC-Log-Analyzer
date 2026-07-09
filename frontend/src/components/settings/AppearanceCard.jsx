@@ -9,7 +9,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { useEffect, useState } from "react";
 
 function AppearanceCard() {
   const { colorMode, toggleColorMode } =

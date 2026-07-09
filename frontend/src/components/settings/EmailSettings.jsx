@@ -26,7 +26,6 @@ function EmailSettings({
       p={6}
       rounded="lg"
       shadow="md"
-      mt={6}
     >
       <Heading size="md" mb={6}>
         📧 Email Alert Settings

@@ -17,18 +17,20 @@ import {WORLD_MAP} from '../../constants/map';
 const geoUrl = WORLD_MAP;
 
 
-const countryCodeMap = {
-    "United States of America": "US",
-    Australia: "AU",
-    India: "IN",
-    Germany: "DE",
-    France: "FR",
-    Canada: "CA",
-    China: "CN",
-    Japan: "JP",
-    Russia: "RU",
-    Brazil: "BR",
-    "United Kingdom": "GB",
+const nameToCodeMap = {
+  "United States of America": "US",
+  "United Kingdom": "GB",
+  India: "IN",
+  Australia: "AU",
+  Germany: "DE",
+  France: "FR",
+  Canada: "CA",
+  China: "CN",
+  Japan: "JP",
+  Russia: "RU",
+  Brazil: "BR",
+  Netherlands: "NL",
+  "South Africa": "ZA",
 };
 
 function ThreatWorldMap({
@@ -60,6 +62,10 @@ function ThreatWorldMap({
     const map = {};
 
     origins.forEach((item) => {
+      if (item.country === "Private Network") {
+        return;
+      }
+
       map[item.country] = item.attacks;
     });
 
@@ -92,40 +98,50 @@ function ThreatWorldMap({
       </Heading>
 
       <ComposableMap
-        projectionConfig={{
-          scale: 145,
-        }}
+          projection="geoMercator"
+          projectionConfig={{
+              scale: 120,
+              center: [0, 20],
+          }}
+          width={800}
+          height={400}
+          style={{
+              width: "100%",
+              height: "360px",
+          }}
       >
       <Geographies geography={geoUrl}>
         {({ geographies }) =>
             geographies.map((geo) => {
-            const code = countryCodeMap[geo.properties.NAME];
-            const attacks = threatMap[code] || 0;
+              console.log(geo.properties);
+            const countryCode = nameToCodeMap[geo.properties.name];
+            const attacks = threatMap[countryCode] ?? 0;
 
             return (
                 <Tooltip
                   key={geo.rsmKey}
-                  label={`${geo.properties.NAME} • ${attacks} attack(s)`}
+                  label={`${geo.properties.name} • ${attacks} attack(s)`}
                 >
                 <Geography
                     geography={geo}
                     style={{
                         default: {
                           fill: getCountryColor(attacks),
+                          stroke: "#94A3B8",
+                          strokeWidth: 0.8,
+                          outline: "none",
+                        } ,
 
-                        outline: "none",
-                      },
+                        hover: {
+                          fill: "#3182CE",
+                          outline: "none",
+                          cursor:"pointer",
+                        },
 
-                      hover: {
-                        fill: "#3182CE",
-                        outline: "none",
-                        cursor:"pointer",
-                      },
-
-                      pressed: {
-                        fill: "#2B6CB0",
-                        outline: "none",
-                      },
+                        pressed: {
+                          fill: "#2B6CB0",
+                          outline: "none",
+                        },
                   }}
                 />
                 </Tooltip>

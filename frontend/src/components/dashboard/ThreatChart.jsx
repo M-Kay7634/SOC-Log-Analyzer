@@ -83,11 +83,11 @@ function ThreatChart({ distribution }) {
             plugins: {
               legend: {
                 position: "bottom",
+                labels: {
+                  boxWidth: 15,
+                  padding: 20,
+                },
               },
-              labels: {
-                boxWidth: 15,
-                padding: 20,
-              }
             },
           }}
         />

@@ -31,7 +31,25 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const cardBg = useColorModeValue("white", "gray.800");
+  const pageBg = useColorModeValue(
+    "gray.50",
+    "gray.900"
+  );
+
+  const cardBg = useColorModeValue(
+    "white",
+    "gray.800"
+  );
+
+  const textColor = useColorModeValue(
+    "gray.800",
+    "white"
+  );
+
+  const secondaryText = useColorModeValue(
+    "gray.600",
+    "gray.400"
+  );
 
   const handleSubmit = async () => {
     if (!email || !password) {
@@ -81,8 +99,8 @@ function Login() {
   };
 
   return (
-    <Container maxW="md" py={20}>
-      <Box p={8} bg="white" rounded="lg" shadow="lg" color={cardBg}>
+    <Container maxW="md" py={20} minH="100vh">
+      <Box p={8} bg={cardBg} rounded="lg" shadow="lg" color={textColor}>
         <Heading mb={6} textAlign="center">
           SOC Log Analyzer
         </Heading>

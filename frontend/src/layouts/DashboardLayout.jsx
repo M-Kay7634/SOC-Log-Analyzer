@@ -4,7 +4,7 @@ import Sidebar from "../components/layout/Sidebar";
 
 function DashboardLayout({ children }) {
   const cardBg = useColorModeValue(
-    "white",
+    "gray.500",
     "gray.800"
   );
   return (

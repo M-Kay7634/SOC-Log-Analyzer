@@ -10,6 +10,7 @@ import {
   Text,
   useToast,
   VStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useEffect, useRef, useState } from "react";
@@ -34,6 +35,30 @@ function VerifyOTP() {
   ]);
 
   const [loading, setLoading] = useState(false);
+
+  const pageBg = useColorModeValue(
+    "gray.50",
+    "gray.900"
+  );
+
+  const cardBg = useColorModeValue(
+    "white",
+    "gray.800"
+  );
+
+  const textColor = useColorModeValue(
+    "gray.800",
+    "white"
+  );
+
+  const secondaryText = useColorModeValue(
+    "gray.600",
+    "gray.400"
+  );
+  const emailColor = useColorModeValue(
+    "blue.600",
+    "blue.300"
+  );
 
   const inputRefs = useRef([]);
 
@@ -136,20 +161,22 @@ function VerifyOTP() {
     };
 
   return (
-    <Container maxW="md" py={20}>
-      <Box
-        bg="white"
-        p={8}
-        rounded="lg"
-        shadow="lg"
-      >
+    <Box bg={pageBg} minH="100vh" py={20}>
+      <Container maxW="md">
+        <Box
+          bg={cardBg}
+          color={textColor}
+          p={8}
+          rounded="lg"
+          shadow="lg"
+        >
         <Heading mb={3} textAlign="center">
           Verify OTP
         </Heading>
 
         <Text
           mb={6}
-          color="gray.600"
+          color={secondaryText}
           textAlign="center"
         >
           Enter the 6-digit OTP sent to
@@ -159,7 +186,7 @@ function VerifyOTP() {
           mb={8}
           fontWeight="bold"
           textAlign="center"
-          color="blue.500"
+          color={emailColor}
         >
           {email}
         </Text>
@@ -177,6 +204,7 @@ function VerifyOTP() {
                 maxLength={1}
                 textAlign="center"
                 fontSize="2xl"
+                focusBorderColor="blue.400"
                 value={digit}
                 onPaste={handlePaste}
                 onChange={(e) =>
@@ -205,6 +233,7 @@ function VerifyOTP() {
         </VStack>
       </Box>
     </Container>
+  </Box>
   );
 }
 
